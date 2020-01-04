@@ -1,0 +1,38 @@
+{
+  "name": "ProjectThree",
+  "version": "1.0.0",
+  "description": "Presentable MVP of Project PoS",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --inspect=3333 -r ts-node/register server.ts",
+    "start:watch": "nodemon",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmjadShaaban/ProjectThree.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AmjadShaaban/ProjectThree/issues"
+  },
+  "homepage": "https://github.com/AmjadShaaban/ProjectThree#readme",
+  "dependencies": {
+    "@types/node": "^13.1.4",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "express-validator": "^6.3.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.4",
+    "ts-node": "^8.5.4"
+  },
+  "devDependencies": {
+    "concurrently": "^5.0.2",
+    "eslint": "^6.8.0",
+    "eslint-plugin-import": "^2.19.1",
+    "nodemon": "^2.0.2",
+    "typescript": "^3.7.4"
+  }
+}
