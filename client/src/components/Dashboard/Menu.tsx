@@ -13,9 +13,9 @@ import {
 export default function Menu() {
   console.log('rendering Menu');
   const {
-    categories,
-    categoryItems,
-    selectedCategory,
+    menu,
+    menuItems,
+    selectedMenu,
     isLoading
   } = useMenuState();
   const dispatch = useMenuDispatch();
@@ -38,17 +38,17 @@ export default function Menu() {
       >
         Clear
       </button>
-      {selectedCategory ? (
-        <pre>{JSON.stringify(categoryItems, null, 4)}</pre>
+      {selectedMenu ? (
+        <pre>{JSON.stringify(menuItems, null, 4)}</pre>
       ) : (
-        categories.map(category => {
+        menu.map(category => {
           return (
             <button
               onClick={() => {
                 loadMenuItems(dispatch, category);
               }}
             >
-              Load {category.title} Items
+              Load {category.name} Items
             </button>
           );
         })

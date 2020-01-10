@@ -2,7 +2,6 @@ import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
-import { Message } from '../interfaces/interfaces';
 import config from 'config';
 
 export function usersAPI(app) {

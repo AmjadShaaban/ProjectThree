@@ -1,33 +1,43 @@
 export interface MenuState {
   isLoading: boolean;
-  categories: Category[];
-  categoryItems: CategoryItem[];
-  selectedCategory: Category | null;
+  menu: Menu[];
+  menuItems: MenuItems[];
+  selectedMenu: Menu | null;
   error: string | null;
 }
-export interface Category {
-  id: string;
-  src: string;
-  title: string;
+export interface Ingredients {
+  name: string;
+  type: 'cheeses' | 'meets' | 'non-meats';
+  isTopping: boolean;
 }
-interface CategoryItem {
-  id: string;
-  src: string;
-  title: string;
-  categoryId: string;
+export interface Menu {
+  name: string;
+  img?: string;
+  items?: MenuItems[];
 }
+export interface MenuItems {
+  name: string;
+  ingredients: Ingredients[];
+}
+
 export const initialState: MenuState = {
   isLoading: false,
-  categories: [],
-  categoryItems: [],
-  selectedCategory: null,
+  menu: [],
+  menuItems: [],
+  selectedMenu: null,
   error: null
 };
-export interface CategoryResDTO {
-  categories: Category[];
+export interface AddMenuCategoryReqDTO {
+  name: string;
+}
+export interface MenuCategoryResDTO {
+  menu: Menu[];
 }
 export interface CategoryItemResDTO {
-  categoryItems: CategoryItem[];
+  items: MenuItems[];
+}
+export interface IngredientResDTO {
+  ingredients: Ingredients[];
 }
 export enum MenuActionTypes {
   GET_CATEGORIES = 'GET_CATEGORIES',
@@ -36,9 +46,26 @@ export enum MenuActionTypes {
   GET_CATEGORY_ITEMS_SUCCESS = 'GET_CATEGORY_ITEMS_SUCCESS',
   GET_CATEGORY_ITEMS_FAIL = 'GET_CATEGORY_ITEMS_FAIL',
   GET_CATEGORY_ITEMS = 'GET_CATEGORY_ITEMS',
-  SELECT_CATEGORY = 'SELECT_CATEGORY'
+  SELECT_CATEGORY = 'SELECT_CATEGORY',
+  ADD_CATEGORY = 'ADD_CATEGORY',
+  ADD_CATEGORY_FAIL = 'ADD_CATEGORY_FAIL',
+  ADD_CATEGORY_SUCCESS = 'ADD_CATEGORY_SUCCESS',
+  ADD_ITEM = 'ADD_ITEM',
+  ADD_ITEM_FAIL = 'ADD_ITEM_FAIL',
+  ADD_ITEM_SUCCESS = 'ADD_ITEM_SUCCESS'
 }
-
+interface AddCategoryAction {
+  type: typeof MenuActionTypes.ADD_CATEGORY;
+  payload: AddMenuCategoryReqDTO;
+}
+interface AddCategorySuccessAction {
+  type: typeof MenuActionTypes.ADD_CATEGORY_SUCCESS;
+  payload: MenuCategoryResDTO;
+}
+interface AddCategoryFailAction {
+  type: typeof MenuActionTypes.ADD_CATEGORY_FAIL;
+  payload: string;
+}
 interface GetCategoriesAction {
   type: typeof MenuActionTypes.GET_CATEGORIES;
 }
@@ -49,7 +76,7 @@ interface GetCategoriesFailAction {
 }
 interface GetCategoriesSuccessAction {
   type: typeof MenuActionTypes.GET_CATEGORIES_SUCCESS;
-  payload: CategoryResDTO;
+  payload: MenuCategoryResDTO;
 }
 interface GetCategoryItemsAction {
   type: typeof MenuActionTypes.GET_CATEGORY_ITEMS;
@@ -64,7 +91,7 @@ interface GetCategoryItemsSuccessAction {
 }
 interface SelectCategoryAction {
   type: typeof MenuActionTypes.SELECT_CATEGORY;
-  payload: Category | null;
+  payload: Menu | null;
 }
 export type MenuActions =
   | GetCategoriesFailAction
@@ -73,7 +100,10 @@ export type MenuActions =
   | SelectCategoryAction
   | GetCategoryItemsAction
   | GetCategoryItemsSuccessAction
-  | GetCategoriesAction;
+  | GetCategoriesAction
+  | AddCategoryAction
+  | AddCategorySuccessAction
+  | AddCategoryFailAction;
 
 export const menuReducer = (
   state = initialState,
@@ -81,12 +111,14 @@ export const menuReducer = (
 ): MenuState => {
   switch (action.type) {
     case MenuActionTypes.SELECT_CATEGORY: {
-      return { ...state, selectedCategory: action.payload, categoryItems: [] };
+      return { ...state, selectedMenu: action.payload, menuItems: [] };
     }
+    case MenuActionTypes.ADD_CATEGORY:
     case MenuActionTypes.GET_CATEGORY_ITEMS:
     case MenuActionTypes.GET_CATEGORIES: {
       return { ...state, isLoading: true, error: null };
     }
+    case MenuActionTypes.ADD_CATEGORY_FAIL:
     case MenuActionTypes.GET_CATEGORY_ITEMS_FAIL:
     case MenuActionTypes.GET_CATEGORIES_FAIL: {
       return {
@@ -99,14 +131,14 @@ export const menuReducer = (
       return {
         ...state,
         isLoading: false,
-        categories: action.payload.categories
+        menu: action.payload.menu
       };
     }
     case MenuActionTypes.GET_CATEGORY_ITEMS_SUCCESS: {
       return {
         ...state,
         isLoading: false,
-        categoryItems: action.payload.categoryItems
+        menuItems: action.payload.items
       };
     }
     default: {
