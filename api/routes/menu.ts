@@ -1,60 +1,58 @@
 import auth from '../middleware/auth';
-import Menu from '../models/Menu'
-import MenuItems from '../models/MenuItems'
-import Ingredients from '../models/Ingredients'
+import Menu from '../models/Menu';
+import MenuItems from '../models/MenuItems';
+import Ingredients from '../models/Ingredients';
 
-export function menuAPI(app) {
-
+export default function menuAPI(app) {
   app.get(
     '/api/menu',
-    /*auth,*/async (req, res) => {
+    /*auth,*/ async (req, res) => {
       try {
-        let menu=await Menu.find({})
-        if(menu){
-          return res.status(200).json({menu})
+        let menu = await Menu.find({});
+        if (menu) {
+          return res.status(200).json({ menu });
         }
       } catch (error) {
         res.status(500).json(error);
       }
     }
   );
-
 
   app.post(
     '/api/menu',
-    /*auth,*/async (req, res) => {
-      const {name}= req.body
+    /*auth,*/ async (req, res) => {
+      const { name } = req.body;
       try {
-        let item=await Menu.findOne({name})
-        if(item._id){
-          return res.status(400).json({msg: 'Item already exists ID: '+item._id})
+        let item = await Menu.findOne({ name });
+        if (item._id) {
+          return res
+            .status(400)
+            .json({ msg: 'Item already exists ID: ' + item._id });
         }
         item = new Menu({
           name
-        })
+        });
         await item.save();
-        res.status(200)
+        res.status(200);
       } catch (error) {
-        res.status(500).json({error});
+        res.status(500).json({ error });
       }
     }
   );
 
-
   app.get(
     '/test/top',
-    /*auth,*/async (req, res) => {
+    /*auth,*/ async (req, res) => {
       try {
-        let ing=await Ingredients.find({})
-        if(ing){
-          return res.status(200).json({ing})
+        let ing = await Ingredients.find({});
+        if (ing) {
+          return res.status(200).json({ ing });
         }
       } catch (error) {
         res.status(500).json(error);
       }
     }
   );
-
 
   app.get(
     '/api/menu/:categoryId',
@@ -79,8 +77,6 @@ export function menuAPI(app) {
       }
     }
   );
-
-
 }
 
 // const cats = [

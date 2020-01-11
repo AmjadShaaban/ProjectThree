@@ -6,7 +6,7 @@ import {
   useMenuState,
   useMenuDispatch,
   loadMenu,
-  loadMenuItems,
+  // loadMenuItems,
   MenuActionTypes
 } from '../../contexts/menu';
 
@@ -45,7 +45,8 @@ export default function Menu() {
           return (
             <button
               onClick={() => {
-                loadMenuItems(dispatch, category);
+                // loadMenuItems(dispatch, category);
+                console.log('loadMenuItems function')
               }}
             >
               Load {category.name} Items

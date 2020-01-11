@@ -2,9 +2,8 @@ import axios from 'axios';
 import React, { Component } from 'react';
 
 interface MenuItem {
-  id: string;
-  title: string;
-  subCat: boolean;
+  _id: string;
+  name: string;
 }
 
 interface Props {}
@@ -26,7 +25,7 @@ export default class Menu extends Component<Props, State> {
 
   render() {
     return this.state.menu.map(item => {
-      return <div key={item.id}>Title: {item.title}</div>;
+      return <div key={item._id}>Title: {item.name}</div>;
     });
   }
 }
