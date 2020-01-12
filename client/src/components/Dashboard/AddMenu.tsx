@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Title from './Title';
 import { useAuthState } from '../../contexts/auth';
+import { useMenuState,useMenuDispatch,addMenuCategory } from '../../contexts/menu'
 
 function preventDefault(event: Event) {
   event.preventDefault();
@@ -50,6 +51,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function Deposits() {
   const { user } = useAuthState();
+  const menuState = useMenuState();
+  const menuDispatch = useMenuDispatch();
   const [name, setName]=useState('');
   const classes = useStyles();
   return (
@@ -66,6 +69,7 @@ export default function Deposits() {
             noValidate
             onSubmit={e => {
               e.preventDefault();
+              addMenuCategory(menuDispatch,{name:name})
             }}
           >
             <TextField
@@ -76,9 +80,8 @@ export default function Deposits() {
               id='name'
               value={name}
               onChange={e => setName(e.target.value)}
-              label='Email Address'
-              name='email'
-              autoComplete='email'
+              label='Menu Category Name'
+              name='name'
               autoFocus
             />
             <Button

@@ -6,7 +6,7 @@ import {
   useMenuState,
   useMenuDispatch,
   loadMenu,
-  // loadMenuItems,
+  loadMenuItems,
   MenuActionTypes
 } from '../../contexts/menu';
 
@@ -16,7 +16,7 @@ export default function Menu() {
     menu,
     menuItems,
     selectedMenu,
-    isLoading
+    isMenuLoading
   } = useMenuState();
   const dispatch = useMenuDispatch();
 
@@ -29,24 +29,26 @@ export default function Menu() {
     <>
       <Title>Menu</Title>
 
-      {isLoading && <CircularProgress />}
+      {isMenuLoading && <CircularProgress />}
 
       <button
-        onClick={() =>
-          dispatch({ type: MenuActionTypes.SELECT_CATEGORY, payload: null })
+        onClick={() => loadMenu(dispatch)
         }
       >
-        Clear
+        Refresh
       </button>
-      {selectedMenu ? (
+      <div>
+      {/* {selectedMenu ? (
         <pre>{JSON.stringify(menuItems, null, 4)}</pre>
-      ) : (
+      ) :  */
+      (
         menu.map(category => {
           return (
             <button
-              onClick={() => {
-                // loadMenuItems(dispatch, category);
-                console.log('loadMenuItems function')
+            key={category._id}
+              onClick={async() => {
+                let test = await loadMenuItems(dispatch,category)
+                console.log(test)
               }}
             >
               Load {category.name} Items
@@ -54,6 +56,7 @@ export default function Menu() {
           );
         })
       )}
+      </div>
     </>
   );
 }

@@ -1,8 +1,9 @@
 export interface MenuState {
-  isLoading: boolean;
+  isMenuLoading: boolean;
   menu: Menu[];
-  menuItems: MenuItems[];
+  menuItems: MenuItems | MenuItems[] | null;
   selectedMenu: Menu | null;
+  show: boolean;
   error: string | null;
 }
 export interface Ingredients {
@@ -10,28 +11,37 @@ export interface Ingredients {
   type: 'cheeses' | 'meets' | 'non-meats';
   isTopping: boolean;
 }
-export interface Menu {
+interface Menu {
+  _id?: string;
   name: string;
   img?: string;
   items?: MenuItems[];
 }
 export interface MenuItems {
   name: string;
-  ingredients: Ingredients[];
+  ingredients?: Ingredients[];
 }
 
 export const initialState: MenuState = {
-  isLoading: false,
+  isMenuLoading: true,
   menu: [],
-  menuItems: [],
+  menuItems: null,
   selectedMenu: null,
+  show: false,
   error: null
 };
 export interface AddMenuCategoryReqDTO {
   name: string;
 }
+export interface MenuItemReqDTO {
+  _id?: string;
+  name?: string;
+}
 export interface MenuCategoryResDTO {
-  menu: Menu[];
+  name?: string;
+}
+export interface MenuResDTO {
+  items: MenuItems[];
 }
 export interface CategoryItemResDTO {
   items: MenuItems[];
@@ -60,7 +70,7 @@ interface AddCategoryAction {
 }
 interface AddCategorySuccessAction {
   type: typeof MenuActionTypes.ADD_CATEGORY_SUCCESS;
-  payload: MenuCategoryResDTO;
+  payload: CategoryItemResDTO;
 }
 interface AddCategoryFailAction {
   type: typeof MenuActionTypes.ADD_CATEGORY_FAIL;
@@ -76,10 +86,11 @@ interface GetCategoriesFailAction {
 }
 interface GetCategoriesSuccessAction {
   type: typeof MenuActionTypes.GET_CATEGORIES_SUCCESS;
-  payload: MenuCategoryResDTO;
+  payload: MenuResDTO;
 }
 interface GetCategoryItemsAction {
   type: typeof MenuActionTypes.GET_CATEGORY_ITEMS;
+  payload: MenuItemReqDTO;
 }
 interface GetCategoryItemsFailAction {
   type: typeof MenuActionTypes.GET_CATEGORY_ITEMS_FAIL;
@@ -116,28 +127,28 @@ export const menuReducer = (
     case MenuActionTypes.ADD_CATEGORY:
     case MenuActionTypes.GET_CATEGORY_ITEMS:
     case MenuActionTypes.GET_CATEGORIES: {
-      return { ...state, isLoading: true, error: null };
+      return { ...state, isMenuLoading: false, error: null };
     }
     case MenuActionTypes.ADD_CATEGORY_FAIL:
     case MenuActionTypes.GET_CATEGORY_ITEMS_FAIL:
     case MenuActionTypes.GET_CATEGORIES_FAIL: {
       return {
         ...state,
-        isLoading: false,
+        isMenuLoading: false,
         error: action.payload
       };
     }
     case MenuActionTypes.GET_CATEGORIES_SUCCESS: {
       return {
         ...state,
-        isLoading: false,
-        menu: action.payload.menu
+        isMenuLoading: false,
+        menu: action.payload.items
       };
     }
     case MenuActionTypes.GET_CATEGORY_ITEMS_SUCCESS: {
       return {
         ...state,
-        isLoading: false,
+        isMenuLoading: false,
         menuItems: action.payload.items
       };
     }

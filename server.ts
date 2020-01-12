@@ -31,6 +31,6 @@ usersAPI(app);
 menuAPI(app);
 
 const server = app.listen(PORT, () => {
-  console.log(`Listening at http://localhost:${PORT}/api`);
+  console.log(`Listening at http://localhost:${PORT}`);
 });
 server.on('error', console.error);

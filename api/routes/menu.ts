@@ -1,16 +1,16 @@
 import auth from '../middleware/auth';
 import Menu from '../models/Menu';
-import MenuItems from '../models/MenuItems';
+import MenuItems from '../models/MenuItem';
 import Ingredients from '../models/Ingredients';
 
-export default function menuAPI(app) {
+export function menuAPI(app) {
   app.get(
     '/api/menu',
     /*auth,*/ async (req, res) => {
       try {
-        let menu = await Menu.find({});
-        if (menu) {
-          return res.status(200).json({ menu });
+        let items = await Menu.find({});
+        if (items) {
+          return res.status(200).json({ items });
         }
       } catch (error) {
         res.status(500).json(error);
@@ -22,19 +22,19 @@ export default function menuAPI(app) {
     '/api/menu',
     /*auth,*/ async (req, res) => {
       const { name } = req.body;
+      console.log(name);
       try {
         let item = await Menu.findOne({ name });
-        if (item._id) {
+        if (item) {
           return res
-            .status(400)
-            .json({ msg: 'Item already exists ID: ' + item._id });
+            .status(500)
+            .json({ msg: `item already exists ID: ${item._id}` });
         }
-        item = new Menu({
-          name
-        });
+        item = new Menu({ name });
         await item.save();
-        res.status(200);
+        res.status(200).json({ msg: 'success' });
       } catch (error) {
+        console.log(error);
         res.status(500).json({ error });
       }
     }
@@ -49,7 +49,7 @@ export default function menuAPI(app) {
           return res.status(200).json({ ing });
         }
       } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json({ error });
       }
     }
   );
@@ -58,7 +58,7 @@ export default function menuAPI(app) {
     '/api/menu/:categoryId',
     /*auth,*/ (req, res) => {
       try {
-        const categoryItems = [
+        const items = [
           {
             id: 0,
             title: `${req.params.categoryId} Pizzas`,
@@ -69,9 +69,8 @@ export default function menuAPI(app) {
           { id: 3, title: 'Cat 4', subCat: false },
           { id: 4, title: 'Cat 5', subCat: false }
         ];
-        setTimeout(() => {
-          res.json({ categoryItems });
-        }, 4000);
+
+        res.json({ items });
       } catch (error) {
         res.status(500).json(error);
       }
