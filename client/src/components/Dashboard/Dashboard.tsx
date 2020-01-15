@@ -24,6 +24,7 @@ import Deposits from './Deposits';
 import AddMenu from './AddMenu';
 import Menu from './Menu'
 import Orders from './Orders';
+import AddIngredient from './AddIngredient';
 
 function Copyright() {
   return (
@@ -202,7 +203,8 @@ export default function Dashboard() {
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Orders />
+                {/* <Orders /> */}
+                <AddIngredient/>
               </Paper>
             </Grid>
           </Grid>

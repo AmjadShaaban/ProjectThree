@@ -10,7 +10,7 @@ export async function connectDB() {
       useFindAndModify: false,
       useUnifiedTopology: true
     });
-    console.log('COMMLINK ONLINE');
+    console.log('DB Connected');
   } catch (error) {
     console.log(error);
   }

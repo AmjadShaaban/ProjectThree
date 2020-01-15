@@ -3,13 +3,20 @@ export interface MenuState {
   menu: MenuCategory[];
   menuItems: MenuCategoryItem | MenuCategoryItem[] | null;
   selectedMenu: MenuCategory | null;
+  selectedIngredient: Ingredient | null;
   show: boolean;
   error: string | null;
+}
+export enum IngredientTypes {
+  CHEESE = 'cheese',
+  MEAT = 'meat',
+  VEGETABLE = 'vegetable',
+  OTHER = 'other'
 }
 export interface Ingredient {
   _id?: string;
   name: string;
-  type: 'cheeses' | 'meets' | 'non-meats';
+  type: IngredientTypes;
   isTopping: boolean;
 }
 export interface MenuCategory {
@@ -29,6 +36,7 @@ export const initialState: MenuState = {
   menu: [],
   menuItems: null,
   selectedMenu: null,
+  selectedIngredient: null,
   show: false,
   error: null
 };
@@ -36,7 +44,10 @@ export interface AddMenuCategoryReqDTO {
   name: string;
 }
 export interface AddIngredientReqDTO {
-  ingredient: Ingredient;
+  _id?: string;
+  name: string;
+  type: IngredientTypes;
+  isTopping: boolean;
 }
 export interface MenuItemReqDTO {
   _id?: string;
@@ -53,7 +64,7 @@ export interface CategoryItemResDTO {
   items: MenuCategoryItem[];
 }
 export interface IngredientResDTO {
-  ingredients: Ingredient[];
+  ingredient: Ingredient;
 }
 export enum MenuActionTypes {
   GET_CATEGORIES = 'GET_CATEGORIES',
@@ -79,6 +90,18 @@ export enum MenuActionTypes {
 interface AddCategoryAction {
   type: typeof MenuActionTypes.ADD_CATEGORY;
   payload: AddMenuCategoryReqDTO;
+}
+interface AddIngredientAction {
+  type: typeof MenuActionTypes.ADD_INGREDIENT;
+  payload: AddIngredientReqDTO;
+}
+interface AddIngredientFailAction {
+  type: typeof MenuActionTypes.ADD_INGREDIENT_FAIL;
+  payload: string;
+}
+interface AddIngredientSuccessAction {
+  type: typeof MenuActionTypes.ADD_INGREDIENT_SUCCESS;
+  payload: Ingredient;
 }
 interface AddCategorySuccessAction {
   type: typeof MenuActionTypes.ADD_CATEGORY_SUCCESS;
@@ -126,7 +149,10 @@ export type MenuActions =
   | GetCategoriesAction
   | AddCategoryAction
   | AddCategorySuccessAction
-  | AddCategoryFailAction;
+  | AddCategoryFailAction
+  | AddIngredientAction
+  | AddIngredientSuccessAction
+  | AddIngredientFailAction;
 
 export const menuReducer = (
   state = initialState,
@@ -136,11 +162,13 @@ export const menuReducer = (
     case MenuActionTypes.SELECT_CATEGORY: {
       return { ...state, selectedMenu: action.payload, menuItems: [] };
     }
+    case MenuActionTypes.ADD_INGREDIENT:
     case MenuActionTypes.ADD_CATEGORY:
     case MenuActionTypes.GET_CATEGORY_ITEMS:
     case MenuActionTypes.GET_CATEGORIES: {
       return { ...state, isMenuLoading: false, error: null };
     }
+    case MenuActionTypes.ADD_INGREDIENT_FAIL:
     case MenuActionTypes.ADD_CATEGORY_FAIL:
     case MenuActionTypes.GET_CATEGORY_ITEMS_FAIL:
     case MenuActionTypes.GET_CATEGORIES_FAIL: {
@@ -155,6 +183,13 @@ export const menuReducer = (
         ...state,
         isMenuLoading: false,
         menu: action.payload.items
+      };
+    }
+    case MenuActionTypes.ADD_INGREDIENT_SUCCESS: {
+      return {
+        ...state,
+        isMenuLoading: false,
+        selectedIngredient: action.payload
       };
     }
     case MenuActionTypes.GET_CATEGORY_ITEMS_SUCCESS: {

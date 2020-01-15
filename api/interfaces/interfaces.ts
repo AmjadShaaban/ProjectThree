@@ -4,6 +4,13 @@ export interface Message {
   message: string;
 }
 
+export enum IngredientTypes {
+  CHEESE = 'cheese',
+  MEAT = 'meat',
+  VEGETABLE = 'vegetable',
+  OTHER = 'other'
+}
+
 export interface IUser extends Document {
   email: string;
   password: string;
@@ -14,17 +21,17 @@ export interface IUser extends Document {
 
 export interface IIngredient extends Document {
   name: string;
-  type: 'cheeses' | 'meets' | 'non-meats';
+  type: IngredientTypes;
   isTopping: boolean;
 }
 
-export interface IMenuCategory extends Document {
+export interface ICategory extends Document {
   name: string;
   img?: string;
-  items?: IMenuCategoryItem[];
+  items?: ICategoryItem[];
 }
 
-export interface IMenuCategoryItem extends Document {
+export interface ICategoryItem extends Document {
   name: string;
   ingredients?: IIngredient[];
 }
