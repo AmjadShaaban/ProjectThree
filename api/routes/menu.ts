@@ -1,6 +1,6 @@
 import auth from '../middleware/auth';
-import MenuCategory from '../models/menu/Category';
-import MenuCategoryItem from '../models/menu/CategoryItem';
+import Category from '../models/menu/Category';
+import CategoryItem from '../models/menu/CategoryItem';
 import { IIngredient } from '../interfaces/interfaces';
 import Ingredient from '../models/menu/Ingredient';
 
@@ -10,7 +10,7 @@ export function menuAPI(app) {
     '/api/menu',
     /*auth,*/ async (req, res) => {
       try {
-        let items = await MenuCategory.find({});
+        let items = await Category.find({});
         if (items) {
           return res.status(200).json({ items });
         }
@@ -26,13 +26,13 @@ export function menuAPI(app) {
       const { name } = req.body;
       console.log(name);
       try {
-        let item = await MenuCategory.findOne({ name });
+        let item = await Category.findOne({ name });
         if (item) {
           return res
             .status(500)
             .json({ msg: `item already exists ID: ${item._id}` });
         }
-        item = new MenuCategory({ name });
+        item = new Category({ name });
         await item.save();
         res.status(200).json({ msg: 'success' });
       } catch (error) {
@@ -41,14 +41,14 @@ export function menuAPI(app) {
       }
     }
   );
-
+  //GET category by ID route
   app.get(
     '/api/menu/category/:catId',
     /*auth,*/ async (req, res) => {
       const { catId } = req.params;
       console.log({ catId: catId });
       try {
-        let items = await MenuCategory.findOne({ _id: catId });
+        let items = await Category.findOne({ _id: catId });
         if (items) {
           return res.status(200).json({ items });
         }
@@ -57,16 +57,18 @@ export function menuAPI(app) {
       }
     }
   );
-
+  //GET category items
   app.get(
     '/api/menu/category/:catId/items',
     /*auth,*/ async (req, res) => {
       const { catId } = req.params;
       console.log({ catId: catId });
       try {
-        let category = await MenuCategory.findOne({
+        let category = await Category.findOne({
           _id: catId
-        }).populate('MenuCategoryItem');
+        })
+          .populate('CategoryItem')
+          .populate('Ingredient');
         if (category.items) {
           return res.status(200).json({ category });
         }
@@ -75,7 +77,7 @@ export function menuAPI(app) {
       }
     }
   );
-
+  //POST add category items
   app.post(
     '/api/menu/category/:catId/items',
     /*auth,*/ async (req, res) => {
@@ -83,17 +85,17 @@ export function menuAPI(app) {
       const { name } = req.body;
       console.log({ catId: catId, name: name });
       try {
-        let category = await MenuCategory.findOne({ _id: catId });
+        let category = await Category.findOne({ _id: catId });
         if (category.items) {
-          let item = await MenuCategoryItem.findOne({ name });
+          let item = await CategoryItem.findOne({ name });
           if (item) {
             return res
               .status(500)
               .json({ message: `item already exists ID:${item._id}` });
           }
-          item = await MenuCategoryItem.create({ name });
+          item = await CategoryItem.create({ name });
           if (item._id) {
-            return MenuCategory.findByIdAndUpdate(
+            return Category.findByIdAndUpdate(
               { _id: catId },
               { $push: { items: item } },
               { new: true }

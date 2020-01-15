@@ -4,10 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-// import CssBaseline from '@material-ui/core/CssBaseline';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Title from './Title';
 import { useAuthState } from '../../contexts/auth';
-import { useMenuDispatch,addMenuCategory } from '../../contexts/menu'
+import { useMenuState,useMenuDispatch,addCategory } from '../../contexts/menu'
 
 function preventDefault(event: Event) {
   event.preventDefault();
@@ -49,8 +49,9 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function Deposits() {
+export default function AddItem() {
   const { user } = useAuthState();
+  const menuState = useMenuState();
   const menuDispatch = useMenuDispatch();
   const [name, setName]=useState('');
   const classes = useStyles();
@@ -68,7 +69,7 @@ export default function Deposits() {
             noValidate
             onSubmit={e => {
               e.preventDefault();
-              addMenuCategory(menuDispatch,{name:name})
+              addCategory(menuDispatch,{name:name})
             }}
           >
             <TextField

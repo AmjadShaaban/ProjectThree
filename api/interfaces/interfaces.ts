@@ -8,6 +8,8 @@ export enum IngredientTypes {
   CHEESE = 'cheese',
   MEAT = 'meat',
   VEGETABLE = 'vegetable',
+  DRESSING = 'dressing',
+  SAUCE = 'sauce',
   OTHER = 'other'
 }
 

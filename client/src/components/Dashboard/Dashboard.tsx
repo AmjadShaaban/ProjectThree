@@ -21,10 +21,11 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Specials from './Specials';
 import Deposits from './Deposits';
-import AddMenu from './AddMenu';
+import AddMenu from './AddCategory';
 import Menu from './Menu'
 import Orders from './Orders';
 import AddIngredient from './AddIngredient';
+import AddItem from './AddItem';
 
 function Copyright() {
   return (
@@ -191,7 +192,7 @@ export default function Dashboard() {
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                <Specials />
+                <AddItem/>
               </Paper>
             </Grid>
             {/* Recent Deposits */}

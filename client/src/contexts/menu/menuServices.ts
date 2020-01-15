@@ -3,13 +3,14 @@ import {
   MenuActionTypes,
   MenuActions,
   CategoryItemResDTO,
-  MenuCategoryResDTO,
+  CategoryResDTO,
   Ingredient,
   IngredientResDTO,
   AddIngredientReqDTO,
-  AddMenuCategoryReqDTO,
+  AddCategoryReqDTO,
   MenuResDTO,
-  MenuItemReqDTO
+  CategoryItemReqDTO,
+  AddCategoryItemReqDTO
 } from './menuState';
 export const loadMenu = async (dispatch: Dispatch<MenuActions>) => {
   dispatch({ type: MenuActionTypes.GET_CATEGORIES });
@@ -59,9 +60,9 @@ export const addIngredient = async (
     });
   } catch (error) {}
 };
-export const addMenuCategory = async (
+export const addCategory = async (
   dispatch: Dispatch<MenuActions>,
-  category: AddMenuCategoryReqDTO
+  category: AddCategoryReqDTO
 ) => {
   dispatch({ type: MenuActionTypes.ADD_CATEGORY, payload: category });
   try {
@@ -85,9 +86,35 @@ export const addMenuCategory = async (
     dispatch({ type: MenuActionTypes.ADD_CATEGORY_FAIL, payload: 'Failed' });
   }
 };
-export const loadMenuItems = async (
+export const addCategoryItem = async (
   dispatch: Dispatch<MenuActions>,
-  selectedMenu: MenuItemReqDTO
+  category: AddCategoryItemReqDTO
+) => {
+  dispatch({ type: MenuActionTypes.ADD_CATEGORY, payload: category });
+  try {
+    const response: CategoryItemResDTO = await fetch('/api/menu', {
+      method: 'POST',
+      body: JSON.stringify(category),
+      headers: new Headers({ 'Content-Type': 'application/json' })
+    }).then(r => r.json());
+    if (!response || !response.items) {
+      dispatch({
+        type: MenuActionTypes.ADD_CATEGORY_FAIL,
+        payload: 'Failed'
+      });
+      return;
+    }
+    dispatch({
+      type: MenuActionTypes.ADD_CATEGORY_SUCCESS,
+      payload: response
+    });
+  } catch (err) {
+    dispatch({ type: MenuActionTypes.ADD_CATEGORY_FAIL, payload: 'Failed' });
+  }
+};
+export const loadItems = async (
+  dispatch: Dispatch<MenuActions>,
+  selectedMenu: CategoryItemReqDTO
 ) => {
   dispatch({ type: MenuActionTypes.GET_CATEGORY_ITEMS, payload: selectedMenu });
   console.log(selectedMenu);

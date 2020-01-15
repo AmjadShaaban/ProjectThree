@@ -1,8 +1,8 @@
 export interface MenuState {
   isMenuLoading: boolean;
-  menu: MenuCategory[];
-  menuItems: MenuCategoryItem | MenuCategoryItem[] | null;
-  selectedMenu: MenuCategory | null;
+  menu: Category[];
+  menuItems: CategoryItem | CategoryItem[] | null;
+  selectedMenu: Category | null;
   selectedIngredient: Ingredient | null;
   show: boolean;
   error: string | null;
@@ -11,6 +11,8 @@ export enum IngredientTypes {
   CHEESE = 'cheese',
   MEAT = 'meat',
   VEGETABLE = 'vegetable',
+  DRESSING = 'dressing',
+  SAUCE = 'sauce',
   OTHER = 'other'
 }
 export interface Ingredient {
@@ -19,13 +21,13 @@ export interface Ingredient {
   type: IngredientTypes;
   isTopping: boolean;
 }
-export interface MenuCategory {
+export interface Category {
   _id?: string;
   name: string;
   img?: string;
-  items?: MenuCategoryItem[];
+  items?: CategoryItem[];
 }
-export interface MenuCategoryItem {
+export interface CategoryItem {
   _id?: string;
   name: string;
   ingredients?: Ingredient[];
@@ -40,8 +42,16 @@ export const initialState: MenuState = {
   show: false,
   error: null
 };
-export interface AddMenuCategoryReqDTO {
+export interface AddCategoryReqDTO {
   name: string;
+}
+export interface AddCategoryItemReqDTO {
+  catId: string;
+  name: string;
+  src?: string;
+  discription: string;
+  ingredients?: Ingredient[];
+  price: string;
 }
 export interface AddIngredientReqDTO {
   _id?: string;
@@ -49,19 +59,19 @@ export interface AddIngredientReqDTO {
   type: IngredientTypes;
   isTopping: boolean;
 }
-export interface MenuItemReqDTO {
+export interface CategoryItemReqDTO {
   _id?: string;
   name?: string;
 }
-export interface MenuCategoryResDTO {
+export interface CategoryResDTO {
   _id?: string;
   name?: string;
 }
 export interface MenuResDTO {
-  items: MenuCategoryItem[];
+  items: CategoryItem[];
 }
 export interface CategoryItemResDTO {
-  items: MenuCategoryItem[];
+  items: CategoryItem[];
 }
 export interface IngredientResDTO {
   ingredient: Ingredient;
@@ -80,16 +90,16 @@ export enum MenuActionTypes {
   ADD_CATEGORY = 'ADD_CATEGORY',
   ADD_CATEGORY_FAIL = 'ADD_CATEGORY_FAIL',
   ADD_CATEGORY_SUCCESS = 'ADD_CATEGORY_SUCCESS',
-  ADD_ITEM = 'ADD_ITEM',
-  ADD_ITEM_FAIL = 'ADD_ITEM_FAIL',
-  ADD_ITEM_SUCCESS = 'ADD_ITEM_SUCCESS',
+  ADD_CATEGORY_ITEM = 'ADD_ITEM',
+  ADD_CATEGORY_ITEM_FAIL = 'ADD_ITEM_FAIL',
+  ADD_CATEGORY_ITEM_SUCCESS = 'ADD_ITEM_SUCCESS',
   ADD_INGREDIENT = 'ADD_INGREDIENT',
   ADD_INGREDIENT_FAIL = 'ADD_INGREDIENT_FAIL',
   ADD_INGREDIENT_SUCCESS = 'ADD_INGREDIENT_SUCCESS'
 }
 interface AddCategoryAction {
   type: typeof MenuActionTypes.ADD_CATEGORY;
-  payload: AddMenuCategoryReqDTO;
+  payload: AddCategoryReqDTO;
 }
 interface AddIngredientAction {
   type: typeof MenuActionTypes.ADD_INGREDIENT;
@@ -103,6 +113,7 @@ interface AddIngredientSuccessAction {
   type: typeof MenuActionTypes.ADD_INGREDIENT_SUCCESS;
   payload: Ingredient;
 }
+// interface AddCate
 interface AddCategorySuccessAction {
   type: typeof MenuActionTypes.ADD_CATEGORY_SUCCESS;
   payload: CategoryItemResDTO;
@@ -125,7 +136,7 @@ interface GetCategoriesSuccessAction {
 }
 interface GetCategoryItemsAction {
   type: typeof MenuActionTypes.GET_CATEGORY_ITEMS;
-  payload: MenuItemReqDTO;
+  payload: CategoryItemReqDTO;
 }
 interface GetCategoryItemsFailAction {
   type: typeof MenuActionTypes.GET_CATEGORY_ITEMS_FAIL;
@@ -137,7 +148,7 @@ interface GetCategoryItemsSuccessAction {
 }
 interface SelectCategoryAction {
   type: typeof MenuActionTypes.SELECT_CATEGORY;
-  payload: MenuCategory | null;
+  payload: Category | null;
 }
 export type MenuActions =
   | GetCategoriesFailAction

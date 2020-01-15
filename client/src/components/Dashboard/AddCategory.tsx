@@ -4,14 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
+// import CssBaseline from '@material-ui/core/CssBaseline';
 import Title from './Title';
 import { useAuthState } from '../../contexts/auth';
-import { useMenuState,useMenuDispatch,addMenuCategory } from '../../contexts/menu'
-
-function preventDefault(event: Event) {
-  event.preventDefault();
-}
+import { useMenuDispatch,addCategory } from '../../contexts/menu'
 
 const useStyles = makeStyles(theme => ({
     depositContext: {
@@ -49,9 +45,8 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function Deposits() {
+export default function AddCategory() {
   const { user } = useAuthState();
-  const menuState = useMenuState();
   const menuDispatch = useMenuDispatch();
   const [name, setName]=useState('');
   const classes = useStyles();
@@ -69,7 +64,7 @@ export default function Deposits() {
             noValidate
             onSubmit={e => {
               e.preventDefault();
-              addMenuCategory(menuDispatch,{name:name})
+              addCategory(menuDispatch,{name:name})
             }}
           >
             <TextField
@@ -80,7 +75,7 @@ export default function Deposits() {
               id='name'
               value={name}
               onChange={e => setName(e.target.value)}
-              label='Menu Category Name'
+              label='Category Name'
               name='name'
               autoFocus
             />
