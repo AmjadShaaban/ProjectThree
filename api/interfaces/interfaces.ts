@@ -12,19 +12,19 @@ export interface IUser extends Document {
   admin: boolean;
 }
 
-export interface IIngredient extends Document{
+export interface IIngredient extends Document {
   name: string;
   type: 'cheeses' | 'meets' | 'non-meats';
   isTopping: boolean;
 }
 
-export interface IMenu extends Document {
+export interface IMenuCategory extends Document {
   name: string;
-  img?: string; 
-  items?: IMenuItem[];
+  img?: string;
+  items?: IMenuCategoryItem[];
 }
 
-export interface IMenuItem extends Document {
+export interface IMenuCategoryItem extends Document {
   name: string;
-  ingredients:IIngredient[]
+  ingredients?: IIngredient[];
 }

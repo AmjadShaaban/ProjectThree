@@ -63,6 +63,7 @@ export const loadMenuItems = async (
   selectedMenu: MenuItemReqDTO
 ) => {
   dispatch({ type: MenuActionTypes.GET_CATEGORY_ITEMS, payload: selectedMenu });
+  console.log(selectedMenu);
 
   try {
     const response: CategoryItemResDTO = await fetch(
