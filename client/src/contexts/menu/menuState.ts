@@ -1,25 +1,27 @@
 export interface MenuState {
   isMenuLoading: boolean;
-  menu: Menu[];
-  menuItems: MenuItems | MenuItems[] | null;
-  selectedMenu: Menu | null;
+  menu: MenuCategory[];
+  menuItems: MenuCategoryItem | MenuCategoryItem[] | null;
+  selectedMenu: MenuCategory | null;
   show: boolean;
   error: string | null;
 }
-export interface Ingredients {
+export interface Ingredient {
+  _id?: string;
   name: string;
   type: 'cheeses' | 'meets' | 'non-meats';
   isTopping: boolean;
 }
-interface Menu {
+export interface MenuCategory {
   _id?: string;
   name: string;
   img?: string;
-  items?: MenuItems[];
+  items?: MenuCategoryItem[];
 }
-export interface MenuItems {
+export interface MenuCategoryItem {
+  _id?: string;
   name: string;
-  ingredients?: Ingredients[];
+  ingredients?: Ingredient[];
 }
 
 export const initialState: MenuState = {
@@ -33,21 +35,25 @@ export const initialState: MenuState = {
 export interface AddMenuCategoryReqDTO {
   name: string;
 }
+export interface AddIngredientReqDTO {
+  ingredient: Ingredient;
+}
 export interface MenuItemReqDTO {
   _id?: string;
   name?: string;
 }
 export interface MenuCategoryResDTO {
+  _id?: string;
   name?: string;
 }
 export interface MenuResDTO {
-  items: MenuItems[];
+  items: MenuCategoryItem[];
 }
 export interface CategoryItemResDTO {
-  items: MenuItems[];
+  items: MenuCategoryItem[];
 }
 export interface IngredientResDTO {
-  ingredients: Ingredients[];
+  ingredients: Ingredient[];
 }
 export enum MenuActionTypes {
   GET_CATEGORIES = 'GET_CATEGORIES',
@@ -56,13 +62,19 @@ export enum MenuActionTypes {
   GET_CATEGORY_ITEMS_SUCCESS = 'GET_CATEGORY_ITEMS_SUCCESS',
   GET_CATEGORY_ITEMS_FAIL = 'GET_CATEGORY_ITEMS_FAIL',
   GET_CATEGORY_ITEMS = 'GET_CATEGORY_ITEMS',
+  GET_INGREDIENT = 'GET_INGREDIENT',
+  GET_INGREDIENT_FAIL = 'ADD_INGREDIENT_FAIL',
+  GET_INGREDIENT_SUCCESS = 'ADD_INGREDIENT_SUCCESS',
   SELECT_CATEGORY = 'SELECT_CATEGORY',
   ADD_CATEGORY = 'ADD_CATEGORY',
   ADD_CATEGORY_FAIL = 'ADD_CATEGORY_FAIL',
   ADD_CATEGORY_SUCCESS = 'ADD_CATEGORY_SUCCESS',
   ADD_ITEM = 'ADD_ITEM',
   ADD_ITEM_FAIL = 'ADD_ITEM_FAIL',
-  ADD_ITEM_SUCCESS = 'ADD_ITEM_SUCCESS'
+  ADD_ITEM_SUCCESS = 'ADD_ITEM_SUCCESS',
+  ADD_INGREDIENT = 'ADD_INGREDIENT',
+  ADD_INGREDIENT_FAIL = 'ADD_INGREDIENT_FAIL',
+  ADD_INGREDIENT_SUCCESS = 'ADD_INGREDIENT_SUCCESS'
 }
 interface AddCategoryAction {
   type: typeof MenuActionTypes.ADD_CATEGORY;
@@ -102,7 +114,7 @@ interface GetCategoryItemsSuccessAction {
 }
 interface SelectCategoryAction {
   type: typeof MenuActionTypes.SELECT_CATEGORY;
-  payload: Menu | null;
+  payload: MenuCategory | null;
 }
 export type MenuActions =
   | GetCategoriesFailAction
