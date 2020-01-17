@@ -3,7 +3,7 @@ import { ICategory } from '../../interfaces/interfaces';
 
 const CategorySchema = new Schema({
   name: { type: String, required: true, unique: true },
-  img: { type: String, default: '' },
+  img: { type: String, default: 'https://via.placeholder.com/150' },
   items: [{ type: Schema.Types.ObjectId, ref: 'CategoryItem' }]
 });
 

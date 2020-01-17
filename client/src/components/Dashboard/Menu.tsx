@@ -5,19 +5,11 @@ import Title from './Title';
 import {
   useMenuState,
   useMenuDispatch,
-  loadMenu,
-  loadMenuItems,
-  MenuActionTypes
-} from '../../contexts/menu';
+  loadMenu} from '../../contexts/menu';
 
 export default function Menu() {
   console.log('rendering Menu');
-  const {
-    menu,
-    menuItems,
-    selectedMenu,
-    isMenuLoading
-  } = useMenuState();
+  const { menu, menuItems, selectedMenu, isMenuLoading } = useMenuState();
   const dispatch = useMenuDispatch();
 
   const theme = useTheme();
@@ -31,31 +23,25 @@ export default function Menu() {
 
       {isMenuLoading && <CircularProgress />}
 
-      <button
-        onClick={() => loadMenu(dispatch)
-        }
-      >
-        Refresh
-      </button>
+      <button onClick={() => loadMenu(dispatch)}>Refresh</button>
       <div>
-      {/* {selectedMenu ? (
+        {/* {selectedMenu ? (
         <pre>{JSON.stringify(menuItems, null, 4)}</pre>
       ) :  */
-      (
-        menu.map(category => {
-          return (
-            <button
-            key={category._id}
-              onClick={async() => {
-                let test = await loadMenuItems(dispatch,category)
-                console.log(test)
-              }}
-            >
-              Load {category.name} Items
-            </button>
-          );
-        })
-      )}
+        // menu.map(category => {
+        //   return (
+        //     <button
+        //       key={category._id}
+        //       onClick={async () => {
+        //         let test = await loadItems(dispatch, category.name);
+        //         console.log(test);
+        //       }}
+        //     >
+        //       Load {category.name} Items
+        //     </button>
+        //   );
+        // })}
+}
       </div>
     </>
   );

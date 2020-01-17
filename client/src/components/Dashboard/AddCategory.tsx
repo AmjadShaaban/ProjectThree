@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-// import CssBaseline from '@material-ui/core/CssBaseline';
-import Title from './Title';
 import { useAuthState } from '../../contexts/auth';
 import { useMenuDispatch,addCategory } from '../../contexts/menu'
 
@@ -51,11 +48,7 @@ export default function AddCategory() {
   const [name, setName]=useState('');
   const classes = useStyles();
   return (
-    <React.Fragment>
-      <Title>Welcome</Title>
-      <Typography component='p' variant='h4'>
-        {user && user.fName}
-      </Typography>
+    <>
       <Typography color='textSecondary' className={classes.depositContext}>
         {user.admin ? 'You are Admin' : 'You are NOT Admin'}
       </Typography>
@@ -89,12 +82,6 @@ export default function AddCategory() {
               Submit
             </Button>
           </form>
-
-      <div>
-        <Link color='primary' href='#'>
-          View balance
-        </Link>
-      </div>
-    </React.Fragment>
+    </>
   );
 }

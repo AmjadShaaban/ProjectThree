@@ -25,6 +25,7 @@ export interface IIngredient extends Document {
   name: string;
   type: IngredientTypes;
   isTopping: boolean;
+  price?: string;
 }
 
 export interface ICategory extends Document {
@@ -35,5 +36,7 @@ export interface ICategory extends Document {
 
 export interface ICategoryItem extends Document {
   name: string;
+  discription: string;
+  price: string;
   ingredients?: IIngredient[];
 }

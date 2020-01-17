@@ -26,7 +26,7 @@ import Menu from './Menu'
 import Orders from './Orders';
 import AddIngredient from './AddIngredient';
 import AddItem from './AddItem';
-
+import PlayGround from './PlayGround';
 function Copyright() {
   return (
     <Typography variant='body2' color='textSecondary' align='center'>
@@ -123,7 +123,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Dashboard() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -192,13 +192,13 @@ export default function Dashboard() {
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                <AddItem/>
+              <AddMenu />
               </Paper>
             </Grid>
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <AddMenu />
+              <AddItem/>
               </Paper>
             </Grid>
             {/* Recent Orders */}
@@ -209,7 +209,7 @@ export default function Dashboard() {
               </Paper>
             </Grid>
           </Grid>
-          <Menu/>
+          {/* <Menu/> */}
           <Box pt={4}>
             <Copyright />
           </Box>

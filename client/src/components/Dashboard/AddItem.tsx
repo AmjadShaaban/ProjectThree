@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState,MouseEvent,useEffect } from 'react';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
+// import CssBaseline from '@material-ui/core/CssBaseline';
 import Title from './Title';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import IconButton from '@material-ui/core/IconButton';
 import { useAuthState } from '../../contexts/auth';
-import { useMenuState,useMenuDispatch,addCategory } from '../../contexts/menu'
+import { useMenuState,useMenuDispatch,addCategoryItem, loadMenu } from '../../contexts/menu'
 
-function preventDefault(event: Event) {
-  event.preventDefault();
-}
-
+const ITEM_HEIGHT = 48;
 const useStyles = makeStyles(theme => ({
     depositContext: {
       flex: 1
@@ -51,28 +52,75 @@ const useStyles = makeStyles(theme => ({
 
 export default function AddItem() {
   const { user } = useAuthState();
-  const menuState = useMenuState();
+  const {menu,isMenuLoading} = useMenuState();
   const menuDispatch = useMenuDispatch();
+  const [catId,setCatId]=useState('')
   const [name, setName]=useState('');
+  const [price, setPrice]=useState('');
+  const [discription, setDiscription]=useState('');
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  useEffect(()=>{
+    loadMenu(menuDispatch);
+},[menuDispatch])
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = (event: MouseEvent<HTMLElement>) => {
+    setCatId(event.currentTarget.id)
+    console.log(catId);
+    setAnchorEl(null);
+  };
   return (
-    <React.Fragment>
-      <Title>Welcome</Title>
-      <Typography component='p' variant='h4'>
-        {user && user.fName}
-      </Typography>
-      <Typography color='textSecondary' className={classes.depositContext}>
-        {user.admin ? 'You are Admin' : 'You are NOT Admin'}
-      </Typography>
+    <>
       <form
             className={classes.form}
             noValidate
             onSubmit={e => {
               e.preventDefault();
-              addCategory(menuDispatch,{name:name})
+              const categoryItem = {
+                catId:catId,
+                name:name,
+                discription: discription,
+                price:price
+              }
+              addCategoryItem(menuDispatch,categoryItem)
             }}
           >
-            <TextField
+            <IconButton
+        aria-label='more'
+        aria-controls='menu-categories'
+        aria-haspopup='true'
+        onClick={handleClick}
+      >
+        Select Category
+        <MoreVertIcon />
+      </IconButton>
+      <Menu
+        id='menu-categories'
+        anchorEl={anchorEl}
+        keepMounted
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: {
+            maxHeight: ITEM_HEIGHT * 4.5,
+            width: 200
+          }
+        }}
+      >
+        {menu.map(option => (
+          <MenuItem
+            key={option._id}
+            id={option._id}
+            onClick={handleClose}
+          >
+            {option.name}
+          </MenuItem>
+        ))}
+      </Menu>
+      <TextField
               variant='outlined'
               margin='normal'
               required
@@ -80,10 +128,31 @@ export default function AddItem() {
               id='name'
               value={name}
               onChange={e => setName(e.target.value)}
-              label='Menu Category Name'
+              label='Item Name'
               name='name'
               autoFocus
             />
+            <TextField
+          id="standard-multiline-static"
+          label="Item Discription"
+          multiline
+          rows="4"
+          value={discription}
+          onChange={e=>setDiscription(e.target.value)}
+        />
+                  <TextField
+            variant='outlined'
+            margin='normal'
+            required
+            fullWidth
+            id='price'
+            value={price}
+            onChange={e => setPrice(e.target.value)}
+            label='Price'
+            name='price'
+            autoFocus
+          />
+
             <Button
               type='submit'
               fullWidth
@@ -94,12 +163,6 @@ export default function AddItem() {
               Submit
             </Button>
           </form>
-
-      <div>
-        <Link color='primary' href='#'>
-          View balance
-        </Link>
-      </div>
-    </React.Fragment>
+</>
   );
 }

@@ -14,7 +14,6 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import { useAuthState } from '../../contexts/auth';
 import {
-  useMenuState,
   useMenuDispatch,
   addIngredient,
   IngredientTypes
@@ -67,13 +66,6 @@ export default function AddIngredient() {
   const classes = useStyles();
   return (
     <>
-      <Title>Welcome</Title>
-      <Typography component='p' variant='h4'>
-        {user && user.fName}
-      </Typography>
-      <Typography color='textSecondary' className={classes.depositContext}>
-        {user.admin ? 'You are Admin' : 'You are NOT Admin'}
-      </Typography>
       <FormControl component='fieldset'>
         <form
           className={classes.form}
@@ -120,6 +112,19 @@ export default function AddIngredient() {
               label='Meats'
               labelPlacement='top'
             />
+                        <FormControlLabel
+              value={IngredientTypes.DRESSING}
+              control={<Radio color='primary' />}
+              label='Salad Dressing'
+              labelPlacement='top'
+            />
+            <FormControlLabel
+              value={IngredientTypes.SAUCE}
+              control={<Radio color='primary' />}
+              label='Sauces'
+              labelPlacement='top'
+            />
+
             <FormControlLabel
               value={IngredientTypes.VEGETABLE}
               control={<Radio color='primary' />}
@@ -164,11 +169,6 @@ export default function AddIngredient() {
           </Button>
         </form>
       </FormControl>
-      <div>
-        <Link color='primary' href='#'>
-          View balance
-        </Link>
-      </div>
     </>
   );
 }

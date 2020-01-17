@@ -1,7 +1,6 @@
 import auth from '../middleware/auth';
 import Category from '../models/menu/Category';
 import CategoryItem from '../models/menu/CategoryItem';
-import { IIngredient } from '../interfaces/interfaces';
 import Ingredient from '../models/menu/Ingredient';
 
 export function menuAPI(app) {
@@ -10,12 +9,12 @@ export function menuAPI(app) {
     '/api/menu',
     /*auth,*/ async (req, res) => {
       try {
-        let items = await Category.find({});
-        if (items) {
-          return res.status(200).json({ items });
+        let categories = await Category.find({}).populate('items');
+        if (categories) {
+          return res.status(200).json({ categories });
         }
       } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json({ error });
       }
     }
   );
@@ -48,7 +47,7 @@ export function menuAPI(app) {
       const { catId } = req.params;
       console.log({ catId: catId });
       try {
-        let items = await Category.findOne({ _id: catId });
+        let items = await Category.findOne({ _id: catId }).populate('items');
         if (items) {
           return res.status(200).json({ items });
         }
@@ -66,9 +65,7 @@ export function menuAPI(app) {
       try {
         let category = await Category.findOne({
           _id: catId
-        })
-          .populate('CategoryItem')
-          .populate('Ingredient');
+        });
         if (category.items) {
           return res.status(200).json({ category });
         }
@@ -79,29 +76,38 @@ export function menuAPI(app) {
   );
   //POST add category items
   app.post(
-    '/api/menu/category/:catId/items',
+    '/api/menu/category/items',
     /*auth,*/ async (req, res) => {
-      const { catId } = req.body.params;
-      const { name } = req.body;
-      console.log({ catId: catId, name: name });
+      const { catId, name, price, discription } = req.body;
+      console.log({
+        req: {
+          body: {
+            catId: catId,
+            name: name,
+            discription: discription,
+            price: price
+          }
+        }
+      });
       try {
         let category = await Category.findOne({ _id: catId });
-        if (category.items) {
+        console.log(category);
+        if (category) {
           let item = await CategoryItem.findOne({ name });
           if (item) {
             return res
               .status(500)
               .json({ message: `item already exists ID:${item._id}` });
           }
-          item = await CategoryItem.create({ name });
+          item = await CategoryItem.create({ catId, name, discription, price });
           if (item._id) {
+            res.status(200).json({ msg: 'success' });
             return Category.findByIdAndUpdate(
               { _id: catId },
               { $push: { items: item } },
               { new: true }
             );
           }
-          res.status(200).json({ msg: 'success' });
         }
         res.status(500).json({ message: 'error occured' });
       } catch (error) {
@@ -110,6 +116,18 @@ export function menuAPI(app) {
       }
     }
   );
+
+  app.get('/api/menu/items/', async (req, res) => {
+    try {
+      let allItems = await CategoryItem.find({});
+      if (allItems) {
+        return res.status(200).json({ allItems });
+      }
+    } catch (error) {
+      console.log({ error });
+      res.status(500).json({ error });
+    }
+  });
 
   app.get(
     '/api/menu/category/items/:itemId',

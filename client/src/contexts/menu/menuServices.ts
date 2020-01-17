@@ -9,15 +9,15 @@ import {
   AddIngredientReqDTO,
   AddCategoryReqDTO,
   MenuResDTO,
-  CategoryItemReqDTO,
-  AddCategoryItemReqDTO
+  CategoryItemReqDTO
 } from './menuState';
+
 export const loadMenu = async (dispatch: Dispatch<MenuActions>) => {
   dispatch({ type: MenuActionTypes.GET_CATEGORIES });
   try {
     const response: MenuResDTO = await fetch('/api/menu').then(r => r.json());
     console.log(response);
-    if (!response || !response.items) {
+    if (!response || !response.categories) {
       dispatch({
         type: MenuActionTypes.GET_CATEGORIES_FAIL,
         payload: 'Unable to retrieve menu'
@@ -36,6 +36,7 @@ export const loadMenu = async (dispatch: Dispatch<MenuActions>) => {
     });
   }
 };
+
 export const addIngredient = async (
   dispatch: Dispatch<MenuActions>,
   ingredient: AddIngredientReqDTO
@@ -60,6 +61,7 @@ export const addIngredient = async (
     });
   } catch (error) {}
 };
+
 export const addCategory = async (
   dispatch: Dispatch<MenuActions>,
   category: AddCategoryReqDTO
@@ -86,60 +88,67 @@ export const addCategory = async (
     dispatch({ type: MenuActionTypes.ADD_CATEGORY_FAIL, payload: 'Failed' });
   }
 };
+
 export const addCategoryItem = async (
   dispatch: Dispatch<MenuActions>,
-  category: AddCategoryItemReqDTO
+  categoryItem: CategoryItemReqDTO
 ) => {
-  dispatch({ type: MenuActionTypes.ADD_CATEGORY, payload: category });
+  dispatch({ type: MenuActionTypes.ADD_CATEGORY_ITEM, payload: categoryItem });
   try {
-    const response: CategoryItemResDTO = await fetch('/api/menu', {
-      method: 'POST',
-      body: JSON.stringify(category),
-      headers: new Headers({ 'Content-Type': 'application/json' })
-    }).then(r => r.json());
+    const response: CategoryItemResDTO = await fetch(
+      `/api/menu/category/items`,
+      {
+        method: 'POST',
+        body: JSON.stringify(categoryItem),
+        headers: new Headers({ 'Content-Type': 'application/json' })
+      }
+    ).then(r => r.json());
     if (!response || !response.items) {
       dispatch({
-        type: MenuActionTypes.ADD_CATEGORY_FAIL,
+        type: MenuActionTypes.ADD_CATEGORY_ITEM_FAIL,
         payload: 'Failed'
       });
       return;
     }
     dispatch({
-      type: MenuActionTypes.ADD_CATEGORY_SUCCESS,
+      type: MenuActionTypes.ADD_CATEGORY_ITEM_SUCCESS,
       payload: response
     });
   } catch (err) {
-    dispatch({ type: MenuActionTypes.ADD_CATEGORY_FAIL, payload: 'Failed' });
-  }
-};
-export const loadItems = async (
-  dispatch: Dispatch<MenuActions>,
-  selectedMenu: CategoryItemReqDTO
-) => {
-  dispatch({ type: MenuActionTypes.GET_CATEGORY_ITEMS, payload: selectedMenu });
-  console.log(selectedMenu);
-
-  try {
-    const response: CategoryItemResDTO = await fetch(
-      `/api/menu/${selectedMenu._id}`
-    ).then(r => r.json());
-
-    if (!response || !response.items) {
-      dispatch({
-        type: MenuActionTypes.GET_CATEGORY_ITEMS_FAIL,
-        payload: 'Unable to retrieve items'
-      });
-      return;
-    }
-
     dispatch({
-      type: MenuActionTypes.GET_CATEGORY_ITEMS_SUCCESS,
-      payload: response
-    });
-  } catch (error) {
-    dispatch({
-      type: MenuActionTypes.GET_CATEGORY_ITEMS_FAIL,
-      payload: 'Unable to retrieve items'
+      type: MenuActionTypes.ADD_CATEGORY_ITEM_FAIL,
+      payload: 'Failed'
     });
   }
 };
+// export const loadItems = async (
+//   dispatch: Dispatch<MenuActions>,
+//   selectedMenu: CategoryItemReqDTO
+// ) => {
+//   dispatch({ type: MenuActionTypes.GET_CATEGORY_ITEMS, payload: selectedMenu });
+//   console.log(selectedMenu);
+
+//   try {
+//     const response: CategoryItemResDTO = await fetch(
+//       `/api/menu/${selectedMenu._id}`
+//     ).then(r => r.json());
+
+//     if (!response || !response.items) {
+//       dispatch({
+//         type: MenuActionTypes.GET_CATEGORY_ITEMS_FAIL,
+//         payload: 'Unable to retrieve items'
+//       });
+//       return;
+//     }
+
+//     dispatch({
+//       type: MenuActionTypes.GET_CATEGORY_ITEMS_SUCCESS,
+//       payload: response
+//     });
+//   } catch (error) {
+//     dispatch({
+//       type: MenuActionTypes.GET_CATEGORY_ITEMS_FAIL,
+//       payload: 'Unable to retrieve items'
+//     });
+//   }
+// };
