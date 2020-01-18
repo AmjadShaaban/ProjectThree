@@ -5,7 +5,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
-import tileData from './tileData';
+import {useMenuState} from '../../contexts/menu';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexWrap: 'wrap',
       justifyContent: 'space-around',
       overflow: 'hidden',
-      backgroundColor: theme.palette.background.paper
+      backgroundColor: 'yellow'
     },
     gridList: {
       flexWrap: 'nowrap',
@@ -32,21 +32,24 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function SingleLineGridList() {
+  const { menu } = useMenuState();
+
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <GridList className={classes.gridList} cols={2.5}>
-        {tileData.map(tile => (
-          <GridListTile key={tile.img}>
-            <img src={tile.img} alt={tile.title} />
+      <GridList className={classes.gridList} cols={6}>
+        {menu.map(category => (
+          <GridListTile key={category._id}>
+            <img src={category.img} alt={category.name} height='150px'
+          width='150px'/>
             <GridListTileBar
-              title={`${tile.title} : ${tile.price}`}
+              title={`${category.name}`}
               classes={{
                 root: classes.titleBar,
                 title: classes.title
               }}
               actionIcon={
-                <IconButton aria-label={`star ${tile.title}`}>
+                <IconButton aria-label={`star ${category.name}`}>
                   <StarBorderIcon className={classes.title} />
                 </IconButton>
               }

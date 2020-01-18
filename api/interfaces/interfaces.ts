@@ -16,8 +16,12 @@ export enum IngredientTypes {
 export interface IUser extends Document {
   email: string;
   password: string;
-  fName?: string;
-  lName?: string;
+  fName: string;
+  lName: string;
+  fullName?: string;
+  employee: boolean;
+  driver: boolean;
+  manager: boolean;
   admin: boolean;
 }
 

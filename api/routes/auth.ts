@@ -48,7 +48,13 @@ export function authAPI(app) {
         }
         const payload = {
           user: {
-            id: user.id,
+            _id: user._id,
+            fName: user.fName,
+            lName: user.lName,
+            email: user.email,
+            employee: user.employee,
+            driver: user.driver,
+            manager: user.manager,
             admin: user.admin
           }
         };
@@ -61,9 +67,10 @@ export function authAPI(app) {
             res.json({
               user: {
                 token,
-                fName: user.fName,
-                lName: user.lName,
-                email: user.email,
+                fullName: user.fullName,
+                employee: user.employee,
+                driver: user.driver,
+                manager: user.manager,
                 admin: user.admin
               }
             });

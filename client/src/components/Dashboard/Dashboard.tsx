@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -20,13 +20,10 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Specials from './Specials';
-import Deposits from './Deposits';
-import AddMenu from './AddCategory';
+import {loadMenu,useMenuDispatch }  from '../../contexts/menu';
+import EmployeeLogin from '../auth/EmployeeLogin'
 import Menu from './Menu'
-import Orders from './Orders';
-import AddIngredient from './AddIngredient';
-import AddItem from './AddItem';
-import PlayGround from './PlayGround';
+import AddEmployee from '../backOffice/AddEmployee'
 function Copyright() {
   return (
     <Typography variant='body2' color='textSecondary' align='center'>
@@ -122,6 +119,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Dashboard() {
+const dispatch = useMenuDispatch();
+  useEffect(() => {
+    loadMenu(dispatch);
+  }, [dispatch]);
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
@@ -189,27 +191,31 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth='lg' className={classes.container}>
           <Grid container spacing={3}>
-            {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-              <AddMenu />
+              <AddEmployee/>
               </Paper>
             </Grid>
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-              <AddItem/>
+             <EmployeeLogin/>
               </Paper>
             </Grid>
+            <Grid item xs={12}>
+            <Paper className={fixedHeightPaper}>
+            <Specials/>
+            </Paper>
+            </Grid>
+
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 {/* <Orders /> */}
-                <AddIngredient/>
+                <Menu/>
               </Paper>
             </Grid>
           </Grid>
-          {/* <Menu/> */}
           <Box pt={4}>
             <Copyright />
           </Box>

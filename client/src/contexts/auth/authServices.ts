@@ -1,12 +1,33 @@
 import { Dispatch } from 'react';
+import setAuthToken from '../../utils/setAuthToken';
 import {
   AuthActionTypes,
   AuthActions,
   RegisterReqDTO,
   RegisterResDTO,
   LoginReqDTO,
-  LoginResDTO
+  LoginResDTO,
+  LoadUserReqDTO
 } from './authState';
+import axios from 'axios';
+export const loadUser = async (
+  dispatch: Dispatch<AuthActions>,
+  token: LoadUserReqDTO
+) => {
+  setAuthToken(localStorage.token);
+  try {
+    const res = await axios.get('/api/auth');
+    dispatch({
+      type: AuthActionTypes.LOAD_USER,
+      payload: token
+    });
+  } catch (error) {
+    dispatch({
+      type: AuthActionTypes.LOAD_USER_FAIL,
+      payload: 'Auth Error'
+    });
+  }
+};
 
 export const loginUser = async (
   dispatch: Dispatch<AuthActions>,

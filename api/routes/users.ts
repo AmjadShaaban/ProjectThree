@@ -23,7 +23,16 @@ export function usersAPI(app) {
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
-      const { fName, lName, email, password } = req.body;
+      const {
+        fName,
+        lName,
+        email,
+        password,
+        employee,
+        driver,
+        manager,
+        admin
+      } = req.body;
       try {
         let user = await User.findOne({ email });
         if (user) {
@@ -33,7 +42,11 @@ export function usersAPI(app) {
           fName,
           lName,
           email,
-          password
+          password,
+          employee,
+          driver,
+          manager,
+          admin
         });
         const salt = await bcrypt.genSalt(10);
         console.log({ something: user.password, salt });
@@ -59,6 +72,9 @@ export function usersAPI(app) {
                 fName: user.fName,
                 lName: user.lName,
                 email: user.email,
+                employee: user.employee,
+                driver: user.driver,
+                manager: user.manager,
                 admin: user.admin
               }
             });

@@ -2,12 +2,8 @@ import React from 'react';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Title from './Title';
+import Title from '../shared/Title';
 import { useAuthState } from '../../contexts/auth';
-
-function preventDefault(event: Event) {
-  event.preventDefault();
-}
 
 const useStyles = makeStyles({
   depositContext: {

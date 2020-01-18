@@ -9,8 +9,11 @@ const IngredientSchema = new Schema({
     required: true
   },
   img: { type: String, default: 'https://via.placeholder.com/150' },
-  isTopping: { type: Boolean, required: true },
-  price: { type: String, default: '00.00' }
+  topping: {
+    type: { type: Boolean, required: true },
+    price: { type: String, required: true }
+  },
+  price: { type: String, required: true }
 });
 
 export default mongoose.model<IIngredient>('Ingredient', IngredientSchema);
