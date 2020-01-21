@@ -12,17 +12,20 @@ export enum IngredientTypes {
   SAUCE = 'sauce',
   OTHER = 'other'
 }
-
+export enum Roles {
+  DRIVER = 'DRIVER',
+  MANAGER = 'MANAGER',
+  EMPLOYEE = 'EMPLOYEE',
+  ADMIN = 'ADMIN',
+  UNKNOWN = 'UNKNOWN'
+}
 export interface IUser extends Document {
   email: string;
   password: string;
   fName: string;
   lName: string;
   fullName?: string;
-  employee: boolean;
-  driver: boolean;
-  manager: boolean;
-  admin: boolean;
+  role: Roles;
 }
 
 export interface IIngredient extends Document {

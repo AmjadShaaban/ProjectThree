@@ -15,19 +15,13 @@ export default function Deposits() {
   const { user } = useAuthState();
   const classes = useStyles();
   return (
-    <React.Fragment>
+    <>
       <Title>Welcome</Title>
       <Typography component='p' variant='h4'>
         {user && user.fName}
       </Typography>
-      <Typography color='textSecondary' className={classes.depositContext}>
-        {user.admin ? 'You are Admin' : 'You are NOT Admin'}
-      </Typography>
       <div>
-        <Link color='primary' href='#'>
-          View balance
-        </Link>
       </div>
-    </React.Fragment>
+    </>
   );
 }

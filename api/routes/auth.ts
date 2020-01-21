@@ -2,7 +2,7 @@ import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/user/User';
-import { Message } from '../interfaces/interfaces';
+import { Message } from '../interfaces';
 import auth from '../middleware/auth';
 import config from 'config';
 export function authAPI(app) {
@@ -52,10 +52,7 @@ export function authAPI(app) {
             fName: user.fName,
             lName: user.lName,
             email: user.email,
-            employee: user.employee,
-            driver: user.driver,
-            manager: user.manager,
-            admin: user.admin
+            role: user.role
           }
         };
         jwt.sign(
@@ -68,10 +65,7 @@ export function authAPI(app) {
               user: {
                 token,
                 fullName: user.fullName,
-                employee: user.employee,
-                driver: user.driver,
-                manager: user.manager,
-                admin: user.admin
+                role: user.role
               }
             });
           }

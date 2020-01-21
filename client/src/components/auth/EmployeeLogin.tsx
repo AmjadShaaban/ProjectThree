@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import Link from '@material-ui/core/Link';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from '../shared/Title';
@@ -31,23 +32,8 @@ export default function EmployeeLogin(){
 
     return(
         <>
+              {isLoading && <CircularProgress />}
          <Title>Welcome</Title>
-         <Typography component='p' variant='h4'>
-        {user && user.fName}
-      </Typography>
-      <Typography color='textSecondary' className={classes.loginContext}>
-        {user.employee ? 'You are Employee' : 'You are NOT Employee'}
-        </Typography>
-        <Typography color='textSecondary' className={classes.loginContext}>
-        {user.driver ? 'You are Driver' : 'You are NOT Driver'}
-    </Typography>
-    <Typography color='textSecondary' className={classes.loginContext}>
-        {user.manager ? 'You are Manager' : 'You are NOT Manager'}
-    </Typography>
-      <Typography color='textSecondary' className={classes.loginContext}>
-        {user.admin ? 'You are Admin' : 'You are NOT Admin'}
-    </Typography>
-
          <form
             className={classes.form}
             noValidate

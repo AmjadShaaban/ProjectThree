@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { IIngredient, IngredientTypes } from '../../interfaces/interfaces';
+import { IIngredient, IngredientTypes } from '../../interfaces';
 
 const IngredientSchema = new Schema({
   name: { type: String, required: true, unique: true },

@@ -1,5 +1,4 @@
 import { Dispatch } from 'react';
-import setAuthToken from '../../utils/setAuthToken';
 import {
   AuthActionTypes,
   AuthActions,
@@ -10,16 +9,22 @@ import {
   LoadUserReqDTO
 } from './authState';
 import axios from 'axios';
-export const loadUser = async (
-  dispatch: Dispatch<AuthActions>,
-  token: LoadUserReqDTO
-) => {
+
+const setAuthToken = (token: string) => {
+  if (token) {
+    axios.defaults.headers.common['x-auth-token'] = token;
+  } else {
+    delete axios.defaults.headers.common['x-auth-token'];
+  }
+};
+
+export const loadUser = async (dispatch: Dispatch<AuthActions>) => {
   setAuthToken(localStorage.token);
   try {
     const res = await axios.get('/api/auth');
     dispatch({
-      type: AuthActionTypes.LOAD_USER,
-      payload: token
+      type: AuthActionTypes.LOAD_USER_SUCCESS,
+      payload: res.data
     });
   } catch (error) {
     dispatch({
@@ -40,7 +45,7 @@ export const loginUser = async (
       body: JSON.stringify(userForm),
       headers: new Headers({ 'Content-Type': 'application/json' })
     }).then(r => r.json());
-    if (!response || !response.user || !response.user.token) {
+    if (!response || !response.token) {
       dispatch({
         type: AuthActionTypes.LOGIN_FAIL,
         payload: 'Unable to Login'
@@ -55,7 +60,6 @@ export const loginUser = async (
     });
   }
 };
-
 export const registerUser = async (
   dispatch: Dispatch<AuthActions>,
   userForm: RegisterReqDTO
@@ -69,7 +73,7 @@ export const registerUser = async (
       headers: new Headers({ 'Content-Type': 'application/json' })
     }).then(r => r.json());
 
-    if (!response || !response.user || !response.user.token) {
+    if (!response || !response.token) {
       dispatch({
         type: AuthActionTypes.REGISTER_FAIL,
         payload: 'Unable to Register'
@@ -78,6 +82,7 @@ export const registerUser = async (
     }
 
     dispatch({ type: AuthActionTypes.REGISTER_SUCCESS, payload: response });
+    return response.token;
   } catch (e) {
     dispatch({
       type: AuthActionTypes.REGISTER_FAIL,

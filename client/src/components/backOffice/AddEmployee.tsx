@@ -51,7 +51,7 @@ export default function ADDEmployee() {
         noValidate
         onSubmit={e => {
           e.preventDefault();
-          registerUser(authDispatch, { fName, lName, email, password,employee, driver, manager, admin });
+          // registerUser(authDispatch, { fName, lName, email, password,employee, driver, manager, admin });
         }}
       >
         <Grid container spacing={2}>

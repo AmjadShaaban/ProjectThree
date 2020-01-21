@@ -1,7 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import logger from 'morgan';
-import { Message } from './api/interfaces/interfaces';
+import { Message } from './api/interfaces';
 import { authAPI } from './api/routes/auth';
 import { usersAPI } from './api/routes/users';
 import { menuAPI } from './api/routes/menu';

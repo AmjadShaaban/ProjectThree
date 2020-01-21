@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { Message } from '../interfaces/interfaces';
+import { Message } from '../interfaces';
 import config from 'config';
 
 export default function(req, res, next) {

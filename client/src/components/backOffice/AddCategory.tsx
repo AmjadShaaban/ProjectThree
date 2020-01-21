@@ -48,10 +48,6 @@ export default function AddCategory() {
   const [name, setName]=useState('');
   const classes = useStyles();
   return (
-    <>
-      <Typography color='textSecondary' className={classes.depositContext}>
-        {user.admin ? 'You are Admin' : 'You are NOT Admin'}
-      </Typography>
       <form
             className={classes.form}
             noValidate
@@ -82,6 +78,5 @@ export default function AddCategory() {
               Submit
             </Button>
           </form>
-    </>
   );
 }

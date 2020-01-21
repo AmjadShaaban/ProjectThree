@@ -1,72 +1,40 @@
-interface User {
-  email: string;
-  fName: string;
-  lName: string;
-  fullName?: string;
-  token: string;
-  employee: boolean | null;
-  driver: boolean | null;
-  manager: boolean | null;
-  admin: boolean;
-}
-
+import { User } from '../../interfaces';
 export interface RegisterResDTO {
+  token: string;
   user: User;
 }
 
-export interface RegisterReqDTO {
-  token?: string | undefined;
-  fName: string;
-  lName: string;
-  email: string;
+export interface RegisterReqDTO extends User {
   password: string;
-  employee: boolean;
-  driver: boolean;
-  manager: boolean;
-  admin: boolean;
 }
 export interface LoadUserResDTO {
   token: string;
-  fullName: string;
-  employee: boolean;
-  driver: boolean;
-  manager: boolean;
-  admin: boolean;
 }
 export interface LoadUserReqDTO {
   token: string;
 }
 export interface LoginResDTO {
+  token: string;
   user: User;
 }
-
 export interface LoginReqDTO {
   token?: string;
   email: string;
   password: string;
 }
-
 export interface AuthState {
   isLoading: boolean;
   isAuthenticated: boolean;
-  user: User;
-  error: string;
+  token: string | null;
+  user: User | null;
+  error: string | null;
 }
 
 export const initialState: AuthState = {
   isLoading: false,
   isAuthenticated: false,
-  user: {
-    email: '',
-    fName: '',
-    lName: '',
-    fullName: '',
-    token: '',
-    employee: null,
-    driver: null,
-    manager: null,
-    admin: false
-  },
+  token: '',
+  user: null,
   error: ''
 };
 
@@ -135,7 +103,8 @@ export type AuthActions =
   | LoginSuccessAction
   | LoadUserAction
   | LoadUserFailAction
-  | LoadUserSuccessAction;
+  | LoadUserSuccessAction
+  | LogoutAction;
 
 export const authReducer = (
   state = initialState,
@@ -147,7 +116,7 @@ export const authReducer = (
         ...state,
         isAuthenticated: true,
         isLoading: false,
-        user: action.payload
+        token: action.payload.token
       };
     }
     case AuthActionTypes.LOGIN:
@@ -157,22 +126,30 @@ export const authReducer = (
 
     case AuthActionTypes.LOGIN_SUCCESS:
     case AuthActionTypes.REGISTER_SUCCESS: {
-      localStorage.setItem('token', action.payload.user.token);
       return {
         ...state,
         isLoading: false,
         error: '',
-        user: action.payload.user
+        token: action.payload.token
       };
     }
-
-    case AuthActionTypes.LOGIN_FAIL:
-    case AuthActionTypes.REGISTER_FAIL:
     case AuthActionTypes.LOGOUT: {
       localStorage.removeItem('token');
       return {
         ...state,
         isLoading: false,
+        token: null,
+        user: null,
+        error: null
+      };
+    }
+
+    case AuthActionTypes.LOGIN_FAIL:
+    case AuthActionTypes.REGISTER_FAIL: {
+      return {
+        ...state,
+        isLoading: false,
+        token: null,
         error: action.payload
       };
     }
