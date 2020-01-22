@@ -3,8 +3,6 @@ import {
   MenuActionTypes,
   MenuActions,
   CategoryItemResDTO,
-  CategoryResDTO,
-  Ingredient,
   IngredientResDTO,
   AddIngredientReqDTO,
   AddCategoryReqDTO,

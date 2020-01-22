@@ -8,9 +8,7 @@ import {
   useMenuState,
   useMenuDispatch,
   loadMenu,
-  Category,
-  loadItems
-} from '../../contexts/menu';
+  Category} from '../../contexts/menu';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 export default function Menu() {
-  const { menu, isMenuLoading, menuItems } = useMenuState();
+  const { menu, isMenuLoading } = useMenuState();
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );

@@ -21,10 +21,8 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Specials from './Specials';
 import {loadMenu,useMenuDispatch }  from '../../contexts/menu';
-import EmployeeLogin from '../auth/EmployeeLogin'
 import Menu from './Menu'
 import Status from './Status'
-import AddEmployee from '../backOffice/AddEmployee'
 function Copyright() {
   return (
     <Typography variant='body2' color='textSecondary' align='center'>

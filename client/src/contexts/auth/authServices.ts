@@ -5,10 +5,7 @@ import {
   RegisterReqDTO,
   RegisterResDTO,
   LoginReqDTO,
-  LoginResDTO,
-  AuthResDTO,
-  LoadUserReqDTO,
-  LoadUserResDTO
+  AuthResDTO
 } from './authState';
 import axios from 'axios';
 import { User } from '../../interfaces';
