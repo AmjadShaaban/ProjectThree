@@ -3,12 +3,16 @@ export interface RegisterResDTO {
   token: string;
   user: User;
 }
+export interface AuthResDTO {
+  token: string;
+  user: User;
+}
 
 export interface RegisterReqDTO extends User {
   password: string;
 }
 export interface LoadUserResDTO {
-  token: string;
+  user: User;
 }
 export interface LoadUserReqDTO {
   token: string;
@@ -33,7 +37,7 @@ export interface AuthState {
 export const initialState: AuthState = {
   isLoading: false,
   isAuthenticated: false,
-  token: '',
+  token: localStorage.token,
   user: null,
   error: ''
 };
@@ -61,7 +65,7 @@ interface LoadUserAction {
 }
 interface LoadUserSuccessAction {
   type: typeof AuthActionTypes.LOAD_USER_SUCCESS;
-  payload: User;
+  payload: LoadUserResDTO;
 }
 interface LoadUserFailAction {
   type: typeof AuthActionTypes.LOAD_USER_FAIL;
@@ -77,7 +81,7 @@ interface RegisterFailAction {
 }
 interface RegisterSuccessAction {
   type: typeof AuthActionTypes.REGISTER_SUCCESS;
-  payload: RegisterResDTO;
+  payload: AuthResDTO;
 }
 interface LoginAction {
   type: typeof AuthActionTypes.LOGIN;
@@ -124,13 +128,15 @@ export const authReducer = (
       return { ...state, isLoading: true, error: '' };
     }
 
+    case AuthActionTypes.LOAD_USER_SUCCESS:
     case AuthActionTypes.LOGIN_SUCCESS:
     case AuthActionTypes.REGISTER_SUCCESS: {
       return {
         ...state,
+        ...action.payload,
         isLoading: false,
-        error: '',
-        token: action.payload.token
+        isAuthenticated: true,
+        error: null
       };
     }
     case AuthActionTypes.LOGOUT: {
@@ -146,6 +152,7 @@ export const authReducer = (
 
     case AuthActionTypes.LOGIN_FAIL:
     case AuthActionTypes.REGISTER_FAIL: {
+      localStorage.removeItem('token');
       return {
         ...state,
         isLoading: false,

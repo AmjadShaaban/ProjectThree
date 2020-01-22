@@ -11,11 +11,13 @@ export function authAPI(app) {
   // @access PRIVATE
 
   app.get('/api/auth', auth, async (req, res) => {
+    console.log(req);
     try {
-      const user = await User.findById(req.user.id).select('-password');
+      const user = await User.findById(req.user._id).select('-password');
       res.json(user);
     } catch (error) {
       let err: Message = { message: error };
+      console.log(error);
       res.status(500).json(err);
     }
   });
@@ -49,8 +51,7 @@ export function authAPI(app) {
         const payload = {
           user: {
             _id: user._id,
-            fName: user.fName,
-            lName: user.lName,
+            fullName: user.fullName,
             email: user.email,
             role: user.role
           }
@@ -61,13 +62,7 @@ export function authAPI(app) {
           { expiresIn: 360000 },
           (err, token) => {
             if (err) throw err;
-            res.json({
-              user: {
-                token,
-                fullName: user.fullName,
-                role: user.role
-              }
-            });
+            return res.json({ ...payload, token });
           }
         );
       } catch (error) {

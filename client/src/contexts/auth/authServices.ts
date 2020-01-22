@@ -6,9 +6,12 @@ import {
   RegisterResDTO,
   LoginReqDTO,
   LoginResDTO,
-  LoadUserReqDTO
+  AuthResDTO,
+  LoadUserReqDTO,
+  LoadUserResDTO
 } from './authState';
 import axios from 'axios';
+import { User } from '../../interfaces';
 
 const setAuthToken = (token: string) => {
   if (token) {
@@ -22,9 +25,10 @@ export const loadUser = async (dispatch: Dispatch<AuthActions>) => {
   setAuthToken(localStorage.token);
   try {
     const res = await axios.get('/api/auth');
+    console.log(res.data);
     dispatch({
       type: AuthActionTypes.LOAD_USER_SUCCESS,
-      payload: res.data
+      payload: { user: res.data as User }
     });
   } catch (error) {
     dispatch({
@@ -40,18 +44,19 @@ export const loginUser = async (
 ) => {
   dispatch({ type: AuthActionTypes.LOGIN, payload: userForm });
   try {
-    const response: LoginResDTO = await fetch('/api/users/login', {
+    const response: AuthResDTO = await fetch('/api/users/login', {
       method: 'POST',
       body: JSON.stringify(userForm),
       headers: new Headers({ 'Content-Type': 'application/json' })
     }).then(r => r.json());
     if (!response || !response.token) {
-      dispatch({
+      return dispatch({
         type: AuthActionTypes.LOGIN_FAIL,
         payload: 'Unable to Login'
       });
-      return;
     }
+    localStorage.setItem('token', response.token);
+    console.log(response);
     dispatch({ type: AuthActionTypes.LOGIN_SUCCESS, payload: response });
   } catch (error) {
     dispatch({
@@ -80,9 +85,8 @@ export const registerUser = async (
       });
       return;
     }
-
+    localStorage.setItem('token', response.token);
     dispatch({ type: AuthActionTypes.REGISTER_SUCCESS, payload: response });
-    return response.token;
   } catch (e) {
     dispatch({
       type: AuthActionTypes.REGISTER_FAIL,
