@@ -25,7 +25,7 @@ export interface IUser extends Document {
   fName: string;
   lName: string;
   fullName?: string;
-  role: Roles;
+  role?: Roles;
 }
 
 export interface IIngredient extends Document {
@@ -37,13 +37,27 @@ export interface IIngredient extends Document {
 
 export interface ICategory extends Document {
   name: string;
-  img?: string;
-  items?: ICategoryItem[];
+  img: string;
+  disc: string;
+  items: ICategoryItem[];
+}
+export interface ISpecial extends Document {
+  name: string;
+  disc: string;
+  img: string;
+  items: ISpecialItem[];
 }
 
 export interface ICategoryItem extends Document {
   name: string;
-  discription: string;
+  disc: string;
   price: string;
   ingredients?: IIngredient[];
+}
+
+export interface ISpecialItem extends Document {
+  name: string;
+  disc: string;
+  price: string;
+  items: ICategoryItem[];
 }

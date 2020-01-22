@@ -69,7 +69,6 @@ export default function AddItem() {
   };
   const handleClose = (event: MouseEvent<HTMLElement>) => {
     setCatId(event.currentTarget.id)
-    console.log(catId);
     setAnchorEl(null);
   };
   return (

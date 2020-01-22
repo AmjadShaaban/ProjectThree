@@ -23,6 +23,7 @@ import Specials from './Specials';
 import {loadMenu,useMenuDispatch }  from '../../contexts/menu';
 import EmployeeLogin from '../auth/EmployeeLogin'
 import Menu from './Menu'
+import Status from './Status'
 import AddEmployee from '../backOffice/AddEmployee'
 function Copyright() {
   return (
@@ -107,6 +108,19 @@ const useStyles = makeStyles(theme => ({
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4)
   },
+  test:{
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection:'column'
+  },  test2:{
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection:'column',
+    height: 560
+  },
+
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
@@ -190,32 +204,44 @@ const dispatch = useMenuDispatch();
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth='lg' className={classes.container}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-              <AddEmployee/>
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-             <EmployeeLogin/>
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
+          <Grid container spacing={1}>
+          <Grid item xs={9} >
             <Paper className={fixedHeightPaper}>
             <Specials/>
             </Paper>
             </Grid>
+            <Grid item xs={3}>
+              <Paper className={fixedHeightPaper}>
+             <Status/>
+              </Paper>
+            </Grid>
+            </Grid>
+            {/* <Grid item xs={12} md={8} lg={9}>
+              <Paper className={fixedHeightPaper}>
+              <AddEmployee/>
+              </Paper>
+            </Grid> */}
+            {/* Recent Deposits */}
 
             {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
+            <Grid container spacing={1}>
+
+            <Grid item xs={9}>
+              <Paper className={classes.test2}>
                 {/* <Orders /> */}
                 <Menu/>
               </Paper>
             </Grid>
-          </Grid>
+          
+          <Grid item xs={3}>
+              <Paper className={classes.test}>
+                Invoice and items and crud and price total and checkout
+             {/* <EmployeeLogin/> */}
+              </Paper>
+            </Grid>
+            </Grid>
+            
+
           <Box pt={4}>
             <Copyright />
           </Box>

@@ -25,7 +25,6 @@ export const loadUser = async (dispatch: Dispatch<AuthActions>) => {
   setAuthToken(localStorage.token);
   try {
     const res = await axios.get('/api/auth');
-    console.log(res.data);
     dispatch({
       type: AuthActionTypes.LOAD_USER_SUCCESS,
       payload: { user: res.data as User }
@@ -56,7 +55,6 @@ export const loginUser = async (
       });
     }
     localStorage.setItem('token', response.token);
-    console.log(response);
     dispatch({ type: AuthActionTypes.LOGIN_SUCCESS, payload: response });
   } catch (error) {
     dispatch({

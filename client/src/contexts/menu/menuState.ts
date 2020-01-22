@@ -1,8 +1,8 @@
 export interface MenuState {
   isMenuLoading: boolean;
   menu: Category[];
-  menuItems: CategoryItem | CategoryItem[] | null;
-  selectedMenu: Category | null;
+  menuItems: CategoryItem[];
+  selectedCategory: Category | null;
   selectedIngredient: Ingredient | null;
   show: boolean;
   error: string | null;
@@ -30,14 +30,15 @@ export interface Category {
 export interface CategoryItem {
   _id?: string;
   name: string;
+  img?: string;
   ingredients?: Ingredient[];
 }
 
 export const initialState: MenuState = {
   isMenuLoading: true,
   menu: [],
-  menuItems: null,
-  selectedMenu: null,
+  menuItems: [],
+  selectedCategory: null,
   selectedIngredient: null,
   show: false,
   error: null
@@ -142,7 +143,7 @@ interface GetCategoriesSuccessAction {
 }
 interface GetCategoryItemsAction {
   type: typeof MenuActionTypes.GET_CATEGORY_ITEMS;
-  payload: CategoryItemReqDTO;
+  payload: Category;
 }
 interface GetCategoryItemsFailAction {
   type: typeof MenuActionTypes.GET_CATEGORY_ITEMS_FAIL;
@@ -180,7 +181,7 @@ export const menuReducer = (
 ): MenuState => {
   switch (action.type) {
     case MenuActionTypes.SELECT_CATEGORY: {
-      return { ...state, selectedMenu: action.payload, menuItems: [] };
+      return { ...state, selectedCategory: action.payload };
     }
     case MenuActionTypes.ADD_INGREDIENT:
     case MenuActionTypes.ADD_CATEGORY:

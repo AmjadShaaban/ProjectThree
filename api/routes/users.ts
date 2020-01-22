@@ -36,7 +36,6 @@ export function usersAPI(app) {
           password
         });
         const salt = await bcrypt.genSalt(10);
-        console.log({ something: user.password, salt });
         user.password = await bcrypt.hash(password, salt);
         await user.save();
         const payload = {

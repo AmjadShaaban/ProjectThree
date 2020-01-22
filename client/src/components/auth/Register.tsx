@@ -21,7 +21,7 @@ function Copyright() {
     <Typography variant='body2' color='textSecondary' align='center'>
       {'Copyright © '}
       <Link color='inherit' href='https://material-ui.com/'>
-        Your Website
+        Project PoS
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -74,7 +74,7 @@ export default function SignUp() {
           noValidate
           onSubmit={e => {
             e.preventDefault();
-            // registerUser(authDispatch, { fName, lName, email, password });
+            registerUser(authDispatch, { fName, lName, email, password });
           }}
         >
           <Grid container spacing={2}>

@@ -1,15 +1,13 @@
 import React from 'react';
 import './App.css';
-import Dashboard from './components/dashboard/Dashboard';
 import { AuthProvider } from './contexts/auth';
 import { MenuProvider } from './contexts/menu';
-import Register from './components/auth/Register'
+import Dashboard from './components/dashboard/Dashboard';
 const App: React.FC = () => {
   return (
     <AuthProvider>
       <MenuProvider>
-        <Register/>
-        {/* <Dashboard /> */}
+        <Dashboard/>
       </MenuProvider>
     </AuthProvider>
   );

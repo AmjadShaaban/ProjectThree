@@ -2,7 +2,7 @@ import auth from '../middleware/auth';
 import Category from '../models/menu/Category';
 import CategoryItem from '../models/menu/CategoryItem';
 import Ingredient from '../models/menu/Ingredient';
-
+import SpecialItem from '../models/menu/SpecialItem';
 export function menuAPI(app) {
   //Full 'GET' menu route
   app.get(
@@ -23,7 +23,6 @@ export function menuAPI(app) {
     '/api/menu',
     /*auth,*/ async (req, res) => {
       const { name } = req.body;
-      console.log(name);
       try {
         let item = await Category.findOne({ name });
         if (item) {
@@ -35,17 +34,26 @@ export function menuAPI(app) {
         await item.save();
         res.status(200).json({ msg: 'success' });
       } catch (error) {
-        console.log(error);
         res.status(500).json({ error });
       }
     }
   );
+  app.get('/api/meun/specials'),
+    async (req, res) => {
+      try {
+        const specials = await SpecialItem.find({}).populate('items');
+        if (specials) {
+          return res.status(200).json({ specials });
+        }
+      } catch (error) {
+        res.status(500).json({ error });
+      }
+    };
   //GET category by ID route
   app.get(
     '/api/menu/category/:catId',
     /*auth,*/ async (req, res) => {
       const { catId } = req.params;
-      console.log({ catId: catId });
       try {
         let items = await Category.findOne({ _id: catId }).populate('items');
         if (items) {
@@ -61,7 +69,6 @@ export function menuAPI(app) {
     '/api/menu/category/:catId/items',
     /*auth,*/ async (req, res) => {
       const { catId } = req.params;
-      console.log({ catId: catId });
       try {
         let category = await Category.findOne({
           _id: catId
@@ -79,19 +86,8 @@ export function menuAPI(app) {
     '/api/menu/category/items',
     /*auth,*/ async (req, res) => {
       const { catId, name, price, discription } = req.body;
-      console.log({
-        req: {
-          body: {
-            catId: catId,
-            name: name,
-            discription: discription,
-            price: price
-          }
-        }
-      });
       try {
         let category = await Category.findOne({ _id: catId });
-        console.log(category);
         if (category) {
           let item = await CategoryItem.findOne({ name });
           if (item) {
@@ -111,7 +107,6 @@ export function menuAPI(app) {
         }
         res.status(500).json({ message: 'error occured' });
       } catch (error) {
-        console.log(error);
         res.status(500).json({ error });
       }
     }
@@ -124,7 +119,6 @@ export function menuAPI(app) {
         return res.status(200).json({ allItems });
       }
     } catch (error) {
-      console.log({ error });
       res.status(500).json({ error });
     }
   });
@@ -133,8 +127,6 @@ export function menuAPI(app) {
     '/api/menu/category/items/:itemId',
     /*auth,*/ async (req, res) => {
       const { itemId } = req.params;
-      console.log({ itemId: itemId });
-
       try {
         let item = await Ingredient.findOne({
           _id: itemId
@@ -181,13 +173,6 @@ export function menuAPI(app) {
     '/api/menu/ingredients',
     /*auth,*/ async (req, res) => {
       const { name, type, isTopping } = req.body;
-      console.log({
-        ingredient: {
-          name: name,
-          type: type,
-          isTopping: isTopping
-        }
-      });
       try {
         let ingredient = await Ingredient.findOne({ name });
         if (ingredient) {
@@ -199,7 +184,6 @@ export function menuAPI(app) {
         await ingredient.save();
         res.status(200).json({ msg: 'success' });
       } catch (error) {
-        console.log(error);
         res.status(500).json({ error });
       }
     }

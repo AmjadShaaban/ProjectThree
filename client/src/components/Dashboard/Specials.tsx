@@ -6,6 +6,8 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import {useMenuState} from '../../contexts/menu';
+import Title from '../shared/Title';
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -14,7 +16,8 @@ const useStyles = makeStyles((theme: Theme) =>
       flexWrap: 'wrap',
       justifyContent: 'space-around',
       overflow: 'hidden',
-      backgroundColor: 'yellow'
+      backgroundColor: theme.palette.background.paper,
+
     },
     gridList: {
       flexWrap: 'nowrap',
@@ -36,6 +39,8 @@ export default function SingleLineGridList() {
 
   const classes = useStyles();
   return (
+    <>
+    <Title>Specials</Title>
     <div className={classes.root}>
       <GridList className={classes.gridList} cols={6}>
         {menu.map(category => (
@@ -57,6 +62,6 @@ export default function SingleLineGridList() {
           </GridListTile>
         ))}
       </GridList>
-    </div>
+    </div></>
   );
 }

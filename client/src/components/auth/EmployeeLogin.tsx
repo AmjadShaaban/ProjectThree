@@ -36,7 +36,6 @@ export default function EmployeeLogin() {
   const { user, isLoading } = authState;
 
   useEffect(() => {
-    console.log('using Effect bro');
     if (localStorage.token) {
       loadUser(authDispatch);
     }

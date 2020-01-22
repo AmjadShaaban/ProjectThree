@@ -9,14 +9,14 @@ import {
   AddIngredientReqDTO,
   AddCategoryReqDTO,
   MenuResDTO,
-  CategoryItemReqDTO
+  CategoryItemReqDTO,
+  Category
 } from './menuState';
 
 export const loadMenu = async (dispatch: Dispatch<MenuActions>) => {
   dispatch({ type: MenuActionTypes.GET_CATEGORIES });
   try {
     const response: MenuResDTO = await fetch('/api/menu').then(r => r.json());
-    console.log(response);
     if (!response || !response.categories) {
       dispatch({
         type: MenuActionTypes.GET_CATEGORIES_FAIL,
@@ -121,34 +121,35 @@ export const addCategoryItem = async (
     });
   }
 };
-// export const loadItems = async (
-//   dispatch: Dispatch<MenuActions>,
-//   selectedMenu: CategoryItemReqDTO
-// ) => {
-//   dispatch({ type: MenuActionTypes.GET_CATEGORY_ITEMS, payload: selectedMenu });
-//   console.log(selectedMenu);
+export const loadItems = async (
+  dispatch: Dispatch<MenuActions>,
+  selectedCategory: Category
+) => {
+  dispatch({
+    type: MenuActionTypes.GET_CATEGORY_ITEMS,
+    payload: selectedCategory
+  });
+  try {
+    const response: CategoryItemResDTO = await fetch(
+      `/api/menu/${selectedCategory._id}`
+    ).then(r => r.json());
 
-//   try {
-//     const response: CategoryItemResDTO = await fetch(
-//       `/api/menu/${selectedMenu._id}`
-//     ).then(r => r.json());
+    if (!response || !response.items) {
+      dispatch({
+        type: MenuActionTypes.GET_CATEGORY_ITEMS_FAIL,
+        payload: 'Unable to retrieve items'
+      });
+      return;
+    }
 
-//     if (!response || !response.items) {
-//       dispatch({
-//         type: MenuActionTypes.GET_CATEGORY_ITEMS_FAIL,
-//         payload: 'Unable to retrieve items'
-//       });
-//       return;
-//     }
-
-//     dispatch({
-//       type: MenuActionTypes.GET_CATEGORY_ITEMS_SUCCESS,
-//       payload: response
-//     });
-//   } catch (error) {
-//     dispatch({
-//       type: MenuActionTypes.GET_CATEGORY_ITEMS_FAIL,
-//       payload: 'Unable to retrieve items'
-//     });
-//   }
-// };
+    dispatch({
+      type: MenuActionTypes.GET_CATEGORY_ITEMS_SUCCESS,
+      payload: response
+    });
+  } catch (error) {
+    dispatch({
+      type: MenuActionTypes.GET_CATEGORY_ITEMS_FAIL,
+      payload: 'Unable to retrieve items'
+    });
+  }
+};

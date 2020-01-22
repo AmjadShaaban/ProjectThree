@@ -11,5 +11,5 @@ export interface User {
   fName: string;
   lName: string;
   fullName?: string;
-  role: Roles;
+  role?: Roles;
 }
