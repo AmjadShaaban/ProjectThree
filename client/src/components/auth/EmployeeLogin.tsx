@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Title from '../shared/Title';
 import Button from '@material-ui/core/Button';
@@ -31,7 +30,6 @@ export default function EmployeeLogin() {
   const [email, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
   const authDispatch = useAuthDispatch();
-  const { isLoading } = authState;
 
   useEffect(() => {
     if (localStorage.token) {
@@ -41,7 +39,6 @@ export default function EmployeeLogin() {
 
   return (
     <>
-      {isLoading && <CircularProgress />}
       <Title>Welcome</Title>
       <form
         className={classes.form}

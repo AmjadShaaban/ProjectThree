@@ -6,6 +6,10 @@
   height: 40vmin;
   pointer-events: none;
 }
+@font-face {
+  font-family: 'Mini-System';
+  src: local('Mini-System'), url('./fonts/minisystem.ttf') format('truetype');
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

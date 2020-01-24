@@ -34,6 +34,11 @@ export const loadUser = async (dispatch: Dispatch<AuthActions>) => {
   }
 };
 
+export const logoutUser = (dispatch: Dispatch<AuthActions>) => {
+  localStorage.removeItem('token');
+  dispatch({ type: AuthActionTypes.LOGOUT });
+};
+
 export const loginUser = async (
   dispatch: Dispatch<AuthActions>,
   userForm: LoginReqDTO

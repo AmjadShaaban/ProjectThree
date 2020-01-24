@@ -6,6 +6,20 @@ export enum Roles {
   UNKNOWN = 'UNKNOWN'
 }
 
+export enum OrderTypes {
+  PICKUP = 'Pick-up',
+  DELIVERY = 'Delivery',
+  ORDER_IN = 'Order-in'
+}
+export enum IngredientTypes {
+  CHEESE = 'cheese',
+  MEAT = 'meat',
+  VEGETABLE = 'vegetable',
+  DRESSING = 'dressing',
+  SAUCE = 'sauce',
+  OTHER = 'other'
+}
+
 export interface User {
   email: string;
   fName: string;

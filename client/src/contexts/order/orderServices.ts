@@ -2,15 +2,38 @@ import { Dispatch } from 'react';
 import {
   OrderActionTypes,
   OrderActions,
-  CreateOrderReqDTO
+  PostOrderReqDTO,
+  OrderResDTO
 } from './orderState';
-import { MenuActionTypes } from '../menu';
 
-export const createOrder = async (
+export const postOrder = async (
   dispatch: Dispatch<OrderActions>,
-  order: CreateOrderReqDTO
+  order: PostOrderReqDTO
 ) => {
   dispatch({ type: OrderActionTypes.CREATE_ORDER, payload: order });
   try {
-  } catch (error) {}
+    const response: OrderResDTO = await fetch('/api/order/new', {
+      method: 'POST',
+      body: JSON.stringify(order),
+      headers: new Headers({
+        'content-type': 'application/json',
+        'x-auth-token': localStorage.token.toString()
+      })
+    }).then(r => r.json());
+    if (!response || !response.order) {
+      return dispatch({
+        type: OrderActionTypes.CREATE_ORDER_FAIL,
+        payload: 'Server error?'
+      });
+    }
+    return dispatch({
+      type: OrderActionTypes.CREATE_ORDER_SUCCESS,
+      payload: response
+    });
+  } catch (error) {
+    return dispatch({
+      type: OrderActionTypes.CREATE_ORDER_FAIL,
+      payload: error
+    });
+  }
 };

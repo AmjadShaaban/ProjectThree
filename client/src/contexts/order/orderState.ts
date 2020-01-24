@@ -1,7 +1,7 @@
+import { CategoryItem } from '../menu';
+
 export interface OrderState {
-  pending: boolean;
-  order: [] | null;
-  total: string | null;
+  order: Order | null;
   error: string | null;
 }
 
@@ -12,36 +12,52 @@ export enum OrderTypes {
 }
 
 export interface Order {
+  _id?: string;
   type: OrderTypes;
-  items: [];
+  customerName?: string;
+  customerPhone?: string;
+  customerAddress?: string;
+  orderItems: CategoryItem[];
   total: string;
 }
 
 export const initialState: OrderState = {
-  pending: false,
   order: null,
-  total: null,
   error: null
 };
-export interface CreateOrderReqDTO {
-  order: [];
-  total: string;
+export interface PostOrderReqDTO {
+  order: Order;
+}
+export interface OrderResDTO {
+  order: Order;
 }
 export enum OrderActionTypes {
   CREATE_ORDER = 'CREATE_ORDER',
   CREATE_ORDER_FAIL = 'CREATE_ORDER_FAIL',
-  CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS'
+  CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS',
+  SET_ORDER = 'SET_ORDER'
 }
-
+interface SetOrderAction {
+  type: typeof OrderActionTypes.SET_ORDER;
+  payload: Order;
+}
 interface CreateOrderAction {
   type: typeof OrderActionTypes.CREATE_ORDER;
-  payload: CreateOrderReqDTO;
+  payload: PostOrderReqDTO;
 }
 interface CreateOrderFailAction {
   type: typeof OrderActionTypes.CREATE_ORDER_FAIL;
   payload: string;
 }
-export type OrderActions = CreateOrderAction | CreateOrderFailAction;
+interface CreateOrderSuccessAction {
+  type: typeof OrderActionTypes.CREATE_ORDER_SUCCESS;
+  payload: OrderResDTO;
+}
+export type OrderActions =
+  | CreateOrderAction
+  | CreateOrderFailAction
+  | CreateOrderSuccessAction
+  | SetOrderAction;
 
 export const orderReducer = (
   state = initialState,
@@ -51,18 +67,21 @@ export const orderReducer = (
     case OrderActionTypes.CREATE_ORDER: {
       return {
         ...state,
-        pending: false,
         error: null
       };
     }
     case OrderActionTypes.CREATE_ORDER_FAIL: {
       return {
         ...state,
-        pending: true,
         error: action.payload
       };
     }
-
+    case OrderActionTypes.SET_ORDER: {
+      return {
+        ...state,
+        order: action.payload
+      };
+    }
     default:
       return state;
   }

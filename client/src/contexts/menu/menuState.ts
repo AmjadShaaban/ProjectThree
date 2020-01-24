@@ -18,20 +18,21 @@ export enum IngredientTypes {
 export interface Ingredient {
   _id?: string;
   name: string;
-  type: IngredientTypes;
-  isTopping: boolean;
+  type?: IngredientTypes;
+  isTopping?: boolean;
 }
 export interface Category {
   _id?: string;
   name: string;
   img?: string;
-  items?: CategoryItem[];
+  items: CategoryItem[];
 }
 export interface CategoryItem {
   _id?: string;
   name: string;
   img?: string;
-  ingredients?: Ingredient[];
+  ingredients: Ingredient[];
+  price: string;
 }
 
 export const initialState: MenuState = {
@@ -45,6 +46,9 @@ export const initialState: MenuState = {
 };
 export interface AddCategoryReqDTO {
   name: string;
+}
+export interface AuthTokenDTO {
+  token: string;
 }
 export interface CategoryItemReqDTO {
   catId: string;
@@ -61,7 +65,7 @@ export interface CategoryResDTO {
   name?: string;
 }
 export interface MenuResDTO {
-  categories: CategoryItem[];
+  categories: Category[];
 }
 export interface CategoryItemResDTO {
   _id?: string;

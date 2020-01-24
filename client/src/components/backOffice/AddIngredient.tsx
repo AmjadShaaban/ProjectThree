@@ -112,7 +112,7 @@ export default function AddIngredient() {
               label='Meats'
               labelPlacement='top'
             />
-                        <FormControlLabel
+            <FormControlLabel
               value={IngredientTypes.DRESSING}
               control={<Radio color='primary' />}
               label='Salad Dressing'

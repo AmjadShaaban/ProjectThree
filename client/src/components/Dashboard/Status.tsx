@@ -1,11 +1,16 @@
 import React from 'react';
-import { useAuthState } from '../../contexts/auth';
+import Button from '@material-ui/core/Button';
+
+import { useAuthState,logoutUser,useAuthDispatch } from '../../contexts/auth';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import EmployeeLogin from '../../components/auth/EmployeeLogin';
+import Title from '../shared/Title'
+import NewOrder from '../order/NewOrder'
 
 export default function Status(){
   const authState = useAuthState();
-  const { user, token, isLoading, isAuthenticated } = authState;
+  const authDispatch = useAuthDispatch()
+  const { user, isLoading, isAuthenticated } = authState;
 
   return (
     <>
@@ -13,11 +18,14 @@ export default function Status(){
       <div>
         {isAuthenticated ? (
           <>
-            <div>Welcome {user?.fullName}</div>
+            <Title>Welcome {user?.fullName}</Title>            {isAuthenticated&&<Button variant="outlined" color="primary" onClick={e=>{logoutUser(authDispatch)}}>
+        Logout
+      </Button>}
+
             <div>
               Access level: {user?.role === 'UNKNOWN' ? 'Demo' : user?.role}
             </div>
-            <div>{JSON.stringify({ user, token })}</div>
+            <NewOrder />
           </>
         ) : (
           <EmployeeLogin />

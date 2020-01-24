@@ -10,7 +10,6 @@ import {
   CategoryItemReqDTO,
   Category
 } from './menuState';
-
 export const loadMenu = async (dispatch: Dispatch<MenuActions>) => {
   dispatch({ type: MenuActionTypes.GET_CATEGORIES });
   try {
@@ -39,37 +38,53 @@ export const addIngredient = async (
   dispatch: Dispatch<MenuActions>,
   ingredient: AddIngredientReqDTO
 ) => {
-  dispatch({ type: MenuActionTypes.ADD_INGREDIENT, payload: ingredient });
+  dispatch({
+    type: MenuActionTypes.ADD_INGREDIENT,
+    payload: ingredient
+  });
   try {
     const response: IngredientResDTO = await fetch('/api/menu/ingredients', {
       method: 'POST',
       body: JSON.stringify(ingredient),
-      headers: new Headers({ 'Content-Type': 'application/json' })
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        'x-auth-token': localStorage.token.toString()
+      })
     }).then(r => r.json());
     if (!response || !response.ingredient) {
-      dispatch({
+      return dispatch({
         type: MenuActionTypes.ADD_INGREDIENT_FAIL,
         payload: 'Failed'
       });
-      return;
     }
-    dispatch({
+    return dispatch({
       type: MenuActionTypes.ADD_INGREDIENT_SUCCESS,
       payload: response.ingredient
     });
-  } catch (error) {}
+  } catch (error) {
+    return dispatch({
+      type: MenuActionTypes.ADD_INGREDIENT_FAIL,
+      payload: error
+    });
+  }
 };
 
 export const addCategory = async (
   dispatch: Dispatch<MenuActions>,
   category: AddCategoryReqDTO
 ) => {
-  dispatch({ type: MenuActionTypes.ADD_CATEGORY, payload: category });
+  dispatch({
+    type: MenuActionTypes.ADD_CATEGORY,
+    payload: category
+  });
   try {
     const response: CategoryItemResDTO = await fetch('/api/menu', {
       method: 'POST',
       body: JSON.stringify(category),
-      headers: new Headers({ 'Content-Type': 'application/json' })
+      headers: new Headers({
+        'content-type': 'application/json',
+        'x-auth-token': localStorage.token.toString()
+      })
     }).then(r => r.json());
     if (!response || !response.items) {
       dispatch({
@@ -91,14 +106,20 @@ export const addCategoryItem = async (
   dispatch: Dispatch<MenuActions>,
   categoryItem: CategoryItemReqDTO
 ) => {
-  dispatch({ type: MenuActionTypes.ADD_CATEGORY_ITEM, payload: categoryItem });
+  dispatch({
+    type: MenuActionTypes.ADD_CATEGORY_ITEM,
+    payload: categoryItem
+  });
   try {
     const response: CategoryItemResDTO = await fetch(
       `/api/menu/category/items`,
       {
         method: 'POST',
         body: JSON.stringify(categoryItem),
-        headers: new Headers({ 'Content-Type': 'application/json' })
+        headers: new Headers({
+          'content-type': 'application/json',
+          'x-auth-token': localStorage.token.toString()
+        })
       }
     ).then(r => r.json());
     if (!response || !response.items) {
@@ -129,7 +150,13 @@ export const loadItems = async (
   });
   try {
     const response: CategoryItemResDTO = await fetch(
-      `/api/menu/${selectedCategory._id}`
+      `/api/menu/${selectedCategory._id}`,
+      {
+        method: 'GET',
+        headers: new Headers({
+          'x-auth-token': localStorage.token.toString()
+        })
+      }
     ).then(r => r.json());
 
     if (!response || !response.items) {

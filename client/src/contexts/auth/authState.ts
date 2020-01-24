@@ -140,9 +140,9 @@ export const authReducer = (
       };
     }
     case AuthActionTypes.LOGOUT: {
-      localStorage.removeItem('token');
       return {
         ...state,
+        isAuthenticated: false,
         isLoading: false,
         token: null,
         user: null,

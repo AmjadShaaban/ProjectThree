@@ -23,6 +23,7 @@ import Specials from './Specials';
 import {loadMenu,useMenuDispatch }  from '../../contexts/menu';
 import Menu from './Menu'
 import Status from './Status'
+import OrderInvoice from '../order/OrderInvoice'
 function Copyright() {
   return (
     <Typography variant='body2' color='textSecondary' align='center'>
@@ -223,17 +224,15 @@ const dispatch = useMenuDispatch();
 
             {/* Recent Orders */}
             <Grid container spacing={1}>
-
             <Grid item xs={9}>
               <Paper className={classes.test2}>
                 {/* <Orders /> */}
                 <Menu/>
               </Paper>
             </Grid>
-          
           <Grid item xs={3}>
               <Paper className={classes.test}>
-                Invoice and items and crud and price total and checkout
+                <OrderInvoice/>
              {/* <EmployeeLogin/> */}
               </Paper>
             </Grid>
