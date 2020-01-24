@@ -14,7 +14,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import TextField from '@material-ui/core/TextField';
-import { OrderTypes } from '../../contexts/order';
+import { OrderTypes, OrderActionTypes, Order } from '../../contexts/order';
+import { useOrderDispatch } from '../../contexts/order';
 
 const useStyles = makeStyles(theme => ({
   depositContext: {
@@ -54,18 +55,20 @@ const useStyles = makeStyles(theme => ({
 
 const Transition = React.forwardRef<unknown, TransitionProps>(
   function Transition(props, ref) {
-    return <Slide direction='up' ref={ref} {...props} />;
+    return <Slide direction='left' ref={ref} {...props} />;
   }
 );
-const OrderTypeDialog: FC<{ onCancel: () => void; isOpen: boolean }> = ({
-  onCancel,
-  isOpen
-}) => {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [type, setType] = useState('');
+const OrderTypeDialog: FC<{
+  onCancel: () => void;
+  onSubmit: (order: Order) => void;
+  isOpen: boolean;
+}> = ({ onCancel, onSubmit, isOpen }) => {
+  const [customerName, setCustomerName] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
+  const [customerAddress, setCustomerAddress] = useState('');
+  const [type, setType] = useState(OrderTypes.DELIVERY);
   const classes = useStyles();
+  const orderDispatch = useOrderDispatch();
 
   return (
     <Dialog
@@ -76,98 +79,108 @@ const OrderTypeDialog: FC<{ onCancel: () => void; isOpen: boolean }> = ({
       aria-describedby='alert-dialog-slide-description'
     >
       <DialogTitle id='alert-dialog-slide-title'>{`New Order`}</DialogTitle>
-      <DialogContent>
-        <FormControl component='fieldset'>
-          <form
-            className={classes.form}
-            noValidate
-            onSubmit={e => {
-              e.preventDefault();
-            }}
+      <form
+        className={classes.form}
+        noValidate
+        onSubmit={e => {
+          e.preventDefault();
+          onSubmit({
+            customerName,
+            customerPhone,
+            customerAddress,
+            type,
+            orderItems: [],
+            total: '0'
+          });
+        }}
+      >
+        <DialogContent>
+          <FormLabel component='legend'>Type</FormLabel>
+          <RadioGroup
+            aria-label='type'
+            name='type'
+            value={type}
+            onChange={e => setType(e.target.value as OrderTypes)}
+            row
           >
-            <FormLabel component='legend'>Type</FormLabel>
-            <RadioGroup
-              aria-label='type'
-              name='type'
-              value={type}
-              onChange={e => setType(e.target.value)}
-              row
-            >
-              <FormControlLabel
-                value={OrderTypes.DELIVERY}
-                control={<Radio color='primary' />}
-                label={OrderTypes.DELIVERY}
-                labelPlacement='top'
-              />
-              <FormControlLabel
-                value={OrderTypes.PICKUP}
-                control={<Radio color='primary' />}
-                label={OrderTypes.PICKUP}
-                labelPlacement='top'
-              />
-              <FormControlLabel
-                value={OrderTypes.ORDER_IN}
-                control={<Radio color='primary' />}
-                label={OrderTypes.ORDER_IN}
-                labelPlacement='top'
-              />
-            </RadioGroup>{' '}
-            <TextField
-              variant='outlined'
-              margin='normal'
-              required
-              fullWidth
-              id='name'
-              value={name}
-              onChange={e => setName(e.target.value)}
-              label='Customer Name'
-              name='name'
-              autoFocus
+            <FormControlLabel
+              value={OrderTypes.DELIVERY}
+              control={<Radio color='primary' />}
+              label={OrderTypes.DELIVERY}
+              labelPlacement='top'
             />
-            <TextField
-              variant='outlined'
-              margin='normal'
-              required
-              fullWidth
-              id='phone'
-              value={phone}
-              onChange={e => setPhone(e.target.value)}
-              label='Phone'
-              name='phone'
-              autoFocus
+            <FormControlLabel
+              value={OrderTypes.PICKUP}
+              control={<Radio color='primary' />}
+              label={OrderTypes.PICKUP}
+              labelPlacement='top'
             />
-            <TextField
-              variant='outlined'
-              margin='normal'
-              required
-              fullWidth
-              id='address'
-              value={address}
-              onChange={e => setAddress(e.target.value)}
-              label='Delivery Address'
-              name='address'
-              autoFocus
+            <FormControlLabel
+              value={OrderTypes.ORDER_IN}
+              control={<Radio color='primary' />}
+              label={OrderTypes.ORDER_IN}
+              labelPlacement='top'
             />
-            <Button
-              type='submit'
-              fullWidth
-              variant='contained'
-              color='primary'
-              className={classes.submit}
-            >
-              Submit
-            </Button>
-          </form>
-        </FormControl>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onCancel} color='secondary'>
-          Cancel
-        </Button>
-        <Button onClick={onCancel} color='primary'>
-          Start
-        </Button>
-      </DialogActions>
+          </RadioGroup>{' '}
+          <TextField
+            variant='outlined'
+            margin='normal'
+            required
+            fullWidth
+            id='name'
+            value={customerName}
+            onChange={e => setCustomerName(e.target.value)}
+            label='Customer Name'
+            name='name'
+            autoFocus
+          />
+          <TextField
+            variant='outlined'
+            margin='normal'
+            required
+            fullWidth
+            id='phone'
+            value={customerPhone}
+            onChange={e => setCustomerPhone(e.target.value)}
+            label='Phone'
+            name='phone'
+            autoFocus
+          />
+          <TextField
+            variant='outlined'
+            margin='normal'
+            required
+            fullWidth
+            id='address'
+            value={customerAddress}
+            onChange={e => setCustomerAddress(e.target.value)}
+            label='Delivery Address'
+            name='address'
+            autoFocus
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            type='reset'
+            fullWidth
+            variant='contained'
+            color='secondary'
+            onClick={onCancel}
+            className={classes.submit}
+          >
+            Cancel
+          </Button>
+          <Button
+            type='submit'
+            fullWidth
+            variant='contained'
+            color='primary'
+            className={classes.submit}
+          >
+            Submit
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   );
 };

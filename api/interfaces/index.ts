@@ -21,6 +21,7 @@ export enum Roles {
   MANAGER = 'MANAGER',
   EMPLOYEE = 'EMPLOYEE',
   ADMIN = 'ADMIN',
+  COOK = 'COOK',
   UNKNOWN = 'UNKNOWN'
 }
 export interface ICustomer extends Document {

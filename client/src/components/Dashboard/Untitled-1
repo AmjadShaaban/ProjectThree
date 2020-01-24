@@ -45,28 +45,35 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   })
 );
-const MenuItemTile: FC<{
-  data: Category | CategoryItem;
-  onSelect: () => void;
+
+const MenuItemsGrid: FC<{
+  data: any[];
+  onSelect: (item: Category | CategoryItem) => void;
 }> = ({ onSelect, data }) => {
   const classes = useStyles();
   console.log('I ran');
   return (
-    <GridListTile cols={1} onClick={onSelect}>
-      <img src={data.img} alt='' />
-      <GridListTileBar
-        title={`${data.name}`}
-        classes={{
-          root: classes.titleBar,
-          title: classes.title
-        }}
-        actionIcon={
-          <IconButton aria-label={`star ${data.name}`}>
-            <StarBorderIcon className={classes.title} />
-          </IconButton>
-        }
-      />
-    </GridListTile>
+    <GridList cellHeight={160} className={classes.gridList} cols={6}>
+      {data.map((item: Category | CategoryItem) => (
+        <div>
+          <GridListTile cols={1} onClick={() => onSelect(item)}>
+            <img src={item.img} alt='' />
+            <GridListTileBar
+              title={`${item.name}`}
+              classes={{
+                root: classes.titleBar,
+                title: classes.title
+              }}
+              actionIcon={
+                <IconButton aria-label={`star ${item.name}`}>
+                  <StarBorderIcon className={classes.title} />
+                </IconButton>
+              }
+            />
+          </GridListTile>
+        </div>
+      ))}
+    </GridList>
   );
 };
 
@@ -128,44 +135,21 @@ export default function Menu() {
       <Title>Menu</Title>
       {isMenuLoading && <CircularProgress />}
       <div className={classes.root}>
-        <GridList cellHeight={160} className={classes.gridList} cols={6}>
-          {selectedCategory === null
-            ? menu.map(category => (
-                <div>
-                  <MenuItemTile
-                    key={category._id}
-                    data={category}
-                    onSelect={() => {
-                      setSelectedCategory(category);
-                    }}
-                  />
-                </div>
-              ))
-            : selectedCategory.items &&
-              selectedCategory.items.map(item => (
-                <GridListTile
-                  key={item._id}
-                  cols={1}
-                  onClick={e => {
-                    addToOrder(item);
-                  }}
-                >
-                  <img src={item.img} alt='' />
-                  <GridListTileBar
-                    title={`${item.name}`}
-                    classes={{
-                      root: classes.titleBar,
-                      title: classes.title
-                    }}
-                    actionIcon={
-                      <IconButton aria-label={`star ${item.price}`}>
-                        <StarBorderIcon className={classes.title} />
-                      </IconButton>
-                    }
-                  />
-                </GridListTile>
-              ))}
-        </GridList>
+        {selectedCategory === null ? (
+          <MenuItemsGrid
+            data={menu}
+            onSelect={item => setSelectedCategory(item as Category)}
+          />
+        ) : (
+          selectedCategory.items && (
+            <MenuItemsGrid
+              data={selectedCategory.items}
+              onSelect={item => {
+                addToOrder(item as CategoryItem);
+              }}
+            />
+          )
+        )}
       </div>
     </>
   );

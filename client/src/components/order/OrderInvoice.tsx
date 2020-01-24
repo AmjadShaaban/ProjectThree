@@ -11,7 +11,11 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
 import Title from '../shared/Title';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import { useOrderState } from '../../contexts/order';
+import {
+  useOrderState,
+  useOrderDispatch,
+  OrderActionTypes
+} from '../../contexts/order';
 import { CategoryItem } from '../../contexts/menu';
 
 const useRootStyles = makeStyles((theme: Theme) =>
@@ -51,10 +55,11 @@ const OrderInvoiceItem: FC<{
   item: CategoryItem;
   isOpen: boolean;
   onToggle: () => void;
-}> = ({ item, isOpen, onToggle }) => (
+  onRemove: () => void;
+}> = ({ item, isOpen, onToggle, onRemove }) => (
   <>
     <ListItem button onClick={onToggle}>
-      <ListItemIcon>
+      <ListItemIcon onClick={onRemove}>
         <DeleteForeverIcon />
       </ListItemIcon>
       <ListItemText primary={item.name} />
@@ -75,9 +80,19 @@ export default function OrderInvoice() {
   const classes = useRootStyles();
   const [openTab, setOpenTab] = useState<{ [id: number]: boolean }>({});
   const { order } = useOrderState();
-
+  const orderDispatch = useOrderDispatch();
   const handleClick = (id: number) => {
     setOpenTab({ ...openTab, [id]: !openTab[id] });
+  };
+
+  const removeFromOrder = (index: number) => {
+    const orderItems = [...order!.orderItems];
+    orderItems.splice(index, 1);
+
+    orderDispatch({
+      type: OrderActionTypes.SET_ORDER,
+      payload: { ...order!, orderItems }
+    });
   };
 
   return (
@@ -95,6 +110,9 @@ export default function OrderInvoice() {
         <OrderInvoiceItem
           key={index}
           item={item}
+          onRemove={() => {
+            removeFromOrder(index);
+          }}
           onToggle={() => {
             handleClick(index);
           }}

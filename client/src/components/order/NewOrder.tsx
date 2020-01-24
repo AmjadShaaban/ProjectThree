@@ -1,9 +1,10 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import OrderTypeDialog from '../shared/OrderTypeDialog';
-import { OrderActionTypes } from '../../contexts/order';
+import { OrderActionTypes, useOrderDispatch } from '../../contexts/order';
 
 export default function NewOrder() {
+  const orderDispatch = useOrderDispatch();
   const [openDialog, setOpenDialog] = React.useState(false);
   const handleClickOpen = () => {
     setOpenDialog(true);
@@ -22,7 +23,14 @@ export default function NewOrder() {
       >
         New Order
       </Button>
-      <OrderTypeDialog onCancel={handleClose} isOpen={openDialog} />
+      <OrderTypeDialog
+        onCancel={handleClose}
+        onSubmit={order => {
+          orderDispatch({ type: OrderActionTypes.SET_ORDER, payload: order });
+          setOpenDialog(false);
+        }}
+        isOpen={openDialog}
+      />
     </div>
   );
 }
