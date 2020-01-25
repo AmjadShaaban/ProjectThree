@@ -13,18 +13,53 @@ export enum OrderTypes {
   ORDER_IN = 'Order-in'
 }
 export enum IngredientTypes {
-  CHEESE = 'cheese',
-  MEAT = 'meat',
-  VEGETABLE = 'vegetable',
-  DRESSING = 'dressing',
-  SAUCE = 'sauce',
-  OTHER = 'other'
+  CHEESE = 'Cheese',
+  MEAT = 'Meat',
+  VEGETABLE = 'Vegetable',
+  DRESSING = 'Dressing',
+  SAUCE = 'Sauce',
+  OTHER = 'Other'
 }
-
+export interface SVGIconData {
+  line1: string;
+  line2: string;
+  line3: string;
+}
 export interface User {
   email: string;
-  fName: string;
-  lName: string;
+  firstName: string;
+  lastName: string;
   fullName?: string;
-  role?: Roles;
+  role: Roles;
+}
+export interface Ingredient {
+  _id?: string;
+  name: string;
+  type: IngredientTypes;
+  isTopping?: boolean;
+  price: string;
+}
+export interface Category {
+  _id?: string;
+  name: string;
+  disc: string;
+  iconData: SVGIconData;
+  items: CategoryItem[];
+}
+export interface CategoryItem {
+  _id?: string;
+  name: string;
+  disc: string;
+  price: string;
+  iconData: SVGIconData;
+  ingredients?: Ingredient[];
+}
+export interface Order {
+  _id?: string;
+  type: OrderTypes;
+  customerName?: string;
+  customerPhone?: string;
+  customerAddress?: string;
+  orderItems: CategoryItem[];
+  total: string;
 }

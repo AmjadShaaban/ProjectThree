@@ -1,3 +1,4 @@
+import { Category } from '../../interfaces';
 import { Dispatch } from 'react';
 import {
   MenuActionTypes,
@@ -7,8 +8,7 @@ import {
   AddIngredientReqDTO,
   AddCategoryReqDTO,
   MenuResDTO,
-  CategoryItemReqDTO,
-  Category
+  CategoryItemReqDTO
 } from './menuState';
 export const loadMenu = async (dispatch: Dispatch<MenuActions>) => {
   dispatch({ type: MenuActionTypes.GET_CATEGORIES });

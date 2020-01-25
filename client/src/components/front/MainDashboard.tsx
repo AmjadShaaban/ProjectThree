@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,12 +18,13 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
+import { MainListItems, SecondaryListItems } from './listItems';
 import Specials from './Specials';
-import {loadMenu,useMenuDispatch }  from '../../contexts/menu';
-import Menu from './Menu'
-import Status from './Status'
-import OrderInvoice from '../order/OrderInvoice'
+import { loadMenu, useMenuDispatch } from '../../contexts/menu';
+import { Roles } from '../../interfaces';
+import Menu from './Menu';
+import Status from './Status';
+import OrderInvoice from '../order/OrderInvoice';
 function Copyright() {
   return (
     <Typography variant='body2' color='textSecondary' align='center'>
@@ -107,17 +108,18 @@ const useStyles = makeStyles(theme => ({
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4)
   },
-  test:{
+  test: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
-    flexDirection:'column'
-  },  test2:{
+    flexDirection: 'column'
+  },
+  test2: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
-    flexDirection:'column',
-    height: 560
+    flexDirection: 'column',
+    height: 565
   },
 
   paper: {
@@ -131,8 +133,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Dashboard() {
-const dispatch = useMenuDispatch();
+export default function MainDashboard() {
+  const dispatch = useMenuDispatch();
   useEffect(() => {
     loadMenu(dispatch);
   }, [dispatch]);
@@ -196,48 +198,51 @@ const dispatch = useMenuDispatch();
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        <List>
+          <MainListItems role={Roles.MANAGER} />
+        </List>
         <Divider />
-        <List>{secondaryListItems}</List>
+        <List>
+          <SecondaryListItems role={Roles.MANAGER} />
+        </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth='lg' className={classes.container}>
           <Grid container spacing={1}>
-          <Grid item xs={9} >
-            <Paper className={fixedHeightPaper}>
-            <Specials/>
-            </Paper>
-            </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={12} md={8} lg={8}>
               <Paper className={fixedHeightPaper}>
-             <Status/>
+                <Specials />
               </Paper>
             </Grid>
+            <Grid item xs={12} md={4} lg={4}>
+              <Paper className={fixedHeightPaper}>
+                <Status />
+              </Paper>
             </Grid>
-            {/* <Grid item xs={12} md={8} lg={9}>
+          </Grid>
+          {/* <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
               <AddEmployee/>
               </Paper>
             </Grid> */}
-            {/* Recent Deposits */}
+          {/* Recent Deposits */}
 
-            {/* Recent Orders */}
-            <Grid container spacing={1}>
-            <Grid item xs={9}>
+          {/* Recent Orders */}
+          <Grid container spacing={1}>
+            <Grid item xs={12} md={8} lg={8}>
               <Paper className={classes.test2}>
                 {/* <Orders /> */}
-                <Menu/>
+                <Menu />
               </Paper>
             </Grid>
-          <Grid item xs={3}>
-              <Paper className={classes.test}>
-                <OrderInvoice/>
-             {/* <EmployeeLogin/> */}
+            <Grid item xs={12} md={4} lg={4}>
+              <Paper className={classes.test2}>
+                <OrderInvoice />
+                {/* <EmployeeLogin/> */}
               </Paper>
             </Grid>
-            </Grid>
-            
+          </Grid>
 
           <Box pt={4}>
             <Copyright />

@@ -5,8 +5,8 @@ const UserSchema = new Schema(
   {
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    fName: { type: String, required: true },
-    lName: { type: String, required: true },
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
     role: { type: String, enum: Object.values(Roles), default: Roles.UNKNOWN }
   },
   { timestamps: true }

@@ -8,20 +8,15 @@ import IconButton from '@material-ui/core/IconButton';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Title from '../shared/Title';
 import OrderTypeDialog from '../shared/OrderTypeDialog';
-import {
-  useMenuState,
-  useMenuDispatch,
-  loadMenu,
-  Category,
-  CategoryItem
-} from '../../contexts/menu';
+import { Category, CategoryItem, Order } from '../../interfaces';
+import { useMenuState, useMenuDispatch, loadMenu } from '../../contexts/menu';
 import {
   useOrderState,
   useOrderDispatch,
-  postOrder,
-  Order,
+  // postOrder,
   OrderActionTypes
 } from '../../contexts/order';
+import { grey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,6 +26,10 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'space-around',
       overflow: 'hidden',
       backgroundColor: theme.palette.background.paper
+    },
+    tile: {
+      width: '100%',
+      height: '100%'
     },
     gridList: {
       width: '100%',
@@ -52,8 +51,21 @@ const MenuItemTile: FC<{
   const classes = useStyles();
   console.log('I ran');
   return (
-    <GridListTile cols={1} onClick={onSelect}>
-      <img src={data.img} alt='' />
+    <GridListTile cols={1} onClick={onSelect} className={classes.tile}>
+      <svg viewBox='0 0 120 120'>
+        <rect height='100%' width='100%' fill='lightgray' />
+        <text x='25' y='30' fill='red'>
+          {data.iconData.line1}
+        </text>
+        <text x='55' y='55' fill='red'>
+          {data.iconData.line2}
+        </text>
+        <text x='25' y='90' fill='red'>
+          {data.iconData.line3}
+        </text>
+        inline SVG Not Supported.
+      </svg>
+      {/* <img src={data.img} alt='' /> */}
       <GridListTileBar
         title={`${data.name}`}
         classes={{
@@ -128,7 +140,7 @@ export default function Menu() {
       <Title>Menu</Title>
       {isMenuLoading && <CircularProgress />}
       <div className={classes.root}>
-        <GridList cellHeight={160} className={classes.gridList} cols={6}>
+        <GridList cellHeight={'auto'} className={classes.gridList} cols={6}>
           {selectedCategory === null
             ? menu.map(category => (
                 <div>
@@ -150,7 +162,21 @@ export default function Menu() {
                     addToOrder(item);
                   }}
                 >
-                  <img src={item.img} alt='' />
+                  <svg viewBox='0 0 120 120'>
+                    <rect height='100%' width='100%' fill='lightgray' />
+                    <text x='25' y='30' fill='red'>
+                      {item.iconData.line1}
+                    </text>
+                    <text x='55' y='55' fill='red'>
+                      {item.iconData.line2}
+                    </text>
+                    <text x='25' y='90' fill='red'>
+                      {item.iconData.line3}
+                    </text>
+                    inline SVG Not Supported.
+                  </svg>
+
+                  {/* <img src={item.img} alt='' /> */}
                   <GridListTileBar
                     title={`${item.name}`}
                     classes={{

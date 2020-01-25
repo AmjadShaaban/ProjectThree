@@ -9,27 +9,26 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-import { useAuthState } from '../../contexts/auth';
 import { Roles } from '../../interfaces';
-export const mainListItems: FC<{
+
+export const MainListItems: FC<{
   role: Roles;
-  handleClick: () => void;
-}> = ({ role, handleClick }) => {
+}> = ({ role }) => {
   return (
     <div>
-      <ListItem button onClick={handleClick}>
+      <ListItem button>
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
         <ListItemText primary='Food Menu' />
       </ListItem>
-      <ListItem button onClick={handleClick}>
+      <ListItem button>
         <ListItemIcon>
           <ShoppingCartIcon />
         </ListItemIcon>
         <ListItemText primary='Orders' />
       </ListItem>
-      <ListItem button onClick={handleClick}>
+      <ListItem button>
         <ListItemIcon>
           <PeopleIcon />
         </ListItemIcon>
@@ -37,14 +36,14 @@ export const mainListItems: FC<{
       </ListItem>
       {role === Roles.MANAGER ||
         (role === Roles.ADMIN && (
-          <ListItem button onClick={handleClick}>
+          <ListItem button>
             <ListItemIcon>
               <BarChartIcon />
             </ListItemIcon>
             <ListItemText primary='Reports' />
           </ListItem>
         ))}
-      <ListItem button onClick={handleClick}>
+      <ListItem button>
         <ListItemIcon>
           <LayersIcon />
         </ListItemIcon>
@@ -54,28 +53,27 @@ export const mainListItems: FC<{
   );
 };
 
-export const secondaryListItems: FC<{
+export const SecondaryListItems: FC<{
   role: Roles;
-  handleClick: () => void;
-}> = ({ role, handleClick }) => {
+}> = ({ role }) => {
   return (
     <div>
       {role !== Roles.COOK && (
         <>
           <ListSubheader inset>New Order</ListSubheader>
-          <ListItem button onClick={handleClick}>
+          <ListItem button>
             <ListItemIcon>
               <AssignmentIcon />
             </ListItemIcon>
             <ListItemText primary='Delivery' />
           </ListItem>
-          <ListItem button onClick={handleClick}>
+          <ListItem button>
             <ListItemIcon>
               <AssignmentIcon />
             </ListItemIcon>
             <ListItemText primary='Pick-up' />
           </ListItem>
-          <ListItem button onClick={handleClick}>
+          <ListItem button>
             <ListItemIcon>
               <AssignmentIcon />
             </ListItemIcon>

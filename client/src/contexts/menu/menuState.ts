@@ -1,3 +1,9 @@
+import {
+  Category,
+  CategoryItem,
+  Ingredient,
+  IngredientTypes
+} from '../../interfaces';
 export interface MenuState {
   isMenuLoading: boolean;
   menu: Category[];
@@ -6,33 +12,6 @@ export interface MenuState {
   selectedIngredient: Ingredient | null;
   show: boolean;
   error: string | null;
-}
-export enum IngredientTypes {
-  CHEESE = 'cheese',
-  MEAT = 'meat',
-  VEGETABLE = 'vegetable',
-  DRESSING = 'dressing',
-  SAUCE = 'sauce',
-  OTHER = 'other'
-}
-export interface Ingredient {
-  _id?: string;
-  name: string;
-  type?: IngredientTypes;
-  isTopping?: boolean;
-}
-export interface Category {
-  _id?: string;
-  name: string;
-  img?: string;
-  items: CategoryItem[];
-}
-export interface CategoryItem {
-  _id?: string;
-  name: string;
-  img?: string;
-  ingredients: Ingredient[];
-  price: string;
 }
 
 export const initialState: MenuState = {
@@ -46,6 +25,10 @@ export const initialState: MenuState = {
 };
 export interface AddCategoryReqDTO {
   name: string;
+  disc: string;
+  iconLine1: string;
+  iconLine2: string;
+  iconLine3: string;
 }
 export interface AuthTokenDTO {
   token: string;
@@ -59,10 +42,14 @@ export interface AddIngredientReqDTO {
   name: string;
   type: IngredientTypes;
   isTopping: boolean;
+  price: string;
 }
 export interface CategoryResDTO {
   _id?: string;
   name?: string;
+  iconLine1?: string;
+  iconLine2?: string;
+  iconLine3?: string;
 }
 export interface MenuResDTO {
   categories: Category[];

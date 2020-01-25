@@ -17,7 +17,7 @@ export function menuAPI(app) {
   });
   //Add 'POST' Category route
   app.post('/api/menu', auth, async (req, res) => {
-    const { name } = req.body;
+    const { name, disc, iconLine1, iconLine2, iconLine3 } = req.body;
     try {
       let item = await Category.findOne({ name });
       if (item) {
@@ -25,13 +25,19 @@ export function menuAPI(app) {
           .status(500)
           .json({ msg: `item already exists ID: ${item._id}` });
       }
-      item = new Category({ name });
+      item = new Category({
+        name,
+        disc,
+        iconData: { line1: iconLine1, line2: iconLine2, line3: iconLine3 },
+        items: []
+      });
       await item.save();
       res.status(200).json({ msg: 'success' });
     } catch (error) {
       res.status(500).json({ error });
     }
   });
+
   app.get('/api/meun/specials', auth, async (req, res) => {
     try {
       const specials = await SpecialItem.find({}).populate('items');
@@ -145,7 +151,7 @@ export function menuAPI(app) {
   });
 
   app.post('/api/menu/ingredients', auth, async (req, res) => {
-    const { name, type, isTopping } = req.body;
+    const { name, type, isTopping, price } = req.body;
     try {
       let ingredient = await Ingredient.findOne({ name });
       if (ingredient) {
@@ -153,7 +159,7 @@ export function menuAPI(app) {
           .status(500)
           .json({ msg: `ingredient already exists ID: ${ingredient._id}` });
       }
-      ingredient = new Ingredient({ name, type, isTopping });
+      ingredient = new Ingredient({ name, type, isTopping, price });
       await ingredient.save();
       res.status(200).json({ msg: 'success' });
     } catch (error) {

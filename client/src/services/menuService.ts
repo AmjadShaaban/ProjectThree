@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { Ingredient } from '../contexts/menu/menuState';
+import { Ingredient } from '../interfaces';
+
 export const getMenu = () => {
   return axios.get(`/api/menu`);
 };

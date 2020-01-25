@@ -1,23 +1,16 @@
 import React, { useState } from 'react';
-import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
-// import CssBaseline from '@material-ui/core/CssBaseline';
 import Title from '../shared/Title';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-import { useAuthState } from '../../contexts/auth';
-import {
-  useMenuDispatch,
-  addIngredient,
-  IngredientTypes
-} from '../../contexts/menu';
+import { useMenuDispatch, addIngredient } from '../../contexts/menu';
+import { IngredientTypes } from '../../interfaces';
 
 const useStyles = makeStyles(theme => ({
   depositContext: {
@@ -56,26 +49,28 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function AddIngredient() {
-  const { user } = useAuthState();
   const menuDispatch = useMenuDispatch();
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
-  const [isTopping, setIsTopping] = useState();
-  const [type, setType] = useState();
+  const [isTopping, setIsTopping] = useState(false);
+  const [type, setType] = useState(IngredientTypes.CHEESE);
 
   const classes = useStyles();
   return (
     <>
+      <Title>Add Ingredient</Title>
       <FormControl component='fieldset'>
         <form
           className={classes.form}
           noValidate
           onSubmit={e => {
             e.preventDefault();
+            console.log({ name, type, isTopping, price });
             addIngredient(menuDispatch, {
-              name: name,
-              type: type,
-              isTopping: isTopping
+              name,
+              type,
+              isTopping,
+              price
             });
           }}
         >
@@ -84,7 +79,7 @@ export default function AddIngredient() {
             margin='normal'
             required
             fullWidth
-            id='name'
+            id='ingredient-name'
             value={name}
             onChange={e => setName(e.target.value)}
             label='Ingreident Name'
@@ -97,52 +92,52 @@ export default function AddIngredient() {
             aria-label='type'
             name='type'
             value={type}
-            onChange={e => setType(e.target.value)}
+            onChange={e => setType(e.target.value as IngredientTypes)}
             row
           >
             <FormControlLabel
               value={IngredientTypes.CHEESE}
               control={<Radio color='primary' />}
-              label='Cheeses'
+              label={IngredientTypes.CHEESE}
               labelPlacement='top'
             />
             <FormControlLabel
               value={IngredientTypes.MEAT}
               control={<Radio color='primary' />}
-              label='Meats'
+              label={IngredientTypes.MEAT}
               labelPlacement='top'
             />
             <FormControlLabel
               value={IngredientTypes.DRESSING}
               control={<Radio color='primary' />}
-              label='Salad Dressing'
+              label={IngredientTypes.DRESSING}
               labelPlacement='top'
             />
             <FormControlLabel
               value={IngredientTypes.SAUCE}
               control={<Radio color='primary' />}
-              label='Sauces'
+              label={IngredientTypes.SAUCE}
               labelPlacement='top'
             />
 
             <FormControlLabel
               value={IngredientTypes.VEGETABLE}
               control={<Radio color='primary' />}
-              label='Vegetables'
+              label={IngredientTypes.VEGETABLE}
               labelPlacement='top'
             />
             <FormControlLabel
               value={IngredientTypes.OTHER}
               control={<Radio color='primary' />}
-              label='Others'
+              label={IngredientTypes.OTHER}
               labelPlacement='top'
             />
           </RadioGroup>
           <FormLabel component='legend'>Topping?</FormLabel>
           <Checkbox
-            checked={isTopping}
-            onChange={e => setIsTopping(e.target.checked)}
-            value={false}
+            checked={isTopping === true}
+            onChange={e => setIsTopping(!isTopping)}
+            value={isTopping}
             name='isTopping'
             inputProps={{ 'aria-label': 'primary checkbox' }}
           />
@@ -151,7 +146,7 @@ export default function AddIngredient() {
             margin='normal'
             required
             fullWidth
-            id='name'
+            id='ingredient-price'
             value={price}
             onChange={e => setPrice(e.target.value)}
             label='Price'

@@ -4,7 +4,7 @@ import Title from '../shared/Title';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import {
-  useAuthState,
+  // useAuthState,
   useAuthDispatch,
   loginUser,
   loadUser
@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function EmployeeLogin() {
   const classes = useStyles();
-  const authState = useAuthState();
+  // const authState = useAuthState();
   const [email, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
   const authDispatch = useAuthDispatch();

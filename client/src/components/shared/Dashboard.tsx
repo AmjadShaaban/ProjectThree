@@ -20,11 +20,6 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { MainListItems, SecondaryListItems } from '../front/listItems';
 import { Roles } from '../../interfaces';
-import AddCategory from './AddCategory';
-import AddEmployee from './AddEmployee';
-import AddIngredient from './AddIngredient';
-import AddItem from './AddItem';
-import Chart from './Chart';
 
 function Copyright() {
   return (
@@ -198,11 +193,11 @@ export default function Dashboard() {
         </div>
         <Divider />
         <List>
-          <MainListItems role={Roles.MANAGER} />
+          <MainListItems role={Roles.COOK} />
         </List>
         <Divider />
         <List>
-          <SecondaryListItems role={Roles.MANAGER} />
+          <SecondaryListItems role={Roles.COOK} />
         </List>
       </Drawer>
       <main className={classes.content}>
@@ -210,36 +205,22 @@ export default function Dashboard() {
         <Container maxWidth='lg' className={classes.container}>
           <Grid container spacing={1}>
             <Grid item xs={4}>
-              <Paper className={fixedHeightPaper}>
-                <Chart />
-              </Paper>
+              <Paper className={fixedHeightPaper}>{`im shit here`}</Paper>
             </Grid>
             <Grid item xs={4}>
-              <Paper className={fixedHeightPaper}>
-                <AddIngredient />
-              </Paper>
+              <Paper className={fixedHeightPaper}>{`im shit here`}</Paper>
             </Grid>
+
             <Grid item xs={4}>
-              <Paper className={fixedHeightPaper}>
-                <AddCategory />
-              </Paper>
+              <Paper className={fixedHeightPaper}>{`im shit here`}</Paper>
             </Grid>
           </Grid>
           <Grid container spacing={1}>
-            <Grid item xs={4}>
-              <Paper className={classes.test2}>
-                <AddItem />
-              </Paper>
+            <Grid item xs={8}>
+              <Paper className={classes.test2}>{`im shit here`}</Paper>
             </Grid>
             <Grid item xs={4}>
-              <Paper className={classes.test2}>
-                <AddItem />
-              </Paper>
-            </Grid>
-            <Grid item xs={4}>
-              <Paper className={classes.test2}>
-                <AddEmployee />
-              </Paper>
+              <Paper className={classes.test2}>{`im shit here`}</Paper>
             </Grid>
           </Grid>
 

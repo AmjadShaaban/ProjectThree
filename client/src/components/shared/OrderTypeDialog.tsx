@@ -7,15 +7,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { TransitionProps } from '@material-ui/core/transitions';
-import OrderTypeDialogTabs from './OrderTypeDialogTabs';
+// import OrderTypeDialogTabs from './OrderTypeDialogTabs';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import TextField from '@material-ui/core/TextField';
-import { OrderTypes, OrderActionTypes, Order } from '../../contexts/order';
-import { useOrderDispatch } from '../../contexts/order';
+import { OrderTypes, CategoryItem, Order } from '../../interfaces';
+// import { useOrderDispatch } from '../../contexts/order';
 
 const useStyles = makeStyles(theme => ({
   depositContext: {
@@ -59,16 +58,17 @@ const Transition = React.forwardRef<unknown, TransitionProps>(
   }
 );
 const OrderTypeDialog: FC<{
+  item?: CategoryItem;
   onCancel: () => void;
   onSubmit: (order: Order) => void;
   isOpen: boolean;
-}> = ({ onCancel, onSubmit, isOpen }) => {
+}> = ({ onCancel, onSubmit, isOpen, item }) => {
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerAddress, setCustomerAddress] = useState('');
   const [type, setType] = useState(OrderTypes.DELIVERY);
   const classes = useStyles();
-  const orderDispatch = useOrderDispatch();
+  // const orderDispatch = useOrderDispatch();
 
   return (
     <Dialog

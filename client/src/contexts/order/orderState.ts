@@ -1,24 +1,8 @@
-import { CategoryItem } from '../menu';
+import { Order, OrderTypes } from '../../interfaces';
 
 export interface OrderState {
   order: Order | null;
   error: string | null;
-}
-
-export enum OrderTypes {
-  PICKUP = 'Pick-up',
-  DELIVERY = 'Delivery',
-  ORDER_IN = 'Order-in'
-}
-
-export interface Order {
-  _id?: string;
-  type: OrderTypes;
-  customerName?: string;
-  customerPhone?: string;
-  customerAddress?: string;
-  orderItems: CategoryItem[];
-  total: string;
 }
 
 export const initialState: OrderState = {

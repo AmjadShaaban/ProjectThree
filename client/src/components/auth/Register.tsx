@@ -15,6 +15,7 @@ import {
   useAuthDispatch,
   registerUser
 } from '../../contexts/auth';
+import { Roles } from '../../interfaces';
 
 function Copyright() {
   return (
@@ -53,8 +54,8 @@ export default function SignUp() {
   const classes = useStyles();
   const [email, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [fName, setFname] = useState('');
-  const [lName, setLname] = useState('');
+  const [firstName, setFname] = useState('');
+  const [lastName, setLname] = useState('');
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
   //   const n = useFullname();
@@ -74,18 +75,23 @@ export default function SignUp() {
           noValidate
           onSubmit={e => {
             e.preventDefault();
-            registerUser(authDispatch, { fName, lName, email, password });
+            registerUser(authDispatch, {
+              firstName,
+              lastName,
+              email,
+              password,
+              role: Roles.UNKNOWN
+            });
           }}
         >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
-                autoComplete='fname'
                 name='firstName'
                 variant='outlined'
                 fullWidth
                 id='firstName'
-                value={fName}
+                value={firstName}
                 onChange={e => setFname(e.target.value)}
                 label='First Name'
                 autoFocus
@@ -96,7 +102,7 @@ export default function SignUp() {
                 variant='outlined'
                 fullWidth
                 id='lastName'
-                value={lName}
+                value={lastName}
                 onChange={e => setLname(e.target.value)}
                 label='Last Name'
                 name='lastName'

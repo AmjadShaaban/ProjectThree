@@ -16,7 +16,7 @@ import {
   useOrderDispatch,
   OrderActionTypes
 } from '../../contexts/order';
-import { CategoryItem } from '../../contexts/menu';
+import { CategoryItem } from '../../interfaces';
 
 const useRootStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -68,7 +68,7 @@ const OrderInvoiceItem: FC<{
 
     <Collapse in={isOpen} timeout='auto' unmountOnExit>
       <List component='div' disablePadding>
-        {item.ingredients.map((ingredient, index) => (
+        {item.ingredients?.map((ingredient, index) => (
           <OrderInvoiceItemIngredient key={index} name={ingredient.name} />
         ))}
       </List>

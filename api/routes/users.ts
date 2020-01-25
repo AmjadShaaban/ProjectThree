@@ -23,15 +23,15 @@ export function usersAPI(app) {
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
-      const { fName, lName, email, password } = req.body;
+      const { firstName, lastName, email, password } = req.body;
       try {
         let user = await User.findOne({ email });
         if (user) {
           return res.status(400).json({ msg: 'already exists' });
         }
         user = new User({
-          fName,
-          lName,
+          firstName,
+          lastName,
           email,
           password
         });
@@ -55,8 +55,8 @@ export function usersAPI(app) {
             res.json({
               user: {
                 token,
-                fName: user.fName,
-                lName: user.lName,
+                firstName: user.firstName,
+                lastName: user.lastName,
                 email: user.email,
                 role: user.role
               }

@@ -1,82 +1,137 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { useAuthState } from '../../contexts/auth';
-import { useMenuDispatch,addCategory } from '../../contexts/menu'
+import Title from '../shared/Title';
+import { useMenuDispatch, addCategory } from '../../contexts/menu';
 
 const useStyles = makeStyles(theme => ({
-    depositContext: {
-      flex: 1
-    },
-    root: {
-      height: '100vh'
-    },
-    image: {
-      backgroundImage: 'url(https://source.unsplash.com/random)',
-      backgroundRepeat: 'no-repeat',
-      backgroundColor:
-        theme.palette.type === 'dark'
-          ? theme.palette.grey[900]
-          : theme.palette.grey[50],
-      backgroundSize: 'cover',
-      backgroundPosition: 'center'
-    },
-    paper: {
-      margin: theme.spacing(8, 4),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center'
-    },
-    avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main
-    },
-    form: {
-      width: '100%', // Fix IE 11 issue.
-      marginTop: theme.spacing(1)
-    },
-    submit: {
-      margin: theme.spacing(3, 0, 2)
-    }
+  depositContext: {
+    flex: 1
+  },
+  root: {
+    height: '100vh'
+  },
+  image: {
+    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundRepeat: 'no-repeat',
+    backgroundColor:
+      theme.palette.type === 'dark'
+        ? theme.palette.grey[900]
+        : theme.palette.grey[50],
+    backgroundSize: 'cover',
+    backgroundPosition: 'center'
+  },
+  paper: {
+    margin: theme.spacing(8, 4),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1)
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2)
+  }
 }));
 
 export default function AddCategory() {
-  const { user } = useAuthState();
   const menuDispatch = useMenuDispatch();
-  const [name, setName]=useState('');
+  const [name, setName] = useState('');
+  const [disc, setDiscription] = useState('');
+  const [iconLine1, setIconLine1] = useState('');
+  const [iconLine2, setIconLine2] = useState('');
+  const [iconLine3, setIconLine3] = useState('');
   const classes = useStyles();
   return (
+    <>
+      <Title>Add Category</Title>
       <form
-            className={classes.form}
-            noValidate
-            onSubmit={e => {
-              e.preventDefault();
-              addCategory(menuDispatch,{name:name})
-            }}
-          >
-            <TextField
-              variant='outlined'
-              margin='normal'
-              required
-              fullWidth
-              id='name'
-              value={name}
-              onChange={e => setName(e.target.value)}
-              label='Category Name'
-              name='name'
-              autoFocus
-            />
-            <Button
-              type='submit'
-              fullWidth
-              variant='contained'
-              color='primary'
-              className={classes.submit}
-            >
-              Submit
-            </Button>
-          </form>
+        className={classes.form}
+        noValidate
+        onSubmit={e => {
+          e.preventDefault();
+          addCategory(menuDispatch, {
+            name,
+            disc,
+            iconLine1,
+            iconLine2,
+            iconLine3
+          });
+        }}
+      >
+        <TextField
+          variant='outlined'
+          margin='normal'
+          required
+          fullWidth
+          id='category-name'
+          value={name}
+          onChange={e => setName(e.target.value)}
+          label='Category Name'
+          name='name'
+          autoFocus
+        />
+        <TextField
+          id='category-disc'
+          label='Category Discription'
+          multiline
+          rows='4'
+          value={disc}
+          onChange={e => setDiscription(e.target.value)}
+        />
+        <TextField
+          variant='outlined'
+          margin='normal'
+          required
+          fullWidth
+          id='icon-line-1'
+          value={iconLine1}
+          onChange={e => setIconLine1(e.target.value)}
+          label='line 1'
+          name='name'
+          autoFocus
+        />
+        <TextField
+          variant='outlined'
+          margin='normal'
+          required
+          fullWidth
+          id='Icon-line-2'
+          value={iconLine2}
+          onChange={e => setIconLine2(e.target.value)}
+          label='line 2:'
+          name='line 2'
+          autoFocus
+        />
+        <TextField
+          variant='outlined'
+          margin='normal'
+          required
+          fullWidth
+          id='icon-line-3'
+          value={iconLine3}
+          onChange={e => setIconLine3(e.target.value)}
+          label='line 3:'
+          name='line 3'
+          autoFocus
+        />
+        <Button
+          type='submit'
+          fullWidth
+          variant='contained'
+          color='primary'
+          className={classes.submit}
+        >
+          Submit
+        </Button>
+      </form>
+    </>
   );
 }
