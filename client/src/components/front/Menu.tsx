@@ -52,15 +52,15 @@ const MenuItemTile: FC<{
   console.log('I ran');
   return (
     <GridListTile cols={1} onClick={onSelect} className={classes.tile}>
-      <svg viewBox='0 0 120 120'>
+      <svg viewBox='0 0 150 150'>
         <rect height='100%' width='100%' fill='lightgray' />
-        <text x='25' y='30' fill='red'>
+        <text x='25%' y='25%' fill='red'>
           {data.iconData.line1}
         </text>
-        <text x='55' y='55' fill='red'>
+        <text x='35%' y='50%' fill='red'>
           {data.iconData.line2}
         </text>
-        <text x='25' y='90' fill='red'>
+        <text x='25%' y='75%' fill='red'>
           {data.iconData.line3}
         </text>
         inline SVG Not Supported.
@@ -162,15 +162,15 @@ export default function Menu() {
                     addToOrder(item);
                   }}
                 >
-                  <svg viewBox='0 0 120 120'>
+                  <svg viewBox='0 0 150 150'>
                     <rect height='100%' width='100%' fill='lightgray' />
-                    <text x='25' y='30' fill='red'>
+                    <text x='25%' y='25%' fill='red'>
                       {item.iconData.line1}
                     </text>
-                    <text x='55' y='55' fill='red'>
+                    <text x='35%' y='50%' fill='red'>
                       {item.iconData.line2}
                     </text>
-                    <text x='25' y='90' fill='red'>
+                    <text x='25%' y='75%' fill='red'>
                       {item.iconData.line3}
                     </text>
                     inline SVG Not Supported.

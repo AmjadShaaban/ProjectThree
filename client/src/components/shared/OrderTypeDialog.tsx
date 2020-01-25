@@ -121,7 +121,7 @@ const OrderTypeDialog: FC<{
               label={OrderTypes.ORDER_IN}
               labelPlacement='top'
             />
-          </RadioGroup>{' '}
+          </RadioGroup>
           <TextField
             variant='outlined'
             margin='normal'
@@ -136,9 +136,10 @@ const OrderTypeDialog: FC<{
           />
           <TextField
             variant='outlined'
-            margin='normal'
+            margin='dense'
             required
             fullWidth
+            disabled={type === OrderTypes.ORDER_IN}
             id='phone'
             value={customerPhone}
             onChange={e => setCustomerPhone(e.target.value)}
@@ -151,6 +152,9 @@ const OrderTypeDialog: FC<{
             margin='normal'
             required
             fullWidth
+            disabled={
+              type === OrderTypes.PICKUP || type === OrderTypes.ORDER_IN
+            }
             id='address'
             value={customerAddress}
             onChange={e => setCustomerAddress(e.target.value)}

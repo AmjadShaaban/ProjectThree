@@ -216,28 +216,28 @@ export default function Dashboard() {
             </Grid>
             <Grid item xs={4}>
               <Paper className={fixedHeightPaper}>
-                <AddIngredient />
+                <Chart />
               </Paper>
             </Grid>
             <Grid item xs={4}>
-              <Paper className={fixedHeightPaper}>
-                <AddCategory />
+              <Paper className={classes.test}>
+                <AddIngredient />
               </Paper>
             </Grid>
           </Grid>
           <Grid container spacing={1}>
             <Grid item xs={4}>
-              <Paper className={classes.test2}>
+              <Paper className={classes.test}>
+                <AddCategory />
+              </Paper>
+            </Grid>
+            <Grid item xs={4}>
+              <Paper className={classes.test}>
                 <AddItem />
               </Paper>
             </Grid>
             <Grid item xs={4}>
-              <Paper className={classes.test2}>
-                <AddItem />
-              </Paper>
-            </Grid>
-            <Grid item xs={4}>
-              <Paper className={classes.test2}>
+              <Paper className={classes.test}>
                 <AddEmployee />
               </Paper>
             </Grid>

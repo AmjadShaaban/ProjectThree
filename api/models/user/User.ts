@@ -12,7 +12,7 @@ const UserSchema = new Schema(
   { timestamps: true }
 );
 UserSchema.virtual('fullName').get(function() {
-  return `${this.fName} ${this.lName}`;
+  return `${this.firstName} ${this.lastName}`;
 });
 
 export default mongoose.model<IUser>('User', UserSchema);

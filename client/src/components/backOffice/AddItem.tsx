@@ -57,8 +57,11 @@ export default function AddItem() {
   const menuDispatch = useMenuDispatch();
   const [catId, setCatId] = useState('');
   const [name, setName] = useState('');
+  const [iconLine1, setIconLine1] = useState('');
+  const [iconLine2, setIconLine2] = useState('');
+  const [iconLine3, setIconLine3] = useState('');
   const [price, setPrice] = useState('');
-  const [discription, setDiscription] = useState('');
+  const [disc, setDisc] = useState('');
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -81,10 +84,13 @@ export default function AddItem() {
         onSubmit={e => {
           e.preventDefault();
           const categoryItem = {
-            catId: catId,
-            name: name,
-            discription: discription,
-            price: price
+            catId,
+            name,
+            disc,
+            iconLine1,
+            iconLine2,
+            iconLine3,
+            price
           };
           addCategoryItem(menuDispatch, categoryItem);
         }}
@@ -134,9 +140,46 @@ export default function AddItem() {
           label='Item Discription'
           multiline
           rows='4'
-          value={discription}
-          onChange={e => setDiscription(e.target.value)}
+          value={disc}
+          onChange={e => setDisc(e.target.value)}
         />
+        <TextField
+          variant='outlined'
+          margin='normal'
+          required
+          fullWidth
+          id='icon-line-1'
+          value={iconLine1}
+          onChange={e => setIconLine1(e.target.value)}
+          label='line 1'
+          name='name'
+          autoFocus
+        />
+        <TextField
+          variant='outlined'
+          margin='normal'
+          required
+          fullWidth
+          id='Icon-line-2'
+          value={iconLine2}
+          onChange={e => setIconLine2(e.target.value)}
+          label='line 2:'
+          name='line 2'
+          autoFocus
+        />
+        <TextField
+          variant='outlined'
+          margin='normal'
+          required
+          fullWidth
+          id='icon-line-3'
+          value={iconLine3}
+          onChange={e => setIconLine3(e.target.value)}
+          label='line 3:'
+          name='line 3'
+          autoFocus
+        />
+
         <TextField
           variant='outlined'
           margin='normal'

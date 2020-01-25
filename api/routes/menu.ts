@@ -76,7 +76,15 @@ export function menuAPI(app) {
   });
   //POST add category items
   app.post('/api/menu/category/items', auth, async (req, res) => {
-    const { catId, name, price, discription } = req.body;
+    const {
+      catId,
+      name,
+      price,
+      disc,
+      iconLine1,
+      iconLine2,
+      iconLine3
+    } = req.body;
     try {
       let category = await Category.findOne({ _id: catId });
       if (category) {
@@ -86,7 +94,13 @@ export function menuAPI(app) {
             .status(500)
             .json({ message: `item already exists ID:${item._id}` });
         }
-        item = await CategoryItem.create({ catId, name, discription, price });
+        item = await CategoryItem.create({
+          catId,
+          name,
+          disc,
+          iconData: { line1: iconLine1, line2: iconLine2, line3: iconLine3 },
+          price
+        });
         if (item._id) {
           res.status(200).json({ msg: 'success' });
           return Category.findByIdAndUpdate(

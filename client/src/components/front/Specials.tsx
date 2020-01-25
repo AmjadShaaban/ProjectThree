@@ -43,15 +43,15 @@ export default function SingleLineGridList() {
         <GridList className={classes.gridList} cols={6}>
           {menu.map(category => (
             <GridListTile key={category._id}>
-              <svg viewBox='0 0 120 120'>
+              <svg viewBox='0 0 150 150'>
                 <rect height='100%' width='100%' fill='lightgray' />
-                <text x='25' y='30' fill='red'>
+                <text x='25%' y='25%' fill='red'>
                   {category.iconData.line1}
                 </text>
-                <text x='55' y='55' fill='red'>
+                <text x='75%' y='50%' fill='red'>
                   {category.iconData.line2}
                 </text>
-                <text x='25' y='90' fill='red'>
+                <text x='25%' y='75%' fill='red'>
                   {category.iconData.line3}
                 </text>
                 inline SVG Not Supported.
