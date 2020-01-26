@@ -7,6 +7,7 @@ import { usersAPI } from './api/routes/users';
 import { menuAPI } from './api/routes/menu';
 import { orderAPI } from './api/routes/order';
 import { connectDB } from './config/db';
+import path from 'path';
 
 const PORT: string = process.env.PORT || '3333';
 const app = express();
@@ -18,11 +19,8 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(cors());
 }
 const greeting: Message = { message: 'Welcome to API!' };
-app.get('/', (req, res) => {
-  let warning: Message = {
-    message: `this is the / route of the API some nothing else will happen here`
-  };
-  res.send(warning);
+app.get('*', (req, res) => {
+  res.sendfile(path.join((__dirname = 'client/build/index.html')));
 });
 app.get('/api', (req, res) => {
   res.send(greeting);
