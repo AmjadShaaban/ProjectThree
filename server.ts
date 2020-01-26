@@ -18,9 +18,10 @@ connectDB();
 if (process.env.NODE_ENV !== 'production') {
   app.use(cors());
 }
+app.use(express.static(path.join(__dirname, 'client/build')));
 const greeting: Message = { message: 'Welcome to API!' };
 app.get('*', (req, res) => {
-  res.sendfile(path.join((__dirname = 'client/build/index.html')));
+  res.sendFile(path.join(__dirname, 'client/build/index.html'));
 });
 app.get('/api', (req, res) => {
   res.send(greeting);
