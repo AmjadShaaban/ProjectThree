@@ -1,4 +1,4 @@
-import { Order, OrderTypes } from '../../interfaces';
+import { Order } from '../../interfaces';
 
 export interface OrderState {
   order: Order | null;

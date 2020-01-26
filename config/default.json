@@ -1,5 +1,5 @@
 {
-  "mongoURI": "mongodb://localhost:27017/PPoS_Test",
-  "mongoURI2": "mongodb+srv://amjad:amj123@cluster0-vyvlh.mongodb.net/ProjectPoS?retryWrites=true&w=majority",
+  "mongoURI2": "mongodb://localhost:27017/PPoS_Test",
+  "mongoURI": "mongodb+srv://amjad:amj123@cluster0-vyvlh.mongodb.net/ProjectPoS?retryWrites=true&w=majority",
   "jwtSecret": "TehSECRET"
 }

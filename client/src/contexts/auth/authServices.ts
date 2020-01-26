@@ -87,10 +87,12 @@ export const registerUser = async (
     }
     localStorage.setItem('token', response.token);
     dispatch({ type: AuthActionTypes.REGISTER_SUCCESS, payload: response });
+    return true;
   } catch (e) {
     dispatch({
       type: AuthActionTypes.REGISTER_FAIL,
       payload: 'Unable to Register'
     });
+    return false;
   }
 };

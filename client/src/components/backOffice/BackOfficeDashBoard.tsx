@@ -24,8 +24,6 @@ import AddCategory from './AddCategory';
 import AddEmployee from './AddEmployee';
 import AddIngredient from './AddIngredient';
 import AddItem from './AddItem';
-import Chart from './Chart';
-
 function Copyright() {
   return (
     <Typography variant='body2' color='textSecondary' align='center'>
@@ -209,15 +207,8 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth='lg' className={classes.container}>
           <Grid container spacing={1}>
-            <Grid item xs={4}>
-              <Paper className={fixedHeightPaper}>
-                <Chart />
-              </Paper>
-            </Grid>
-            <Grid item xs={4}>
-              <Paper className={fixedHeightPaper}>
-                <Chart />
-              </Paper>
+            <Grid item xs={8}>
+              <Paper className={fixedHeightPaper}></Paper>
             </Grid>
             <Grid item xs={4}>
               <Paper className={classes.test}>
@@ -242,7 +233,6 @@ export default function Dashboard() {
               </Paper>
             </Grid>
           </Grid>
-
           <Box pt={4}>
             <Copyright />
           </Box>

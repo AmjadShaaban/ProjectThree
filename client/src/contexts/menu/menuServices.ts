@@ -1,4 +1,4 @@
-import { Category } from '../../interfaces';
+import { Category, Ingredient } from '../../interfaces';
 import { Dispatch } from 'react';
 import {
   MenuActionTypes,
@@ -8,20 +8,43 @@ import {
   AddIngredientReqDTO,
   AddCategoryReqDTO,
   MenuResDTO,
+  IngredientsResDTO,
   CategoryItemReqDTO
 } from './menuState';
+
+export const loadIngredients = async (dispatch: Dispatch<MenuActions>) => {
+  dispatch({ type: MenuActionTypes.GET_INGREDIENTS });
+  try {
+    const response: IngredientsResDTO = await fetch(
+      '/api/menu/ingredients'
+    ).then(r => r.json());
+    if (!response || !response.ingredients) {
+      return dispatch({
+        type: MenuActionTypes.GET_INGREDIENTS_FAIL,
+        payload: 'Unable to retrieve ingredients'
+      });
+    }
+    dispatch({
+      type: MenuActionTypes.GET_INGREDIENTS_SUCCESS,
+      payload: response.ingredients
+    });
+  } catch (error) {
+    dispatch({
+      type: MenuActionTypes.GET_INGREDIENTS_FAIL,
+      payload: error
+    });
+  }
+};
 export const loadMenu = async (dispatch: Dispatch<MenuActions>) => {
   dispatch({ type: MenuActionTypes.GET_CATEGORIES });
   try {
     const response: MenuResDTO = await fetch('/api/menu').then(r => r.json());
     if (!response || !response.categories) {
-      dispatch({
+      return dispatch({
         type: MenuActionTypes.GET_CATEGORIES_FAIL,
         payload: 'Unable to retrieve menu'
       });
-      return;
     }
-
     dispatch({
       type: MenuActionTypes.GET_CATEGORIES_SUCCESS,
       payload: response
@@ -140,6 +163,7 @@ export const addCategoryItem = async (
     });
   }
 };
+
 export const loadItems = async (
   dispatch: Dispatch<MenuActions>,
   selectedCategory: Category

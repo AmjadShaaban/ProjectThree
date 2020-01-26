@@ -35,9 +35,9 @@ export interface User {
 export interface Ingredient {
   _id?: string;
   name: string;
-  type: IngredientTypes;
+  type?: IngredientTypes;
   isTopping?: boolean;
-  price: string;
+  price?: string;
 }
 export interface Category {
   _id?: string;

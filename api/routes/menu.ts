@@ -83,7 +83,8 @@ export function menuAPI(app) {
       disc,
       iconLine1,
       iconLine2,
-      iconLine3
+      iconLine3,
+      ingredients
     } = req.body;
     try {
       let category = await Category.findOne({ _id: catId });
@@ -99,6 +100,7 @@ export function menuAPI(app) {
           name,
           disc,
           iconData: { line1: iconLine1, line2: iconLine2, line3: iconLine3 },
+          ingredients,
           price
         });
         if (item._id) {
@@ -141,16 +143,19 @@ export function menuAPI(app) {
     }
   });
 
-  app.get('/api/menu/ingredients', auth, async (req, res) => {
-    try {
-      let ingredients = await Ingredient.find({});
-      if (ingredients) {
-        return res.status(200).json({ ingredients });
+  app.get(
+    '/api/menu/ingredients',
+    /*auth,*/ async (req, res) => {
+      try {
+        let ingredients = await Ingredient.find({});
+        if (ingredients) {
+          return res.status(200).json({ ingredients });
+        }
+      } catch (error) {
+        res.status(500).json(error);
       }
-    } catch (error) {
-      res.status(500).json(error);
     }
-  });
+  );
 
   app.get('/api/menu/ingredients/:ingredientId', auth, async (req, res) => {
     const { ingredientId } = req.params;

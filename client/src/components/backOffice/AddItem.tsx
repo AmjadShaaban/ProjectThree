@@ -1,8 +1,15 @@
-import React, { useState, MouseEvent, useEffect } from 'react';
+import React, { FC, useState, MouseEvent, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 // import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 import Title from '../shared/Title';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -12,11 +19,34 @@ import {
   useMenuState,
   useMenuDispatch,
   addCategoryItem,
-  loadMenu
+  loadMenu,
+  loadIngredients
 } from '../../contexts/menu';
+import { Ingredient, IngredientTypes } from '../../interfaces';
 
 const ITEM_HEIGHT = 48;
+
+function not(a: Ingredient[], b: Ingredient[]) {
+  return a.filter(aIng => b.findIndex(bIngr => bIngr._id === aIng._id) === -1);
+}
+
+function intersection(a: Ingredient[], b: Ingredient[]) {
+  return a.filter(aIng => b.findIndex(bIngr => bIngr._id === aIng._id) !== -1);
+}
+
 const useStyles = makeStyles(theme => ({
+  root1: {
+    margin: 'auto'
+  },
+  paper1: {
+    width: 200,
+    height: 230,
+    overflow: 'auto'
+  },
+  button1: {
+    margin: theme.spacing(0.5, 0)
+  },
+
   depositContext: {
     flex: 1
   },
@@ -52,9 +82,164 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const IngredientList: FC<{
+  ingredients: Ingredient[];
+  onListChange: (newList: Ingredient[]) => void;
+}> = ({ ingredients, onListChange }) => {
+  console.log(ingredients);
+  const classes = useStyles();
+  const [checked, setChecked] = React.useState<Ingredient[]>([]);
+  const [left, setLeft] = React.useState<Ingredient[]>(ingredients);
+  const [right, setRight] = React.useState<Ingredient[]>([]);
+  const leftChecked = intersection(checked, left);
+  const rightChecked = intersection(checked, right);
+
+  useEffect(() => {
+    setLeft(ingredients);
+  }, [ingredients]);
+
+  useEffect(() => {
+    onListChange(right);
+  }, [right]);
+
+  const handleToggle = (value: Ingredient) => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setChecked(newChecked);
+  };
+
+  const handleAllRight = () => {
+    setRight(right.concat(left));
+    setLeft([]);
+    console.log('handleAllRight');
+  };
+
+  const handleCheckedRight = () => {
+    setRight(right.concat(leftChecked));
+    setLeft(not(left, leftChecked));
+    setChecked(not(checked, leftChecked));
+    console.log('handleCheckedRight');
+  };
+
+  const handleCheckedLeft = () => {
+    setLeft(left.concat(rightChecked));
+    setRight(not(right, rightChecked));
+    setChecked(not(checked, rightChecked));
+    console.log('handleCheckedLeft');
+  };
+
+  const handleAllLeft = () => {
+    setLeft(left.concat(right));
+    setRight([]);
+    console.log('handleAllLeft');
+  };
+
+  const customList = (items: Ingredient[]) => {
+    console.log(items);
+    return (
+      <Paper className={classes.paper1}>
+        <List dense component='div' role='list'>
+          {items.map((value: Ingredient, index) => {
+            const labelId = `transfer-list-item-${index}-label`;
+
+            return (
+              <ListItem
+                key={value._id}
+                role='listitem'
+                button
+                onClick={handleToggle(value)}
+              >
+                <ListItemIcon>
+                  <Checkbox
+                    checked={
+                      checked.findIndex(
+                        checkedValue => checkedValue._id === value._id
+                      ) !== -1
+                    }
+                    tabIndex={-1}
+                    disableRipple
+                    inputProps={{ 'aria-labelledby': labelId }}
+                  />
+                </ListItemIcon>
+                <ListItemText id={labelId} primary={value.name} />
+              </ListItem>
+            );
+          })}
+          <ListItem />
+        </List>
+      </Paper>
+    );
+  };
+
+  return (
+    <Grid
+      container
+      spacing={2}
+      justify='center'
+      alignItems='center'
+      className={classes.root1}
+    >
+      <Grid item>{customList(left)}</Grid>
+      <Grid item>
+        <Grid container direction='column' alignItems='center'>
+          <Button
+            variant='outlined'
+            size='small'
+            className={classes.button1}
+            onClick={handleAllRight}
+            disabled={left.length === 0}
+            aria-label='move all right'
+          >
+            ≫
+          </Button>
+          <Button
+            variant='outlined'
+            size='small'
+            className={classes.button1}
+            onClick={handleCheckedRight}
+            disabled={leftChecked.length === 0}
+            aria-label='move selected right'
+          >
+            &gt;
+          </Button>
+          <Button
+            variant='outlined'
+            size='small'
+            className={classes.button1}
+            onClick={handleCheckedLeft}
+            disabled={rightChecked.length === 0}
+            aria-label='move selected left'
+          >
+            &lt;
+          </Button>
+          <Button
+            variant='outlined'
+            size='small'
+            className={classes.button1}
+            onClick={handleAllLeft}
+            disabled={right.length === 0}
+            aria-label='move all left'
+          >
+            ≪
+          </Button>
+        </Grid>
+      </Grid>
+      <Grid item>{customList(right)}</Grid>
+    </Grid>
+  );
+};
+
 export default function AddItem() {
-  const { menu } = useMenuState();
+  const { menu, ingredients } = useMenuState();
   const menuDispatch = useMenuDispatch();
+  const [itemIngredients, setItemIngredients] = useState<Ingredient[]>([]);
   const [catId, setCatId] = useState('');
   const [name, setName] = useState('');
   const [iconLine1, setIconLine1] = useState('');
@@ -64,10 +249,14 @@ export default function AddItem() {
   const [disc, setDisc] = useState('');
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
   const open = Boolean(anchorEl);
+
   useEffect(() => {
     loadMenu(menuDispatch);
+    loadIngredients(menuDispatch);
   }, [menuDispatch]);
+
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -90,6 +279,7 @@ export default function AddItem() {
             iconLine1,
             iconLine2,
             iconLine3,
+            ingredients: itemIngredients,
             price
           };
           addCategoryItem(menuDispatch, categoryItem);
@@ -177,9 +367,13 @@ export default function AddItem() {
           onChange={e => setIconLine3(e.target.value)}
           label='line 3:'
           name='line 3'
-          autoFocus
         />
-
+        <IngredientList
+          ingredients={ingredients}
+          onListChange={pickedIngredients => {
+            setItemIngredients(pickedIngredients);
+          }}
+        />
         <TextField
           variant='outlined'
           margin='normal'

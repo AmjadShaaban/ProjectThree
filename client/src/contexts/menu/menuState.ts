@@ -8,6 +8,7 @@ export interface MenuState {
   isMenuLoading: boolean;
   menu: Category[];
   menuItems: CategoryItem[];
+  ingredients: Ingredient[];
   selectedCategory: Category | null;
   selectedIngredient: Ingredient | null;
   show: boolean;
@@ -18,6 +19,7 @@ export const initialState: MenuState = {
   isMenuLoading: true,
   menu: [],
   menuItems: [],
+  ingredients: [],
   selectedCategory: null,
   selectedIngredient: null,
   show: false,
@@ -54,6 +56,9 @@ export interface CategoryResDTO {
 export interface MenuResDTO {
   categories: Category[];
 }
+export interface IngredientsResDTO {
+  ingredients: Ingredient[];
+}
 export interface CategoryItemResDTO {
   _id?: string;
   name?: string;
@@ -69,9 +74,9 @@ export enum MenuActionTypes {
   GET_CATEGORY_ITEMS_SUCCESS = 'GET_CATEGORY_ITEMS_SUCCESS',
   GET_CATEGORY_ITEMS_FAIL = 'GET_CATEGORY_ITEMS_FAIL',
   GET_CATEGORY_ITEMS = 'GET_CATEGORY_ITEMS',
-  GET_INGREDIENT = 'GET_INGREDIENT',
-  GET_INGREDIENT_FAIL = 'ADD_INGREDIENT_FAIL',
-  GET_INGREDIENT_SUCCESS = 'ADD_INGREDIENT_SUCCESS',
+  GET_INGREDIENTS = 'GET_INGREDIENTS',
+  GET_INGREDIENTS_FAIL = 'ADD_INGREDIENTS_FAIL',
+  GET_INGREDIENTS_SUCCESS = 'ADD_INGREDIENTS_SUCCESS',
   SELECT_CATEGORY = 'SELECT_CATEGORY',
   ADD_CATEGORY = 'ADD_CATEGORY',
   ADD_CATEGORY_FAIL = 'ADD_CATEGORY_FAIL',
@@ -123,6 +128,17 @@ interface AddCategoryFailAction {
 interface GetCategoriesAction {
   type: typeof MenuActionTypes.GET_CATEGORIES;
 }
+interface GetIngredientsAction {
+  type: typeof MenuActionTypes.GET_INGREDIENTS;
+}
+interface GetIngredientsFailAction {
+  type: typeof MenuActionTypes.GET_INGREDIENTS_FAIL;
+  payload: string;
+}
+interface GetIngredientsSuccessAction {
+  type: typeof MenuActionTypes.GET_INGREDIENTS_SUCCESS;
+  payload: Ingredient[];
+}
 
 interface GetCategoriesFailAction {
   type: typeof MenuActionTypes.GET_CATEGORIES_FAIL;
@@ -164,7 +180,10 @@ export type MenuActions =
   | AddIngredientFailAction
   | AddCategoryItemSuccessAction
   | AddCategoryItemFailAction
-  | AddCategoryItemAction;
+  | AddCategoryItemAction
+  | GetIngredientsAction
+  | GetIngredientsFailAction
+  | GetIngredientsSuccessAction;
 
 export const menuReducer = (
   state = initialState,
@@ -178,6 +197,7 @@ export const menuReducer = (
     case MenuActionTypes.ADD_CATEGORY:
     case MenuActionTypes.ADD_CATEGORY_ITEM:
     case MenuActionTypes.GET_CATEGORY_ITEMS:
+    case MenuActionTypes.GET_INGREDIENTS:
     case MenuActionTypes.GET_CATEGORIES: {
       return { ...state, isMenuLoading: false, error: null };
     }
@@ -185,6 +205,7 @@ export const menuReducer = (
     case MenuActionTypes.ADD_CATEGORY_FAIL:
     case MenuActionTypes.ADD_CATEGORY_ITEM_FAIL:
     case MenuActionTypes.GET_CATEGORY_ITEMS_FAIL:
+    case MenuActionTypes.GET_INGREDIENTS_FAIL:
     case MenuActionTypes.GET_CATEGORIES_FAIL: {
       return {
         ...state,
@@ -197,6 +218,13 @@ export const menuReducer = (
         ...state,
         isMenuLoading: false,
         menu: action.payload.categories
+      };
+    }
+    case MenuActionTypes.GET_INGREDIENTS_SUCCESS: {
+      return {
+        ...state,
+        isMenuLoading: false,
+        ingredients: action.payload
       };
     }
     case MenuActionTypes.ADD_CATEGORY_ITEM_SUCCESS: {

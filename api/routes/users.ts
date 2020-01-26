@@ -53,8 +53,8 @@ export function usersAPI(app) {
           (err, token) => {
             if (err) throw err;
             res.json({
+              token,
               user: {
-                token,
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,

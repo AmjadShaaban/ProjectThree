@@ -91,7 +91,7 @@ export default function AddCategory() {
           margin='normal'
           required
           fullWidth
-          id='icon-line-1'
+          id='cat-icon-line-1'
           value={iconLine1}
           onChange={e => setIconLine1(e.target.value)}
           label='line 1'
@@ -103,7 +103,7 @@ export default function AddCategory() {
           margin='normal'
           required
           fullWidth
-          id='Icon-line-2'
+          id='cat-icon-line-2'
           value={iconLine2}
           onChange={e => setIconLine2(e.target.value)}
           label='line 2:'
@@ -115,7 +115,7 @@ export default function AddCategory() {
           margin='normal'
           required
           fullWidth
-          id='icon-line-3'
+          id='cat-icon-line-3'
           value={iconLine3}
           onChange={e => setIconLine3(e.target.value)}
           label='line 3:'

@@ -16,7 +16,6 @@ import {
   // postOrder,
   OrderActionTypes
 } from '../../contexts/order';
-import { grey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
