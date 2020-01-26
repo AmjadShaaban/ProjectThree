@@ -131,7 +131,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Dashboard() {
+export default function BackOfficeDashboard() {
   //   const dispatch = useMenuDispatch();
   //   useEffect(() => {
   //     loadMenu(dispatch);
@@ -144,7 +144,6 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>

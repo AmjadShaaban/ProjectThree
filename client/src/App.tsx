@@ -8,7 +8,6 @@ import Register from './components/auth/Register';
 import MainDashboard from './components/front/MainDashboard';
 import BackOfficeDashboard from './components/backOffice/BackOfficeDashboard';
 import './fonts/minisystem.ttf';
-import Dashboard from './components/shared/Dashboard';
 import Login from './components/auth/Login';
 import PrivateRoute from './components/routing/PrivateRoute';
 import { Roles } from './interfaces';

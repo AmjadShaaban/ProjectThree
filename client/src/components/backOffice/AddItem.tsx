@@ -22,7 +22,7 @@ import {
   loadMenu,
   loadIngredients
 } from '../../contexts/menu';
-import { Ingredient, IngredientTypes } from '../../interfaces';
+import { Ingredient } from '../../interfaces';
 
 const ITEM_HEIGHT = 48;
 

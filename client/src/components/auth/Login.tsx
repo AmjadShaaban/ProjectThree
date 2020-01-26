@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useAuthState, useAuthDispatch, loginUser } from '../../contexts/auth';
-import { useHistory, useLocation, Redirect } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -65,7 +65,6 @@ export default function SignInSide() {
   const classes = useStyles();
   const [email, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { isAuthenticated, user } = useAuthState();
   const authDispatch = useAuthDispatch();
 
   const { from } = location.state;

@@ -1,4 +1,4 @@
-import { Category, Ingredient } from '../../interfaces';
+import { Category } from '../../interfaces';
 import { Dispatch } from 'react';
 import {
   MenuActionTypes,
