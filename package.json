@@ -1,12 +1,14 @@
 {
-  "name": "ProjectThree",
+  "name": "projectthree",
   "version": "1.0.0",
   "description": "Presentable MVP of Project PoS",
   "main": "index.js",
   "scripts": {
     "start": "node -r ts-node/register server.ts",
-    "start:watch": "nodemon",
-    "build": "tsc"
+    "build": "tsc",
+    "postinstall": "npm run build",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
+    "start:watch": "nodemon"
   },
   "repository": {
     "type": "git",
