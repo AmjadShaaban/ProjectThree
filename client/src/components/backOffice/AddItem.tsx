@@ -245,7 +245,7 @@ export default function AddItem() {
   const [iconLine1, setIconLine1] = useState('');
   const [iconLine2, setIconLine2] = useState('');
   const [iconLine3, setIconLine3] = useState('');
-  const [price, setPrice] = useState('');
+  const [price, setPrice] = useState(0);
   const [disc, setDisc] = useState('');
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -326,6 +326,7 @@ export default function AddItem() {
           autoFocus
         />
         <TextField
+          variant='outlined'
           id='standard-multiline-static'
           label='Item Discription'
           multiline
@@ -379,9 +380,10 @@ export default function AddItem() {
           margin='normal'
           required
           fullWidth
+          type='number'
           id='price'
           value={price}
-          onChange={e => setPrice(e.target.value)}
+          onChange={e => setPrice(parseFloat(e.target.value))}
           label='Price'
           name='price'
           autoFocus

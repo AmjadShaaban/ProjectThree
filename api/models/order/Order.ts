@@ -4,7 +4,7 @@ import { IOrder, OrderTypes } from '../../interfaces';
 const OrderSchema = new Schema(
   {
     type: { type: String, enum: Object.values(OrderTypes), required: true },
-    orderItems: [{ type: Schema.Types.ObjectId, ref: 'OrderItem' }],
+    orderItems: [{ type: Schema.Types.ObjectId, ref: 'CategoryItem' }],
     total: { type: String, required: true },
     customerName: { type: String },
     customerPhone: { type: String },

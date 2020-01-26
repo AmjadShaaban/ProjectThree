@@ -5,6 +5,17 @@ import {
   PostOrderReqDTO,
   OrderResDTO
 } from './orderState';
+import { Order } from '../../interfaces';
+
+export const setOrder = (
+  dispatch: Dispatch<OrderActions>,
+  order: Order | null
+) => {
+  dispatch({
+    type: OrderActionTypes.SET_ORDER,
+    payload: order
+  });
+};
 
 export const postOrder = async (
   dispatch: Dispatch<OrderActions>,
@@ -12,7 +23,7 @@ export const postOrder = async (
 ) => {
   dispatch({ type: OrderActionTypes.CREATE_ORDER, payload: order });
   try {
-    const response: OrderResDTO = await fetch('/api/order/new', {
+    const response: OrderResDTO = await fetch('/api/orders', {
       method: 'POST',
       body: JSON.stringify(order),
       headers: new Headers({
@@ -21,19 +32,22 @@ export const postOrder = async (
       })
     }).then(r => r.json());
     if (!response || !response.order) {
-      return dispatch({
+      dispatch({
         type: OrderActionTypes.CREATE_ORDER_FAIL,
         payload: 'Server error?'
       });
+      return false;
     }
-    return dispatch({
+    dispatch({
       type: OrderActionTypes.CREATE_ORDER_SUCCESS,
       payload: response
     });
+    return true;
   } catch (error) {
-    return dispatch({
+    dispatch({
       type: OrderActionTypes.CREATE_ORDER_FAIL,
       payload: error
     });
+    return false;
   }
 };

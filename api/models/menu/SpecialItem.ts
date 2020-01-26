@@ -10,7 +10,7 @@ const SpecialItemSchema = new Schema({
     line2: { type: String, required: true },
     line3: { type: String, required: true }
   },
-  price: { type: String, required: true },
+  price: { type: Number, required: true },
   items: [{ type: Schema.Types.ObjectId, ref: 'CategoryItem' }]
 });
 

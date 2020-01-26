@@ -9,16 +9,32 @@ import MainDashboard from './components/front/MainDashboard';
 import BackOfficeDashboard from './components/backOffice/BackOfficeDashboard';
 import './fonts/minisystem.ttf';
 import Dashboard from './components/shared/Dashboard';
+import Login from './components/auth/Login';
+import PrivateRoute from './components/routing/PrivateRoute';
+import { Roles } from './interfaces';
 const App: FC<{}> = () => {
+  console.log(Object.values(Roles));
   return (
     <AuthProvider>
       <MenuProvider>
         <OrderProvider>
           <Router>
             <Switch>
-              <Route exact path='/logout' component={Dashboard} />
-              <Route exact path='/' component={MainDashboard} />
-              <Route exact path='/6est' component={BackOfficeDashboard} />
+              <Route exact path='/login' component={Login} />
+              <PrivateRoute
+                exact
+                path='/'
+                roles={Object.values(Roles)}
+                redirectTo='/login'
+                component={MainDashboard}
+              />
+              <PrivateRoute
+                roles={[Roles.MANAGER]}
+                redirectTo='/login'
+                exact
+                path='/6est'
+                component={BackOfficeDashboard}
+              />
               <Route exact path='/reg' component={Register} />
             </Switch>
           </Router>

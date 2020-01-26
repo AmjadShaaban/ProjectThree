@@ -7,7 +7,10 @@ export function menuAPI(app) {
   //Full 'GET' menu route
   app.get('/api/menu', async (req, res) => {
     try {
-      let categories = await Category.find({}).populate('items');
+      let categories = await Category.find({}).populate({
+        path: 'items',
+        populate: { path: 'ingredients', model: Ingredient }
+      });
       if (categories) {
         return res.status(200).json({ categories });
       }
@@ -32,7 +35,7 @@ export function menuAPI(app) {
         items: []
       });
       await item.save();
-      res.status(200).json({ msg: 'success' });
+      res.status(200).json({ item });
     } catch (error) {
       res.status(500).json({ error });
     }

@@ -1,42 +1,33 @@
 import auth from '../middleware/auth';
 import Order from '../models/order/Order';
-import { IOrder, IDelivery, IOrderIn, IPickup } from '../interfaces/index';
 
 export function orderAPI(app) {
-  app.get('/api/orders/delivery/:date', auth, async (req, res) => {
-    const { date } = req.params;
-    const date2 = date + 1;
-    try {
-      let orders = await Order.find({
-        created_on: { $gte: new Date(date), $lt: new Date(date2) }
-      }).populate('orderItems');
-      if (orders) {
-        return res.status(200).json({ orders });
+  app.get(
+    '/api/orders/',
+    /*auth,*/ async (req, res) => {
+      try {
+        let orders = await Order.find({}).populate({
+          path: 'orderItems',
+          populate: { path: 'ingredients', model: 'Ingredient' }
+        });
+        if (orders) {
+          return res.status(200).json({ orders });
+        }
+      } catch (error) {
+        res.status(500).json({ error });
       }
-    } catch (error) {
-      res.status(500).json({ error });
     }
-  });
-  app.post('/api/orders/new', auth, async (req, res) => {
-    const {
-      type,
-      orderItems,
-      total,
-      customerName,
-      customerPhone,
-      customerAddress
-    } = req.body;
+  );
+  app.post('/api/orders', auth, async (req, res) => {
     try {
       let order = new Order({
-        type,
-        orderItems,
-        total,
-        customerName,
-        customerPhone,
-        customerAddress
+        ...req.body.order,
+        total: req.body.order.orderItems.reduce((accum, orderItem) => {
+          return accum + orderItem.price;
+        }, 0)
       });
       await order.save();
-      res.status(200).json({ msg: 'success' });
+      res.status(200).json({ order });
     } catch (error) {
       res.status(500).json({ error });
     }

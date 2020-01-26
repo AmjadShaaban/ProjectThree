@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
 export default function AddIngredient() {
   const menuDispatch = useMenuDispatch();
   const [name, setName] = useState('');
-  const [price, setPrice] = useState('');
+  const [price, setPrice] = useState(0);
   const [isTopping, setIsTopping] = useState(false);
   const [type, setType] = useState(IngredientTypes.CHEESE);
 
@@ -146,9 +146,10 @@ export default function AddIngredient() {
             margin='normal'
             required
             fullWidth
+            type='number'
             id='ingredient-price'
             value={price}
-            onChange={e => setPrice(e.target.value)}
+            onChange={e => setPrice(parseFloat(e.target.value))}
             label='Price'
             name='price'
             autoFocus

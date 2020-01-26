@@ -51,18 +51,21 @@ export const loginUser = async (
       headers: new Headers({ 'Content-Type': 'application/json' })
     }).then(r => r.json());
     if (!response || !response.token) {
-      return dispatch({
+      dispatch({
         type: AuthActionTypes.LOGIN_FAIL,
         payload: 'Unable to Login'
       });
+      return false;
     }
     localStorage.setItem('token', response.token);
     dispatch({ type: AuthActionTypes.LOGIN_SUCCESS, payload: response });
+    return true;
   } catch (error) {
     dispatch({
       type: AuthActionTypes.LOGIN_FAIL,
       payload: 'Unable to Login'
     });
+    return false;
   }
 };
 export const registerUser = async (

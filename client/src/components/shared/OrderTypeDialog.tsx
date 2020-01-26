@@ -62,7 +62,7 @@ const OrderTypeDialog: FC<{
   onCancel: () => void;
   onSubmit: (order: Order) => void;
   isOpen: boolean;
-}> = ({ onCancel, onSubmit, isOpen, item }) => {
+}> = ({ onCancel, onSubmit, isOpen }) => {
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerAddress, setCustomerAddress] = useState('');
@@ -89,8 +89,7 @@ const OrderTypeDialog: FC<{
             customerPhone,
             customerAddress,
             type,
-            orderItems: [],
-            total: '0'
+            orderItems: []
           });
         }}
       >

@@ -1,4 +1,5 @@
 import { User } from '../../interfaces';
+import jwtDecode from 'jwt-decode';
 export interface RegisterResDTO {
   token: string;
   user: User;
@@ -29,7 +30,7 @@ export interface LoginReqDTO {
 export interface AuthState {
   isLoading: boolean;
   isAuthenticated: boolean;
-  token: string | null;
+  token: string;
   user: User | null;
   error: string | null;
 }
@@ -37,11 +38,14 @@ export interface AuthState {
 export const initialState: AuthState = {
   isLoading: false,
   isAuthenticated: false,
-  token: localStorage.token,
+  token: localStorage.token || '',
   user: null,
   error: ''
 };
-
+if (localStorage.token) {
+  const decoded: any = jwtDecode(localStorage.token);
+  initialState.user = decoded.user;
+}
 // interface LoginAction {
 //   type: typeof LOGIN;
 //   payload: LoginReqDTO;
@@ -141,12 +145,7 @@ export const authReducer = (
     }
     case AuthActionTypes.LOGOUT: {
       return {
-        ...state,
-        isAuthenticated: false,
-        isLoading: false,
-        token: null,
-        user: null,
-        error: null
+        ...initialState
       };
     }
 
@@ -156,7 +155,7 @@ export const authReducer = (
       return {
         ...state,
         isLoading: false,
-        token: null,
+        token: '',
         error: action.payload
       };
     }

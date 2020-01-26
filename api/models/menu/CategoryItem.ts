@@ -10,7 +10,7 @@ const CategoryItemSchema = new Schema({
     line2: { type: String, required: true },
     line3: { type: String, required: true }
   },
-  price: { type: String, required: true },
+  price: { type: Number, required: true },
   ingredients: [{ type: Schema.Types.ObjectId, ref: 'Ingredient' }]
 });
 

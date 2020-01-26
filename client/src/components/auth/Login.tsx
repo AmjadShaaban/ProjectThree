@@ -11,6 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useAuthState, useAuthDispatch, loginUser } from '../../contexts/auth';
+import { useHistory, useLocation, Redirect } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -59,11 +60,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SignInSide() {
+  const history = useHistory();
+  const location = useLocation<{ from: Location }>();
   const classes = useStyles();
   const [email, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
-  const authState = useAuthState();
+  const { isAuthenticated, user } = useAuthState();
   const authDispatch = useAuthDispatch();
+
+  const { from } = location.state;
+  console.log('location in login p age', location);
 
   return (
     <Grid container component='main' className={classes.root}>
@@ -82,7 +88,9 @@ export default function SignInSide() {
             noValidate
             onSubmit={e => {
               e.preventDefault();
-              loginUser(authDispatch, { email, password });
+              loginUser(authDispatch, { email, password }).then(
+                success => success && history.push(from.pathname)
+              );
             }}
           >
             <TextField

@@ -11,6 +11,7 @@ import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { Roles } from '../../interfaces';
 import { Link } from 'react-router-dom';
+import { PrivateLink } from '../routing/PrivateLink';
 
 export const MainListItems: FC<{
   role: Roles;
@@ -37,24 +38,20 @@ export const MainListItems: FC<{
         </ListItemIcon>
         <ListItemText primary='Customers' />
       </ListItem>
-      {role === Roles.MANAGER && (
-        <>
-          <ListItem button>
-            <ListItemIcon>
-              <BarChartIcon />
-            </ListItemIcon>
-            <ListItemText primary='Reports' />
-          </ListItem>
-          <Link to='/6est'>
-            <ListItem button>
-              <ListItemIcon>
-                <LayersIcon />
-              </ListItemIcon>
-              <ListItemText primary='Back Office' />
-            </ListItem>
-          </Link>
-        </>
-      )}
+      <ListItem button>
+        <ListItemIcon>
+          <BarChartIcon />
+        </ListItemIcon>
+        <ListItemText primary='Reports' />
+      </ListItem>
+      <PrivateLink to='/6est' roles={[Roles.MANAGER]}>
+        <ListItem button>
+          <ListItemIcon>
+            <LayersIcon />
+          </ListItemIcon>
+          <ListItemText primary='Back Office' />
+        </ListItem>
+      </PrivateLink>
     </div>
   );
 };

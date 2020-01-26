@@ -44,14 +44,10 @@ export interface AddIngredientReqDTO {
   name: string;
   type: IngredientTypes;
   isTopping: boolean;
-  price: string;
+  price: number;
 }
 export interface CategoryResDTO {
-  _id?: string;
-  name?: string;
-  iconLine1?: string;
-  iconLine2?: string;
-  iconLine3?: string;
+  item: Category;
 }
 export interface MenuResDTO {
   categories: Category[];
@@ -119,7 +115,7 @@ interface AddCategoryItemFailAction {
 }
 interface AddCategorySuccessAction {
   type: typeof MenuActionTypes.ADD_CATEGORY_SUCCESS;
-  payload: CategoryItemResDTO;
+  payload: Category;
 }
 interface AddCategoryFailAction {
   type: typeof MenuActionTypes.ADD_CATEGORY_FAIL;

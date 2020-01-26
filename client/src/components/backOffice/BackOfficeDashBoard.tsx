@@ -208,7 +208,9 @@ export default function Dashboard() {
         <Container maxWidth='lg' className={classes.container}>
           <Grid container spacing={1}>
             <Grid item xs={8}>
-              <Paper className={fixedHeightPaper}></Paper>
+              <Paper className={classes.test}>
+                <AddItem />
+              </Paper>
             </Grid>
             <Grid item xs={4}>
               <Paper className={classes.test}>
@@ -223,9 +225,7 @@ export default function Dashboard() {
               </Paper>
             </Grid>
             <Grid item xs={4}>
-              <Paper className={classes.test}>
-                <AddItem />
-              </Paper>
+              <Paper className={classes.test}></Paper>
             </Grid>
             <Grid item xs={4}>
               <Paper className={classes.test}>

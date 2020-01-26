@@ -37,7 +37,7 @@ export interface Ingredient {
   name: string;
   type?: IngredientTypes;
   isTopping?: boolean;
-  price?: string;
+  price?: number;
 }
 export interface Category {
   _id?: string;
@@ -50,7 +50,7 @@ export interface CategoryItem {
   _id?: string;
   name: string;
   disc: string;
-  price: string;
+  price: number;
   iconData: SVGIconData;
   ingredients?: Ingredient[];
 }
@@ -61,5 +61,4 @@ export interface Order {
   customerPhone?: string;
   customerAddress?: string;
   orderItems: CategoryItem[];
-  total: string;
 }

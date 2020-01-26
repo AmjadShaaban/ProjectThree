@@ -82,9 +82,9 @@ export default function SignUp() {
               email,
               password,
               role: Roles.UNKNOWN
-            }).then(r => {
-              console.log(r);
-              if (r) {
+            }).then(success => {
+              console.log(success);
+              if (success) {
                 history.push('/');
               }
             });

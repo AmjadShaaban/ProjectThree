@@ -4,12 +4,18 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Title from '../shared/Title';
 import OrderTypeDialog from '../shared/OrderTypeDialog';
 import { Category, CategoryItem, Order } from '../../interfaces';
-import { useMenuState, useMenuDispatch, loadMenu } from '../../contexts/menu';
+import {
+  useMenuState,
+  useMenuDispatch,
+  loadMenu,
+  setSelectedCategory
+} from '../../contexts/menu';
 import {
   useOrderState,
   useOrderDispatch,
@@ -84,10 +90,7 @@ const MenuItemTile: FC<{
 export default function Menu() {
   const [openDialog, setOpenDialog] = useState(false);
   const [pendingItem, setPendingItem] = useState<CategoryItem | null>(null);
-  const { menu, isMenuLoading } = useMenuState();
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
-    null
-  );
+  const { menu, isMenuLoading, selectedCategory } = useMenuState();
   const menuDispatch = useMenuDispatch();
 
   const { order } = useOrderState();
@@ -117,17 +120,16 @@ export default function Menu() {
     }
     orderDispatch({
       type: OrderActionTypes.SET_ORDER,
-      payload: { ...order, orderItems: [...order.orderItems, item] }
+      payload: {
+        ...order,
+        orderItems: [...order.orderItems, item]
+      }
     });
   };
 
   useEffect(() => {
     loadMenu(menuDispatch);
   }, [menuDispatch]);
-  // useEffect(()=>{
-  //   if(selectedCategory!==null){
-  //   loadItems(menuDispatch,selectedCategory);}
-  // },[menuDispatch,selectedCategory])
   const classes = useStyles();
   return (
     <>
@@ -137,17 +139,24 @@ export default function Menu() {
         isOpen={openDialog}
       />
       <Title>Menu</Title>
+      {selectedCategory !== null && (
+        <Button
+          onClick={() => setSelectedCategory(menuDispatch, null)}
+          size={'small'}
+        >
+          Back
+        </Button>
+      )}
       {isMenuLoading && <CircularProgress />}
       <div className={classes.root}>
         <GridList cellHeight={'auto'} className={classes.gridList} cols={6}>
           {selectedCategory === null
             ? menu.map(category => (
-                <div>
+                <div key={category._id}>
                   <MenuItemTile
-                    key={category._id}
                     data={category}
                     onSelect={() => {
-                      setSelectedCategory(category);
+                      setSelectedCategory(menuDispatch, category);
                     }}
                   />
                 </div>

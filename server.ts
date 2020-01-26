@@ -5,6 +5,7 @@ import { Message } from './api/interfaces';
 import { authAPI } from './api/routes/auth';
 import { usersAPI } from './api/routes/users';
 import { menuAPI } from './api/routes/menu';
+import { orderAPI } from './api/routes/order';
 import { connectDB } from './config/db';
 
 const PORT: string = process.env.PORT || '3333';
@@ -29,6 +30,7 @@ app.get('/api', (req, res) => {
 authAPI(app);
 usersAPI(app);
 menuAPI(app);
+orderAPI(app);
 
 const server = app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);

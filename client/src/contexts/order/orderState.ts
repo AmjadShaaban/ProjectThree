@@ -23,7 +23,7 @@ export enum OrderActionTypes {
 }
 interface SetOrderAction {
   type: typeof OrderActionTypes.SET_ORDER;
-  payload: Order;
+  payload: Order | null;
 }
 interface CreateOrderAction {
   type: typeof OrderActionTypes.CREATE_ORDER;

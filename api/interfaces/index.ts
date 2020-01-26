@@ -73,7 +73,7 @@ export interface IIngredient extends Document {
   name: string;
   type: IngredientTypes;
   isTopping: boolean;
-  price: string;
+  price: number;
 }
 
 export interface ICategory extends Document {
@@ -92,7 +92,7 @@ export interface ISpecial extends Document {
 export interface ICategoryItem extends Document {
   name: string;
   disc: string;
-  price: string;
+  price: number;
   iconData: SVGIconData;
   ingredients?: IIngredient[];
 }
@@ -100,7 +100,7 @@ export interface ICategoryItem extends Document {
 export interface ISpecialItem extends Document {
   name: string;
   disc: string;
-  price: string;
+  price: number;
   items: ICategoryItem[];
 }
 

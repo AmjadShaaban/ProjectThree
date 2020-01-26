@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, ComponentType } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
@@ -16,7 +16,7 @@ import {
   useOrderDispatch,
   OrderActionTypes
 } from '../../contexts/order';
-import { CategoryItem } from '../../interfaces';
+import { CategoryItem, Ingredient } from '../../interfaces';
 
 const useRootStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -37,7 +37,9 @@ const useNestedStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const OrderInvoiceItemIngredient: FC<{ name: string }> = ({ name }) => {
+const OrderInvoiceItemIngredient: ComponentType<{ ingredient: Ingredient }> = ({
+  ingredient
+}) => {
   const classes = useNestedStyles();
 
   return (
@@ -45,8 +47,7 @@ const OrderInvoiceItemIngredient: FC<{ name: string }> = ({ name }) => {
       <ListItemIcon>
         <StarBorder />
       </ListItemIcon>
-
-      <ListItemText primary={name} />
+      <ListItemText primary={ingredient.name} />
     </ListItem>
   );
 };
@@ -56,43 +57,52 @@ const OrderInvoiceItem: FC<{
   isOpen: boolean;
   onToggle: () => void;
   onRemove: () => void;
-}> = ({ item, isOpen, onToggle, onRemove }) => (
-  <>
-    <ListItem button onClick={onToggle}>
-      <ListItemIcon onClick={onRemove}>
-        <DeleteForeverIcon />
-      </ListItemIcon>
-      <ListItemText primary={item.name} />
-      {isOpen ? <ExpandLess /> : <ExpandMore />}
-    </ListItem>
+}> = ({ item, isOpen, onToggle, onRemove }) => {
+  console.log(item);
+  return (
+    <>
+      <ListItem button onClick={onToggle}>
+        <ListItemIcon onClick={onRemove}>
+          <DeleteForeverIcon />
+        </ListItemIcon>
+        <ListItemText primary={item.name} />
+        {isOpen ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
 
-    <Collapse in={isOpen} timeout='auto' unmountOnExit>
-      <List component='div' disablePadding>
-        {item.ingredients?.map((ingredient, index) => (
-          <OrderInvoiceItemIngredient key={index} name={ingredient.name} />
-        ))}
-      </List>
-    </Collapse>
-  </>
-);
+      <Collapse in={isOpen} timeout='auto' unmountOnExit>
+        <List component='div' disablePadding>
+          {item.ingredients?.map(ingredient => (
+            <OrderInvoiceItemIngredient
+              key={ingredient.name}
+              ingredient={ingredient}
+            />
+          ))}
+        </List>
+      </Collapse>
+    </>
+  );
+};
 
 export default function OrderInvoice() {
   const classes = useRootStyles();
   const [openTab, setOpenTab] = useState<{ [id: number]: boolean }>({});
   const { order } = useOrderState();
   const orderDispatch = useOrderDispatch();
+  const orderTotal = order?.orderItems.reduce((acc, orderItem) => {
+    return acc + orderItem.price;
+  }, 0);
   const handleClick = (id: number) => {
     setOpenTab({ ...openTab, [id]: !openTab[id] });
   };
 
-  const removeFromOrder = (index: number) => {
+  const removeFromOrder = (item: CategoryItem, index: number) => {
     const orderItems = [...order!.orderItems];
     orderItems.splice(index, 1);
-
-    orderDispatch({
-      type: OrderActionTypes.SET_ORDER,
-      payload: { ...order!, orderItems }
-    });
+    order &&
+      orderDispatch({
+        type: OrderActionTypes.SET_ORDER,
+        payload: { ...order!, orderItems }
+      });
   };
 
   return (
@@ -102,6 +112,7 @@ export default function OrderInvoice() {
       subheader={
         <ListSubheader component='div' id='nested-list-subheader'>
           <Title>Order Invoice</Title>
+          <div>Total: {orderTotal} </div>
         </ListSubheader>
       }
       className={classes.root}
@@ -111,7 +122,7 @@ export default function OrderInvoice() {
           key={index}
           item={item}
           onRemove={() => {
-            removeFromOrder(index);
+            removeFromOrder(item, index);
           }}
           onToggle={() => {
             handleClick(index);
