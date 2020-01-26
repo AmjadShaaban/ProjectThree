@@ -5,8 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "node -r ts-node/register server.ts",
-    "tsc": "tsc",
-    "postinstall": "npm run tsc",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
     "start:watch": "nodemon"
   },
@@ -24,6 +22,8 @@
   "dependencies": {
     "@types/config": "0.0.36",
     "@types/cors": "^2.8.6",
+    "@types/mongodb": "^3.3.14",
+    "@types/mongoose": "^5.5.38",
     "@types/node": "^13.1.4",
     "bcryptjs": "^2.4.3",
     "config": "^3.2.4",
@@ -33,15 +33,12 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.4",
     "morgan": "^1.9.1",
-    "ts-node": "^8.5.4"
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.4"
   },
   "devDependencies": {
-    "@types/mongodb": "^3.3.14",
-    "@types/mongoose": "^5.5.38",
-    "concurrently": "^5.0.2",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.19.1",
-    "nodemon": "^2.0.2",
-    "typescript": "^3.7.4"
+    "nodemon": "^2.0.2"
   }
 }
