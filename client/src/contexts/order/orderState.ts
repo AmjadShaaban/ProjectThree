@@ -1,11 +1,13 @@
-import { Order } from '../../interfaces';
+import { Order, OrderTypes } from '../../interfaces';
 
 export interface OrderState {
+  orders: Order[] | null;
   order: Order | null;
   error: string | null;
 }
 
 export const initialState: OrderState = {
+  orders: null,
   order: null,
   error: null
 };
@@ -15,12 +17,34 @@ export interface PostOrderReqDTO {
 export interface OrderResDTO {
   order: Order;
 }
+// export interface OrdersReqDTO {
+//   query: string;
+// }
+export interface OrdersResDTO {
+  orders: Order[];
+}
 export enum OrderActionTypes {
   CREATE_ORDER = 'CREATE_ORDER',
   CREATE_ORDER_FAIL = 'CREATE_ORDER_FAIL',
   CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS',
-  SET_ORDER = 'SET_ORDER'
+  SET_ORDER = 'SET_ORDER',
+  GET_ORDERS = 'GET_ORDERS',
+  GET_ORDERS_SUCCESS = 'GET_ORDERS_SUCCESS',
+  GET_ORDERS_FAIL = 'GET_ORDERS_FAIL'
 }
+
+interface GetOrdersAction {
+  type: typeof OrderActionTypes.GET_ORDERS;
+}
+interface GetOrdersSuccessAction {
+  type: typeof OrderActionTypes.GET_ORDERS_SUCCESS;
+  payload: Order[];
+}
+interface GetOrdersFailAction {
+  type: typeof OrderActionTypes.GET_ORDERS_FAIL;
+  payload: string;
+}
+
 interface SetOrderAction {
   type: typeof OrderActionTypes.SET_ORDER;
   payload: Order | null;
@@ -41,19 +65,30 @@ export type OrderActions =
   | CreateOrderAction
   | CreateOrderFailAction
   | CreateOrderSuccessAction
-  | SetOrderAction;
+  | SetOrderAction
+  | GetOrdersAction
+  | GetOrdersFailAction
+  | GetOrdersSuccessAction;
 
 export const orderReducer = (
   state = initialState,
   action: OrderActions
 ): OrderState => {
   switch (action.type) {
+    case OrderActionTypes.GET_ORDERS_SUCCESS: {
+      return {
+        ...state,
+        orders: action.payload
+      };
+    }
+    case OrderActionTypes.GET_ORDERS:
     case OrderActionTypes.CREATE_ORDER: {
       return {
         ...state,
         error: null
       };
     }
+    case OrderActionTypes.GET_ORDERS_FAIL:
     case OrderActionTypes.CREATE_ORDER_FAIL: {
       return {
         ...state,

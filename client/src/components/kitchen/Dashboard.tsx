@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -20,65 +20,23 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { MainListItems, SecondaryListItems } from '../front/listItems';
-import { Roles } from '../../interfaces';
+import { Roles, Order, CategoryItem } from '../../interfaces';
+import { Button } from '@material-ui/core';
+import {
+  useOrderState,
+  useOrderDispatch,
+  getOrders
+} from '../../contexts/order';
 
-const fakeData = [
-  {
-    _id: '5e2dec893a90a54afc1c27ff',
-    orderItems: [
-      '5e2d86749eb4c63a139fa819',
-      '5e2d86749eb4c63a139fa819',
-      '5e2d86749eb4c63a139fa819',
-      '5e2d86749eb4c63a139fa819',
-      '5e2d86749eb4c63a139fa819'
-    ],
-    customerName: 'Amjad',
-    customerPhone: '555-555-5555',
-    customerAddress: 'sdfd',
-    type: 'Order-in',
-    total: '42.5',
-    createdAt: '2020-01-26T19:46:17.577Z',
-    updatedAt: '2020-01-27T02:45:07.198Z',
-    isOpen: false
-  },
-  {
-    _id: '5e2dec893a90a54afc1c27ff',
-    orderItems: [
-      '5e2d86749eb4c63a139fa819',
-      '5e2d86749eb4c63a139fa819',
-      '5e2d86749eb4c63a139fa819',
-      '5e2d86749eb4c63a139fa819',
-      '5e2d86749eb4c63a139fa819'
-    ],
-    customerName: 'Amjad',
-    customerPhone: '555-555-5555',
-    customerAddress: 'sdfd',
-    type: 'Order-in',
-    total: '42.5',
-    createdAt: '2020-01-26T19:46:17.577Z',
-    updatedAt: '2020-01-27T02:45:07.198Z',
-    __v: 0,
-    isOpen: false
-  },
-  {
-    _id: '5e2dec893a90a54afc1c27ff',
-    orderItems: [
-      '5e2d86749eb4c63a139fa819',
-      '5e2d86749eb4c63a139fa819',
-      '5e2d86749eb4c63a139fa819',
-      '5e2d86749eb4c63a139fa819',
-      '5e2d86749eb4c63a139fa819'
-    ],
-    customerName: 'Amjad',
-    customerPhone: '555-555-5555',
-    customerAddress: 'sdfd',
-    type: 'Order-in',
-    total: '42.5',
-    createdAt: '2020-01-26T19:46:17.577Z',
-    updatedAt: '2020-01-27T02:45:07.198Z',
-    isOpen: false
-  }
-];
+const injectSVGText = (arr: Order['orderItems']) => {
+  let x = 11;
+  let y = 12;
+  return arr.map((item: CategoryItem, i: number) => (
+    <text x={`${x}%`} y={`${y + i * 5}%`} fill={`darkgray`} key={item.name}>
+      {`${item.name}`}
+    </text>
+  ));
+};
 
 function Copyright() {
   return (
@@ -188,12 +146,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Dashboard() {
-  //   const dispatch = useMenuDispatch();
-  //   useEffect(() => {
-  //     loadMenu(dispatch);
-  //   }, [dispatch]);
+  const { orders } = useOrderState();
+  const orderDispatch = useOrderDispatch();
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -201,6 +157,9 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  useEffect(() => {
+    getOrders(orderDispatch, '?isOpen=t');
+  }, [orderDispatch]);
 
   return (
     <div className={classes.root}>
@@ -263,110 +222,32 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth='lg' className={classes.container}>
           <Grid container spacing={1}>
-            <Grid item xs={4}>
+            <Grid item xs={12}>
               <Paper className={fixedHeightPaper}>
-                <Title>Order: {fakeData[0]._id}</Title>
-                <svg viewBox='0 0 300 500'>
-                  <rect height='100%' width='100%' fill='blue' />
-                  <rect
-                    x='5%'
-                    y='3%'
-                    height='94%'
-                    width='90%'
-                    stroke='gray'
-                    strokeWidth='2'
-                    fill='blue'
-                  />
-                  <text x='8%' y='7%' fill='gray'>
-                    {fakeData[0].createdAt}
-                  </text>
-                  <text x='11%' y='11%' fill='gray'>
-                    {fakeData[0].orderItems[0]}
-                  </text>
-                  <text x='11%' y='14%' fill='gray'>
-                    {fakeData[0].orderItems[1]}
-                  </text>
-                  <text x='11%' y='17%' fill='gray'>
-                    {fakeData[0].orderItems[2]}
-                  </text>
-                  <text x='11%' y='20%' fill='gray'>
-                    {fakeData[0].orderItems[3]}
-                  </text>
-                  <text x='11%' y='26%' fill='gray'>
-                    {fakeData[0].orderItems[3]}
-                  </text>
-                  <text x='8%' y='32%' fill='gray'>
-                    {fakeData[0].total}
-                  </text>
-                  <text x='11%' y='35%' fill='gray'>
-                    {fakeData[0].total}
-                  </text>
-                  <text x='11%' y='38%' fill='gray'>
-                    {fakeData[0].total}
-                  </text>
-                  <text x='11%' y='41%' fill='gray'>
-                    {fakeData[0].total}
-                  </text>
-                  <text x='11%' y='44%' fill='gray'>
-                    {fakeData[0].total}
-                  </text>
-                  <text x='11%' y='47%' fill='gray'>
-                    {fakeData[0].total}
-                  </text>
-                  <text x='11%' y='50%' fill='gray'>
-                    {fakeData[0].orderItems[0]}
-                  </text>
-                  <text x='11%' y='53%' fill='gray'>
-                    {fakeData[0].orderItems[1]}
-                  </text>
-                  <text x='11%' y='56%' fill='gray'>
-                    {fakeData[0].orderItems[2]}
-                  </text>
-                  <text x='11%' y='59%' fill='gray'>
-                    {fakeData[0].orderItems[3]}
-                  </text>
-                  <text x='11%' y='62%' fill='gray'>
-                    {fakeData[0].createdAt}
-                  </text>
-                  <text x='11%' y='65%%' fill='gray'>
-                    {fakeData[0].orderItems[3]}
-                  </text>
-                  <text x='8%' y='68%' fill='gray'>
-                    {fakeData[0].total}
-                  </text>
-                  <text x='11%' y='71%' fill='gray'>
-                    {fakeData[0].total}
-                  </text>
-                  <text x='11%' y='74%' fill='gray'>
-                    {fakeData[0].total}
-                  </text>
-                  <text x='11%' y='77%' fill='gray'>
-                    {fakeData[0].total}
-                  </text>
-                  <text x='11%' y='80%' fill='gray'>
-                    {fakeData[0].total}
-                  </text>
-                  <text x='11%' y='83%' fill='gray'>
-                    {fakeData[0].total}
-                  </text>
-                  <text x='11%' y='86%' fill='gray'>
-                    {fakeData[0].total}
-                  </text>
-                  <text x='11%' y='89%' fill='gray'>
-                    {fakeData[0].total}
-                  </text>
-                  <text x='11%' y='92%' fill='gray'>
-                    {fakeData[0].total}
-                  </text>
-                  <text x='11%' y='95%' fill='gray'>
-                    {fakeData[0].total}
-                  </text>
-                  inline SVG Not Supported.
-                </svg>
+                <Title>Open orders:</Title>
+                <Grid container spacing={1}>
+                  {orders?.map((item, i) => (
+                    <Grid item xs={3} key={item.type}>
+                      <svg viewBox='0 0 300 500'>
+                        <rect height='100%' width='100%' fill='blue' />
+                        <rect
+                          x='5%'
+                          y='3%'
+                          height='94%'
+                          width='90%'
+                          stroke='darkgray'
+                          strokeWidth='2'
+                          fill='blue'
+                        />
+                        <text x='8%' y='7%' fill='darkgray'>
+                          Order: ORDER_NUMBER_HERE
+                        </text>
+                        {injectSVGText(item.orderItems)}
+                      </svg>
+                    </Grid>
+                  ))}
+                </Grid>
               </Paper>
-            </Grid>
-            <Grid item xs={4}>
-              <Paper className={fixedHeightPaper}>{`im shit here`}</Paper>
             </Grid>
           </Grid>
 

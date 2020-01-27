@@ -1,25 +1,35 @@
 import auth from '../middleware/auth';
 import Order from '../models/order/Order';
+import { OrderTypes } from '../interfaces';
 
 export function orderAPI(app) {
   app.get(
     '/api/orders',
     /*auth,*/ async (req, res) => {
       const conditions: any = {};
+      switch (req.query.isOpen) {
+        case 't':
+          conditions.isOpen = true;
+          break;
+        case 'f':
+          conditions.isOpen = false;
+          break;
+      }
       if (req.query.type) {
         switch (req.query.type.toLowerCase()) {
           case 'delivery':
-            conditions.type = 'Delivery';
+            conditions.type = OrderTypes.DELIVERY;
             break;
           case 'order-in':
-            conditions.type = 'Order-in';
+            conditions.type = OrderTypes.ORDER_IN;
             break;
           case 'pick-up':
-            conditions.type = 'Pick-up';
+            conditions.type = OrderTypes.PICKUP;
             break;
         }
       }
       try {
+        console.log(conditions);
         let orders = await Order.find(conditions).populate({
           path: 'orderItems',
           populate: { path: 'ingredients', model: 'Ingredient' }

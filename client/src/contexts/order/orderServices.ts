@@ -3,7 +3,9 @@ import {
   OrderActionTypes,
   OrderActions,
   PostOrderReqDTO,
-  OrderResDTO
+  OrderResDTO,
+  OrdersResDTO
+  // OrdersReqDTO
 } from './orderState';
 import { Order } from '../../interfaces';
 
@@ -15,6 +17,33 @@ export const setOrder = (
     type: OrderActionTypes.SET_ORDER,
     payload: order
   });
+};
+
+export const getOrders = async (
+  dispatch: Dispatch<OrderActions>,
+  query: string
+) => {
+  dispatch({ type: OrderActionTypes.GET_ORDERS });
+  try {
+    const response: OrdersResDTO = await fetch(`/api/orders${query}`).then(r =>
+      r.json()
+    );
+    if (!response || !response.orders) {
+      return dispatch({
+        type: OrderActionTypes.GET_ORDERS_FAIL,
+        payload: 'Unable to fetch orders'
+      });
+    }
+    dispatch({
+      type: OrderActionTypes.GET_ORDERS_SUCCESS,
+      payload: response.orders
+    });
+  } catch (error) {
+    dispatch({
+      type: OrderActionTypes.GET_ORDERS_FAIL,
+      payload: 'Unable to fetch orders'
+    });
+  }
 };
 
 export const postOrder = async (

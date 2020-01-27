@@ -11,6 +11,7 @@ import './fonts/minisystem.ttf';
 import Login from './components/auth/Login';
 import PrivateRoute from './components/routing/PrivateRoute';
 import { Roles } from './interfaces';
+import Dashboard from './components/kitchen/Dashboard';
 const App: FC<{}> = () => {
   console.log(Object.values(Roles));
   return (
@@ -20,13 +21,14 @@ const App: FC<{}> = () => {
           <Router>
             <Switch>
               <Route exact path='/login' component={Login} />
-              <PrivateRoute
+              {/* <PrivateRoute
                 exact
                 path='/'
                 roles={Object.values(Roles)}
                 redirectTo='/login'
                 component={MainDashboard}
-              />
+              /> */}
+              <Route exact path='/' component={Dashboard} />
               <PrivateRoute
                 roles={[Roles.MANAGER]}
                 redirectTo='/login'
@@ -37,9 +39,6 @@ const App: FC<{}> = () => {
               <Route exact path='/reg' component={Register} />
             </Switch>
           </Router>
-          {/* <PlayGround/> */}
-          {/* <BackOfficeDashboard /> */}
-          {/* <MainDashboard /> */}
         </OrderProvider>
       </MenuProvider>
     </AuthProvider>

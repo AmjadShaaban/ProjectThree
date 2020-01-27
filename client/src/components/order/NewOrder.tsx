@@ -44,6 +44,7 @@ export default function NewOrder() {
               }
               postOrder(orderDispatch, { order }).then(() => {
                 setSelectedCategory(menuDispatch, null);
+                setOrder(orderDispatch, null);
               });
             }}
           >
