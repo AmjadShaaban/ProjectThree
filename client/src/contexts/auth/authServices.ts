@@ -5,28 +5,25 @@ import {
   RegisterReqDTO,
   RegisterResDTO,
   LoginReqDTO,
-  AuthResDTO
+  AuthResDTO,
+  LoadUserResDTO
 } from './authState';
-import axios from 'axios';
 import { User } from '../../interfaces';
 
-const setAuthToken = (token: string) => {
-  if (token) {
-    axios.defaults.headers.common['x-auth-token'] = token;
-  } else {
-    delete axios.defaults.headers.common['x-auth-token'];
-  }
-};
-
 export const loadUser = async (dispatch: Dispatch<AuthActions>) => {
-  setAuthToken(localStorage.token);
+  dispatch({ type: AuthActionTypes.LOAD_USER });
   try {
-    const res = await axios.get('/api/auth');
+    const res: LoadUserResDTO = await fetch('/api/auth', {
+      headers: new Headers({
+        'x-auth-token': localStorage.token.toString()
+      })
+    }).then(r => r.json());
     dispatch({
       type: AuthActionTypes.LOAD_USER_SUCCESS,
-      payload: { user: res.data as User }
+      payload: res
     });
   } catch (error) {
+    console.log(error);
     dispatch({
       type: AuthActionTypes.LOAD_USER_FAIL,
       payload: 'Auth Error'

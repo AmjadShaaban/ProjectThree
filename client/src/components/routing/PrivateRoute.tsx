@@ -14,7 +14,7 @@ export const PrivateRoute: FC<PrivateRouteProps> = ({
   ...routeProps
 }) => {
   const { user } = useAuthState();
-
+  console.log(user);
   if (user && (user.role === Roles.ADMIN || roles.includes(user.role))) {
     return <Route {...routeProps} />;
   }

@@ -29,7 +29,6 @@ export interface LoginReqDTO {
 }
 export interface AuthState {
   isLoading: boolean;
-  isAuthenticated: boolean;
   token: string;
   user: User | null;
   error: string | null;
@@ -37,7 +36,6 @@ export interface AuthState {
 
 export const initialState: AuthState = {
   isLoading: false,
-  isAuthenticated: false,
   token: localStorage.token || '',
   user: null,
   error: ''
@@ -65,7 +63,6 @@ export enum AuthActionTypes {
 }
 interface LoadUserAction {
   type: typeof AuthActionTypes.LOAD_USER;
-  payload: LoadUserReqDTO;
 }
 interface LoadUserSuccessAction {
   type: typeof AuthActionTypes.LOAD_USER_SUCCESS;
@@ -118,13 +115,12 @@ export const authReducer = (
   state = initialState,
   action: AuthActions
 ): AuthState => {
+  console.log(action);
   switch (action.type) {
     case AuthActionTypes.LOAD_USER: {
       return {
         ...state,
-        isAuthenticated: true,
-        isLoading: false,
-        token: action.payload.token
+        isLoading: true
       };
     }
     case AuthActionTypes.LOGIN:
@@ -139,7 +135,6 @@ export const authReducer = (
         ...state,
         ...action.payload,
         isLoading: false,
-        isAuthenticated: true,
         error: null
       };
     }
@@ -150,6 +145,7 @@ export const authReducer = (
     }
 
     case AuthActionTypes.LOGIN_FAIL:
+    case AuthActionTypes.LOAD_USER_FAIL:
     case AuthActionTypes.REGISTER_FAIL: {
       localStorage.removeItem('token');
       return {

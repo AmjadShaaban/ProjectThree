@@ -10,16 +10,16 @@ import NewOrder from '../order/NewOrder';
 export default function Status() {
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
-  const { user, isLoading, isAuthenticated } = authState;
+  const { user, isLoading, token } = authState;
 
   return (
     <>
       {isLoading && <CircularProgress />}
       <div>
-        {isAuthenticated ? (
+        {token ? (
           <>
             <Title>Welcome {user?.fullName}</Title>{' '}
-            {isAuthenticated && (
+            {!!token && (
               <Button
                 variant='outlined'
                 color='primary'

@@ -20,9 +20,6 @@ if (process.env.NODE_ENV !== 'production') {
 }
 app.use(express.static(path.join(__dirname, 'client/build')));
 const greeting: Message = { message: 'Welcome to API!' };
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build/index.html'));
-});
 app.get('/api', (req, res) => {
   res.send(greeting);
 });
@@ -30,6 +27,9 @@ authAPI(app);
 usersAPI(app);
 menuAPI(app);
 orderAPI(app);
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build/index.html'));
+});
 
 const server = app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
