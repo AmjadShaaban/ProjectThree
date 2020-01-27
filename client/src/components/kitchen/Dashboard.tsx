@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -19,14 +19,15 @@ import Title from '../shared/Title';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { MainListItems, SecondaryListItems } from '../front/listItems';
-import { Roles, Order, CategoryItem } from '../../interfaces';
+import { MainListItems, SecondaryListItems } from '../shared/listItems';
+import { Order, CategoryItem } from '../../interfaces';
 import { Button } from '@material-ui/core';
 import {
   useOrderState,
   useOrderDispatch,
   getOrders
 } from '../../contexts/order';
+import uuidv1 from 'uuid/v1';
 
 const injectSVGText = (arr: Order['orderItems']) => {
   let x = 11;
@@ -211,11 +212,11 @@ export default function Dashboard() {
         </div>
         <Divider />
         <List>
-          <MainListItems role={Roles.COOK} />
+          <MainListItems />
         </List>
         <Divider />
         <List>
-          <SecondaryListItems role={Roles.COOK} />
+          <SecondaryListItems />
         </List>
       </Drawer>
       <main className={classes.content}>
@@ -227,7 +228,7 @@ export default function Dashboard() {
                 <Title>Open orders:</Title>
                 <Grid container spacing={1}>
                   {orders?.map((item, i) => (
-                    <Grid item xs={3} key={item.type}>
+                    <Grid item xs={3} key={uuidv1()}>
                       <svg viewBox='0 0 300 500'>
                         <rect height='100%' width='100%' fill='blue' />
                         <rect
@@ -244,13 +245,29 @@ export default function Dashboard() {
                         </text>
                         {injectSVGText(item.orderItems)}
                       </svg>
+                      <div onClick={() => console.log(item._id)}>
+                        <svg viewBox='0 0 240 75'>
+                          <rect height='100%' width='100%' fill='white' />
+                          <rect
+                            x='5%'
+                            y='14%'
+                            height='70%'
+                            width='90%'
+                            stroke='green'
+                            strokeWidth='4'
+                            fill='lime'
+                          />
+                          <text x='24%' y='53%' fill='darkgray' stroke='green'>
+                            ✔︎ Complete Order
+                          </text>
+                        </svg>
+                      </div>
                     </Grid>
                   ))}
                 </Grid>
               </Paper>
             </Grid>
           </Grid>
-
           <Box pt={4}>
             <Copyright />
           </Box>

@@ -21,22 +21,28 @@ const App: FC<{}> = () => {
           <Router>
             <Switch>
               <Route exact path='/login' component={Login} />
-              {/* <PrivateRoute
+              <Route exact path='/register' component={Register} />
+              <PrivateRoute
                 exact
                 path='/'
                 roles={Object.values(Roles)}
                 redirectTo='/login'
                 component={MainDashboard}
-              /> */}
-              <Route exact path='/' component={Dashboard} />
+              />
               <PrivateRoute
+                exact
+                path='/kitchen'
+                roles={[Roles.MANAGER, Roles.COOK, Roles.EMPLOYEE]}
+                redirectTo='/login'
+                component={Dashboard}
+              />
+              <PrivateRoute
+                exact
+                path='/office'
                 roles={[Roles.MANAGER]}
                 redirectTo='/login'
-                exact
-                path='/6est'
                 component={BackOfficeDashboard}
               />
-              <Route exact path='/reg' component={Register} />
             </Switch>
           </Router>
         </OrderProvider>

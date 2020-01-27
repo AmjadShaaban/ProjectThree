@@ -13,11 +13,9 @@ import { Roles } from '../../interfaces';
 import { Link } from 'react-router-dom';
 import { PrivateLink } from '../routing/PrivateLink';
 
-export const MainListItems: FC<{
-  role: Roles;
-}> = ({ role }) => {
+export const MainListItems: FC = () => {
   return (
-    <div>
+    <>
       <Link to='/'>
         <ListItem button>
           <ListItemIcon>
@@ -26,19 +24,21 @@ export const MainListItems: FC<{
           <ListItemText primary='Food Menu' />
         </ListItem>
       </Link>
-      <ListItem button>
-        <ListItemIcon>
-          <ShoppingCartIcon />
-        </ListItemIcon>
-        <ListItemText primary='Orders' />
-      </ListItem>
-      <ListItem button>
+      <Link to='/kitchen'>
+        <ListItem button>
+          <ListItemIcon>
+            <ShoppingCartIcon />
+          </ListItemIcon>
+          <ListItemText primary='Orders' />
+        </ListItem>
+      </Link>
+      <ListItem button disabled>
         <ListItemIcon>
           <PeopleIcon />
         </ListItemIcon>
         <ListItemText primary='Customers' />
       </ListItem>
-      <ListItem button>
+      <ListItem button disabled>
         <ListItemIcon>
           <BarChartIcon />
         </ListItemIcon>
@@ -52,38 +52,32 @@ export const MainListItems: FC<{
           <ListItemText primary='Back Office' />
         </ListItem>
       </PrivateLink>
-    </div>
+    </>
   );
 };
 
-export const SecondaryListItems: FC<{
-  role: Roles;
-}> = ({ role }) => {
+export const SecondaryListItems: FC = () => {
   return (
-    <div>
-      {role !== Roles.COOK && (
-        <>
-          <ListSubheader inset>New Order</ListSubheader>
-          <ListItem button>
-            <ListItemIcon>
-              <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary='Delivery' />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary='Pick-up' />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary='Order-In' />
-          </ListItem>
-        </>
-      )}
-    </div>
+    <>
+      <ListSubheader inset>New Order</ListSubheader>
+      <ListItem button>
+        <ListItemIcon>
+          <AssignmentIcon />
+        </ListItemIcon>
+        <ListItemText primary='Delivery' />
+      </ListItem>
+      <ListItem button>
+        <ListItemIcon>
+          <AssignmentIcon />
+        </ListItemIcon>
+        <ListItemText primary='Pick-up' />
+      </ListItem>
+      <ListItem button>
+        <ListItemIcon>
+          <AssignmentIcon />
+        </ListItemIcon>
+        <ListItemText primary='Order-In' />
+      </ListItem>
+    </>
   );
 };

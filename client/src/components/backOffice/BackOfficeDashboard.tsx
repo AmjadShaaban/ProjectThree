@@ -18,7 +18,7 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { MainListItems, SecondaryListItems } from '../front/listItems';
+import { MainListItems, SecondaryListItems } from '../shared/listItems';
 import { Roles } from '../../interfaces';
 import AddCategory from './AddCategory';
 import AddEmployee from './AddEmployee';
@@ -195,11 +195,11 @@ export default function BackOfficeDashboard() {
         </div>
         <Divider />
         <List>
-          <MainListItems role={Roles.MANAGER} />
+          <MainListItems />
         </List>
         <Divider />
         <List>
-          <SecondaryListItems role={Roles.MANAGER} />
+          <SecondaryListItems />
         </List>
       </Drawer>
       <main className={classes.content}>

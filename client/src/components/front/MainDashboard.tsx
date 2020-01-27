@@ -18,10 +18,9 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { MainListItems, SecondaryListItems } from './listItems';
+import { MainListItems, SecondaryListItems } from '../shared/listItems';
 import Specials from './Specials';
 import { loadMenu, useMenuDispatch } from '../../contexts/menu';
-import { Roles } from '../../interfaces';
 import Menu from './Menu';
 import Status from './Status';
 import OrderInvoice from '../order/OrderInvoice';
@@ -200,11 +199,11 @@ export default function MainDashboard() {
         </div>
         <Divider />
         <List>
-          <MainListItems role={Roles.MANAGER} />
+          <MainListItems />
         </List>
         <Divider />
         <List>
-          <SecondaryListItems role={Roles.MANAGER} />
+          <SecondaryListItems />
         </List>
       </Drawer>
       <main className={classes.content}>
