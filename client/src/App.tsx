@@ -13,7 +13,6 @@ import PrivateRoute from './components/routing/PrivateRoute';
 import { Roles } from './interfaces';
 import Dashboard from './components/kitchen/Dashboard';
 const App: FC<{}> = () => {
-  console.log(Object.values(Roles));
   return (
     <AuthProvider>
       <MenuProvider>

@@ -68,7 +68,6 @@ export default function SignInSide() {
   const authDispatch = useAuthDispatch();
 
   const { from } = location.state;
-  console.log('location in login p age', location);
 
   return (
     <Grid container component='main' className={classes.root}>

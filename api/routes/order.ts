@@ -29,7 +29,6 @@ export function orderAPI(app) {
         }
       }
       try {
-        console.log(conditions);
         let orders = await Order.find(conditions).populate({
           path: 'orderItems',
           populate: { path: 'ingredients', model: 'Ingredient' }

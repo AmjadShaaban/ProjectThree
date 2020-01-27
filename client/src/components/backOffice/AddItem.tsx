@@ -86,7 +86,6 @@ const IngredientList: FC<{
   ingredients: Ingredient[];
   onListChange: (newList: Ingredient[]) => void;
 }> = ({ ingredients, onListChange }) => {
-  console.log(ingredients);
   const classes = useStyles();
   const [checked, setChecked] = React.useState<Ingredient[]>([]);
   const [left, setLeft] = React.useState<Ingredient[]>(ingredients);
@@ -118,31 +117,26 @@ const IngredientList: FC<{
   const handleAllRight = () => {
     setRight(right.concat(left));
     setLeft([]);
-    console.log('handleAllRight');
   };
 
   const handleCheckedRight = () => {
     setRight(right.concat(leftChecked));
     setLeft(not(left, leftChecked));
     setChecked(not(checked, leftChecked));
-    console.log('handleCheckedRight');
   };
 
   const handleCheckedLeft = () => {
     setLeft(left.concat(rightChecked));
     setRight(not(right, rightChecked));
     setChecked(not(checked, rightChecked));
-    console.log('handleCheckedLeft');
   };
 
   const handleAllLeft = () => {
     setLeft(left.concat(right));
     setRight([]);
-    console.log('handleAllLeft');
   };
 
   const customList = (items: Ingredient[]) => {
-    console.log(items);
     return (
       <Paper className={classes.paper1}>
         <List dense component='div' role='list'>

@@ -54,7 +54,6 @@ const MenuItemTile: FC<{
   onSelect: () => void;
 }> = ({ onSelect, data }) => {
   const classes = useStyles();
-  console.log('I ran');
   return (
     <GridListTile cols={1} onClick={onSelect} className={classes.tile}>
       <svg viewBox='0 0 150 150'>

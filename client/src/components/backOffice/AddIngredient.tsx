@@ -65,7 +65,6 @@ export default function AddIngredient() {
           noValidate
           onSubmit={e => {
             e.preventDefault();
-            console.log({ name, type, isTopping, price });
             addIngredient(menuDispatch, {
               name,
               type,

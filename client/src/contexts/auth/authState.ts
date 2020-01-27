@@ -115,7 +115,6 @@ export const authReducer = (
   state = initialState,
   action: AuthActions
 ): AuthState => {
-  console.log(action);
   switch (action.type) {
     case AuthActionTypes.LOAD_USER: {
       return {

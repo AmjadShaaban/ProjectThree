@@ -58,7 +58,6 @@ const OrderInvoiceItem: FC<{
   onToggle: () => void;
   onRemove: () => void;
 }> = ({ item, isOpen, onToggle, onRemove }) => {
-  console.log(item);
   return (
     <>
       <ListItem button onClick={onToggle}>

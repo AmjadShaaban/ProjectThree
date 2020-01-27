@@ -83,7 +83,6 @@ export default function SignUp() {
               password,
               role: Roles.UNKNOWN
             }).then(success => {
-              console.log(success);
               if (success) {
                 history.push('/');
               }

@@ -38,7 +38,6 @@ export default function NewOrder() {
             variant='outlined'
             color='primary'
             onClick={() => {
-              console.log(order);
               if (order === null) {
                 return;
               }
