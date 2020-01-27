@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,15 +15,29 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
+import Title from '../shared/Title';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { MainListItems, SecondaryListItems } from '../shared/listItems';
-import { Roles } from '../../interfaces';
-import AddCategory from './AddCategory';
-import AddEmployee from './AddEmployee';
-import AddIngredient from './AddIngredient';
-import AddItem from './AddItem';
+import { Order, CategoryItem } from '../../interfaces';
+import {
+  useOrderState,
+  useOrderDispatch,
+  getOrders
+} from '../../contexts/order';
+import uuidv1 from 'uuid/v1';
+
+const injectSVGText = (arr: Order['orderItems']) => {
+  let x = 11;
+  let y = 12;
+  return arr.map((item: CategoryItem, i: number) => (
+    <text x={`${x}%`} y={`${y + i * 5}%`} fill={`darkgray`} key={item.name}>
+      {`${item.name}`}
+    </text>
+  ));
+};
+
 function Copyright() {
   return (
     <Typography variant='body2' color='textSecondary' align='center'>
@@ -127,23 +141,25 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column'
   },
   fixedHeight: {
-    height: 240
+    height: 600
   }
 }));
 
-export default function BackOfficeDashboard() {
-  //   const dispatch = useMenuDispatch();
-  //   useEffect(() => {
-  //     loadMenu(dispatch);
-  //   }, [dispatch]);
+export default function Dashboard() {
+  const { orders } = useOrderState();
+  const orderDispatch = useOrderDispatch();
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  useEffect(() => {
+    getOrders(orderDispatch, '?isOpen=t');
+  }, [orderDispatch]);
 
   return (
     <div className={classes.root}>
@@ -206,29 +222,48 @@ export default function BackOfficeDashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth='lg' className={classes.container}>
           <Grid container spacing={1}>
-            <Grid item xs={8}>
-              <Paper className={classes.test}>
-                <AddItem />
-              </Paper>
-            </Grid>
-            <Grid item xs={4}>
-              <Paper className={classes.test}>
-                <AddIngredient />
-              </Paper>
-            </Grid>
-          </Grid>
-          <Grid container spacing={1}>
-            <Grid item xs={4}>
-              <Paper className={classes.test}>
-                <AddCategory />
-              </Paper>
-            </Grid>
-            <Grid item xs={4}>
-              <Paper className={classes.test}></Paper>
-            </Grid>
-            <Grid item xs={4}>
-              <Paper className={classes.test}>
-                <AddEmployee />
+            <Grid item xs={12}>
+              <Paper className={fixedHeightPaper}>
+                <Title>Open orders:</Title>
+                <Grid container spacing={1}>
+                  {orders?.map((item, i) => (
+                    <Grid item xs={3} key={uuidv1()}>
+                      <svg viewBox='0 0 300 500'>
+                        <rect height='100%' width='100%' fill='blue' />
+                        <rect
+                          x='5%'
+                          y='3%'
+                          height='94%'
+                          width='90%'
+                          stroke='darkgray'
+                          strokeWidth='2'
+                          fill='blue'
+                        />
+                        <text x='8%' y='7%' fill='darkgray'>
+                          Order: ORDER_NUMBER_HERE
+                        </text>
+                        {injectSVGText(item.orderItems)}
+                      </svg>
+                      <div onClick={() => console.log(item._id)}>
+                        <svg viewBox='0 0 240 75'>
+                          <rect height='100%' width='100%' fill='white' />
+                          <rect
+                            x='5%'
+                            y='14%'
+                            height='70%'
+                            width='90%'
+                            stroke='green'
+                            strokeWidth='4'
+                            fill='lime'
+                          />
+                          <text x='24%' y='53%' fill='primary' stroke='green'>
+                            ✔︎ Complete Order
+                          </text>
+                        </svg>
+                      </div>
+                    </Grid>
+                  ))}
+                </Grid>
               </Paper>
             </Grid>
           </Grid>

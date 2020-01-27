@@ -6,12 +6,12 @@ import { OrderProvider } from './contexts/order';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Register from './components/auth/Register';
 import MainDashboard from './components/front/MainDashboard';
-import BackOfficeDashboard from './components/backOffice/BackOfficeDashboard';
+import BackOfficeDashboard from './components/office/OfficeDashboard';
 import './fonts/minisystem.ttf';
 import Login from './components/auth/Login';
 import PrivateRoute from './components/routing/PrivateRoute';
 import { Roles } from './interfaces';
-import Dashboard from './components/kitchen/Dashboard';
+import Dashboard from './components/kitchen/KitchenDashboard';
 const App: FC<{}> = () => {
   return (
     <AuthProvider>

@@ -44,7 +44,7 @@ export const MainListItems: FC = () => {
         </ListItemIcon>
         <ListItemText primary='Reports' />
       </ListItem>
-      <PrivateLink to='/6est' roles={[Roles.MANAGER]}>
+      <PrivateLink to='/office' roles={[Roles.MANAGER]}>
         <ListItem button>
           <ListItemIcon>
             <LayersIcon />
