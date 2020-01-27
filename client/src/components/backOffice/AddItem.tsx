@@ -100,7 +100,7 @@ const IngredientList: FC<{
 
   useEffect(() => {
     onListChange(right);
-  }, [right]);
+  }, [onListChange, right]);
 
   const handleToggle = (value: Ingredient) => () => {
     const currentIndex = checked.indexOf(value);

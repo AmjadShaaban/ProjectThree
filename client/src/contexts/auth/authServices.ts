@@ -8,7 +8,6 @@ import {
   AuthResDTO,
   LoadUserResDTO
 } from './authState';
-import { User } from '../../interfaces';
 
 export const loadUser = async (dispatch: Dispatch<AuthActions>) => {
   dispatch({ type: AuthActionTypes.LOAD_USER });

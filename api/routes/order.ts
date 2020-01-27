@@ -3,10 +3,24 @@ import Order from '../models/order/Order';
 
 export function orderAPI(app) {
   app.get(
-    '/api/orders/',
+    '/api/orders',
     /*auth,*/ async (req, res) => {
+      const conditions: any = {};
+      if (req.query.type) {
+        switch (req.query.type.toLowerCase()) {
+          case 'delivery':
+            conditions.type = 'Delivery';
+            break;
+          case 'order-in':
+            conditions.type = 'Order-in';
+            break;
+          case 'pick-up':
+            conditions.type = 'Pick-up';
+            break;
+        }
+      }
       try {
-        let orders = await Order.find({}).populate({
+        let orders = await Order.find(conditions).populate({
           path: 'orderItems',
           populate: { path: 'ingredients', model: 'Ingredient' }
         });
@@ -18,6 +32,7 @@ export function orderAPI(app) {
       }
     }
   );
+
   app.post('/api/orders', auth, async (req, res) => {
     try {
       let order = new Order({
@@ -27,6 +42,34 @@ export function orderAPI(app) {
         }, 0)
       });
       await order.save();
+      res.status(200).json({ order });
+    } catch (error) {
+      res.status(500).json({ error });
+    }
+  });
+
+  app.put('/api/orders/:id', auth, async (req, res) => {
+    const { id } = req.params;
+    try {
+      let order = await Order.findById(id).populate({
+        path: 'orderItems',
+        populate: { path: 'ingredients', model: 'Ingredient' }
+      });
+
+      if (!order) {
+        res.status(404).json({ msg: `order id: ${order._id} not found` });
+      }
+
+      const { isOpen } = req.body;
+
+      let hasChanged = false;
+      if (isOpen !== order.isOpen) {
+        order.isOpen = isOpen;
+        hasChanged = true;
+      }
+      if (hasChanged) {
+        await order.save();
+      }
       res.status(200).json({ order });
     } catch (error) {
       res.status(500).json({ error });

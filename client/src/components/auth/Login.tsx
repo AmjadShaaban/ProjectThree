@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { useAuthState, useAuthDispatch, loginUser } from '../../contexts/auth';
+import { useAuthDispatch, loginUser } from '../../contexts/auth';
 import { useHistory, useLocation } from 'react-router-dom';
 
 function Copyright() {

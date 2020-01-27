@@ -95,7 +95,7 @@ export default function OrderInvoice() {
     setOpenTab({ ...openTab, [id]: !openTab[id] });
   };
 
-  const removeFromOrder = (item: CategoryItem, index: number) => {
+  const removeFromOrder = (item: CategoryItem, index: number) => () => {
     const orderItems = [...order!.orderItems];
     orderItems.splice(index, 1);
     order &&

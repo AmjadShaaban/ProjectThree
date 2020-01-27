@@ -8,7 +8,8 @@ const OrderSchema = new Schema(
     total: { type: String, required: true },
     customerName: { type: String },
     customerPhone: { type: String },
-    customerAddress: { type: String }
+    customerAddress: { type: String },
+    isOpen: { type: Boolean, default: true }
   },
   { timestamps: true }
 );

@@ -37,6 +37,7 @@ export interface IOrder extends Document {
   customerName?: string;
   customerPhone?: string;
   customerAddress?: string;
+  isOpen: boolean;
 }
 export interface IDelivery extends IOrder {
   type: OrderTypes.DELIVERY;
