@@ -56,7 +56,7 @@ export default function Chart() {
           <Line
             type='monotone'
             dataKey='amount'
-            stroke={theme.palette.primary.main}
+            stroke={theme.palette.primary.dark}
             dot={false}
           />
         </LineChart>

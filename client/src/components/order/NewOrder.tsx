@@ -25,18 +25,14 @@ export default function NewOrder() {
   return (
     <div>
       {order === null ? (
-        <Button
-          variant='outlined'
-          color='primary'
-          /*disabled={user?.role==='UNKNOWN'}*/ onClick={handleClickOpen}
-        >
+        <Button color='primary' variant='contained' onClick={handleClickOpen}>
           New Order
         </Button>
       ) : (
         <>
           <Button
-            variant='outlined'
             color='primary'
+            variant='contained'
             onClick={() => {
               if (order === null) {
                 return;
@@ -50,8 +46,8 @@ export default function NewOrder() {
             Submit Order
           </Button>
           <Button
-            variant='outlined'
             color='primary'
+            variant='contained'
             onClick={() => setOrder(orderDispatch, null)}
           >
             Cancel Order

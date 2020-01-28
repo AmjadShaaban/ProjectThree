@@ -2,9 +2,11 @@ import { Dispatch } from 'react';
 import {
   OrderActionTypes,
   OrderActions,
-  PostOrderReqDTO,
+  OrderReqDTO,
   OrderResDTO,
-  OrdersResDTO
+  OrdersResDTO,
+  CompleteOrderReqDTO,
+  CompleteOrderResDTO
   // OrdersReqDTO
 } from './orderState';
 import { Order } from '../../interfaces';
@@ -17,6 +19,41 @@ export const setOrder = (
     type: OrderActionTypes.SET_ORDER,
     payload: order
   });
+};
+
+export const completeOrder = async (
+  dispatch: Dispatch<OrderActions>,
+  isOpen: CompleteOrderReqDTO,
+  _id: string
+) => {
+  dispatch({
+    type: OrderActionTypes.COMPLETE_ORDER
+  });
+  try {
+    const response: CompleteOrderResDTO = await fetch(`/api/orders/${_id}`, {
+      method: 'PUT',
+      body: JSON.stringify(isOpen),
+      headers: new Headers({
+        'content-type': 'application/json',
+        'x-auth-token': localStorage.token.toString()
+      })
+    }).then(r => r.json());
+    if (!response) {
+      return dispatch({
+        type: OrderActionTypes.COMPLETE_ORDER_FAIL,
+        payload: response
+      });
+    }
+    return dispatch({
+      type: OrderActionTypes.COMPLETE_ORDER_SUCCESS,
+      payload: response
+    });
+  } catch (error) {
+    dispatch({
+      type: OrderActionTypes.COMPLETE_ORDER_FAIL,
+      payload: error
+    });
+  }
 };
 
 export const getOrders = async (
@@ -48,7 +85,7 @@ export const getOrders = async (
 
 export const postOrder = async (
   dispatch: Dispatch<OrderActions>,
-  order: PostOrderReqDTO
+  order: OrderReqDTO
 ) => {
   dispatch({ type: OrderActionTypes.CREATE_ORDER, payload: order });
   try {

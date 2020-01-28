@@ -2,9 +2,6 @@ import React from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import IconButton from '@material-ui/core/IconButton';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
 import { useMenuState } from '../../contexts/menu';
 import Title from '../shared/Title';
 
@@ -23,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
       transform: 'translateZ(0)'
     },
     title: {
-      color: theme.palette.primary.light
+      color: theme.palette.primary.dark
     },
     titleBar: {
       background:
@@ -56,18 +53,6 @@ export default function SingleLineGridList() {
                 </text>
                 inline SVG Not Supported.
               </svg>
-              <GridListTileBar
-                title={`${category.name}`}
-                classes={{
-                  root: classes.titleBar,
-                  title: classes.title
-                }}
-                actionIcon={
-                  <IconButton aria-label={`star ${category.name}`}>
-                    <StarBorderIcon className={classes.title} />
-                  </IconButton>
-                }
-              />
             </GridListTile>
           ))}
         </GridList>

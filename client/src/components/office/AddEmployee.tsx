@@ -146,10 +146,10 @@ export default function ADDEmployee() {
         />
 
         <Button
+          color='primary'
           type='submit'
           fullWidth
           variant='contained'
-          color='primary'
           className={classes.submit}
         >
           Add Employee

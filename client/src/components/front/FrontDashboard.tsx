@@ -179,7 +179,7 @@ export default function MainDashboard() {
             Project POS
           </Typography>
           <IconButton color='inherit'>
-            <Badge badgeContent={9} color='secondary'>
+            <Badge badgeContent={9} color='error'>
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -221,11 +221,6 @@ export default function MainDashboard() {
               </Paper>
             </Grid>
           </Grid>
-          {/* <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-              <AddEmployee/>
-              </Paper>
-            </Grid> */}
           <Grid container spacing={1}>
             <Grid item xs={12} md={8} lg={8}>
               <Paper className={classes.test2}>

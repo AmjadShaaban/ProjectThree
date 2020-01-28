@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.dark
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -118,10 +118,10 @@ export default function SignInSide() {
               autoComplete='current-password'
             />
             <Button
+              color='primary'
               type='submit'
               fullWidth
               variant='contained'
-              color='primary'
               className={classes.submit}
             >
               Sign In

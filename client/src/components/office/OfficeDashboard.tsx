@@ -171,7 +171,7 @@ export default function BackOfficeDashboard() {
             Project POS
           </Typography>
           <IconButton color='inherit'>
-            <Badge badgeContent={4} color='secondary'>
+            <Badge badgeContent={4} color='error'>
               <NotificationsIcon />
             </Badge>
           </IconButton>

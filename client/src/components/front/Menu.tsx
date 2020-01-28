@@ -3,10 +3,7 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Title from '../shared/Title';
 import OrderTypeDialog from '../shared/OrderTypeDialog';
 import { Category, CategoryItem, Order } from '../../interfaces';
@@ -41,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '100%'
     },
     title: {
-      color: theme.palette.primary.light
+      color: theme.palette.primary.dark
     },
     titleBar: {
       background:
@@ -56,7 +53,7 @@ const MenuItemTile: FC<{
   const classes = useStyles();
   return (
     <GridListTile cols={1} onClick={onSelect} className={classes.tile}>
-      <svg viewBox='0 0 150 150'>
+      <svg viewBox='0 0 200 150'>
         <rect height='100%' width='100%' fill='lightgray' />
         <text x='25%' y='25%' fill='red'>
           {data.iconData.line1}
@@ -69,19 +66,6 @@ const MenuItemTile: FC<{
         </text>
         inline SVG Not Supported.
       </svg>
-      {/* <img src={data.img} alt='' /> */}
-      <GridListTileBar
-        title={`${data.name}`}
-        classes={{
-          root: classes.titleBar,
-          title: classes.title
-        }}
-        actionIcon={
-          <IconButton aria-label={`star ${data.name}`}>
-            <StarBorderIcon className={classes.title} />
-          </IconButton>
-        }
-      />
     </GridListTile>
   );
 };
@@ -140,6 +124,7 @@ export default function Menu() {
       <Title>Menu</Title>
       {selectedCategory !== null && (
         <Button
+          color='primary'
           onClick={() => setSelectedCategory(menuDispatch, null)}
           size={'small'}
         >
@@ -148,7 +133,7 @@ export default function Menu() {
       )}
       {isMenuLoading && <CircularProgress />}
       <div className={classes.root}>
-        <GridList cellHeight={'auto'} className={classes.gridList} cols={6}>
+        <GridList cellHeight={'auto'} className={classes.gridList} cols={4}>
           {selectedCategory === null
             ? menu.map(category => (
                 <div key={category._id}>
@@ -182,20 +167,6 @@ export default function Menu() {
                     </text>
                     inline SVG Not Supported.
                   </svg>
-
-                  {/* <img src={item.img} alt='' /> */}
-                  <GridListTileBar
-                    title={`${item.name}`}
-                    classes={{
-                      root: classes.titleBar,
-                      title: classes.title
-                    }}
-                    actionIcon={
-                      <IconButton aria-label={`star ${item.price}`}>
-                        <StarBorderIcon className={classes.title} />
-                      </IconButton>
-                    }
-                  />
                 </GridListTile>
               ))}
         </GridList>

@@ -1,3 +1,11 @@
+import { v4String } from 'uuid/interfaces';
+
+export interface Alert {
+  id: v4String;
+  msg: string;
+  type: string;
+}
+
 export enum Roles {
   DRIVER = 'DRIVER',
   MANAGER = 'MANAGER',

@@ -71,7 +71,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.dark
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -184,7 +184,8 @@ const IngredientList: FC<{
       <Grid item>
         <Grid container direction='column' alignItems='center'>
           <Button
-            variant='outlined'
+            color='primary'
+            variant='contained'
             size='small'
             className={classes.button1}
             onClick={handleAllRight}
@@ -194,7 +195,8 @@ const IngredientList: FC<{
             ≫
           </Button>
           <Button
-            variant='outlined'
+            color='primary'
+            variant='contained'
             size='small'
             className={classes.button1}
             onClick={handleCheckedRight}
@@ -204,7 +206,8 @@ const IngredientList: FC<{
             &gt;
           </Button>
           <Button
-            variant='outlined'
+            color='primary'
+            variant='contained'
             size='small'
             className={classes.button1}
             onClick={handleCheckedLeft}
@@ -214,6 +217,7 @@ const IngredientList: FC<{
             &lt;
           </Button>
           <Button
+            color='primary'
             variant='outlined'
             size='small'
             className={classes.button1}
@@ -384,10 +388,10 @@ export default function AddItem() {
         />
 
         <Button
+          color='primary'
           type='submit'
           fullWidth
           variant='contained'
-          color='primary'
           className={classes.submit}
         >
           Submit

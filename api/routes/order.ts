@@ -1,56 +1,57 @@
 import auth from '../middleware/auth';
 import Order from '../models/order/Order';
 import { OrderTypes } from '../interfaces';
+import { emitToAllSockets } from '../services/socketManager';
 
 export function orderAPI(app) {
-  app.get(
-    '/api/orders',
-    /*auth,*/ async (req, res) => {
-      const conditions: any = {};
-      switch (req.query.isOpen) {
-        case 't':
-          conditions.isOpen = true;
+  app.get('/api/orders', auth, async (req, res) => {
+    const conditions: any = {};
+    switch (req.query.isOpen) {
+      case 't':
+        conditions.isOpen = true;
+        break;
+      case 'f':
+        conditions.isOpen = false;
+        break;
+    }
+    if (req.query.type) {
+      switch (req.query.type.toLowerCase()) {
+        case 'delivery':
+          conditions.type = OrderTypes.DELIVERY;
           break;
-        case 'f':
-          conditions.isOpen = false;
+        case 'order-in':
+          conditions.type = OrderTypes.ORDER_IN;
           break;
-      }
-      if (req.query.type) {
-        switch (req.query.type.toLowerCase()) {
-          case 'delivery':
-            conditions.type = OrderTypes.DELIVERY;
-            break;
-          case 'order-in':
-            conditions.type = OrderTypes.ORDER_IN;
-            break;
-          case 'pick-up':
-            conditions.type = OrderTypes.PICKUP;
-            break;
-        }
-      }
-      try {
-        let orders = await Order.find(conditions).populate({
-          path: 'orderItems',
-          populate: { path: 'ingredients', model: 'Ingredient' }
-        });
-        if (orders) {
-          return res.status(200).json({ orders });
-        }
-      } catch (error) {
-        res.status(500).json({ error });
+        case 'pick-up':
+          conditions.type = OrderTypes.PICKUP;
+          break;
       }
     }
-  );
+    try {
+      let orders = await Order.find(conditions).populate({
+        path: 'orderItems',
+        populate: { path: 'ingredients', model: 'Ingredient' }
+      });
+      if (orders) {
+        return res.status(200).json({ orders });
+      }
+    } catch (error) {
+      res.status(500).json({ error });
+    }
+  });
 
   app.post('/api/orders', auth, async (req, res) => {
     try {
       let order = new Order({
         ...req.body.order,
         total: req.body.order.orderItems.reduce((accum, orderItem) => {
-          return accum + orderItem.price;
+          return parseInt(accum + orderItem.price * 100);
         }, 0)
       });
       await order.save();
+
+      emitToAllSockets('Orders changed', true);
+
       res.status(200).json({ order });
     } catch (error) {
       res.status(500).json({ error });
@@ -79,7 +80,10 @@ export function orderAPI(app) {
       if (hasChanged) {
         await order.save();
       }
-      res.status(200).json({ order });
+
+      emitToAllSockets('Orders changed', true);
+
+      res.status(200).json(true);
     } catch (error) {
       res.status(500).json({ error });
     }

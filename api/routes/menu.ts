@@ -146,19 +146,16 @@ export function menuAPI(app) {
     }
   });
 
-  app.get(
-    '/api/menu/ingredients',
-    /*auth,*/ async (req, res) => {
-      try {
-        let ingredients = await Ingredient.find({});
-        if (ingredients) {
-          return res.status(200).json({ ingredients });
-        }
-      } catch (error) {
-        res.status(500).json(error);
+  app.get('/api/menu/ingredients', auth, async (req, res) => {
+    try {
+      let ingredients = await Ingredient.find({});
+      if (ingredients) {
+        return res.status(200).json({ ingredients });
       }
+    } catch (error) {
+      res.status(500).json(error);
     }
-  );
+  });
 
   app.get('/api/menu/ingredients/:ingredientId', auth, async (req, res) => {
     const { ingredientId } = req.params;

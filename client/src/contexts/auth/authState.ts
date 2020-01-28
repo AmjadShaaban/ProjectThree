@@ -139,7 +139,11 @@ export const authReducer = (
     }
     case AuthActionTypes.LOGOUT: {
       return {
-        ...initialState
+        ...state,
+        isLoading: false,
+        token: '',
+        user: null,
+        error: ''
       };
     }
 

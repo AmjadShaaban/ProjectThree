@@ -75,10 +75,10 @@ export default function EmployeeLogin() {
           autoComplete='current-password'
         />
         <Button
+          color='primary'
           type='submit'
           fullWidth
           variant='contained'
-          color='primary'
           className={classes.submit}
         >
           Sign In

@@ -21,10 +21,12 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { MainListItems, SecondaryListItems } from '../shared/listItems';
 import { Order, CategoryItem } from '../../interfaces';
+import socketIOClient from 'socket.io-client';
 import {
   useOrderState,
   useOrderDispatch,
-  getOrders
+  getOrders,
+  completeOrder
 } from '../../contexts/order';
 import uuidv1 from 'uuid/v1';
 
@@ -51,6 +53,7 @@ function Copyright() {
   );
 }
 const drawerWidth = 240;
+const endPoint = 'http://localhost:3333/';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -150,6 +153,7 @@ export default function Dashboard() {
   const orderDispatch = useOrderDispatch();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -157,9 +161,18 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
   useEffect(() => {
-    console.log('something');
     getOrders(orderDispatch, '?isOpen=t');
+    const socket = socketIOClient(endPoint);
+    socket.on('Orders changed', (data: boolean) => {
+      console.log(data);
+      getOrders(orderDispatch, '?isOpen=t');
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, [orderDispatch]);
 
   return (
@@ -192,7 +205,7 @@ export default function Dashboard() {
             Project POS
           </Typography>
           <IconButton color='inherit'>
-            <Badge badgeContent={4} color='secondary'>
+            <Badge badgeContent={4} color='error'>
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -245,7 +258,16 @@ export default function Dashboard() {
                         </text>
                         {injectSVGText(item.orderItems)}
                       </svg>
-                      <div onClick={() => console.log(item._id)}>
+                      <div
+                        onClick={() => {
+                          !!item._id &&
+                            completeOrder(
+                              orderDispatch,
+                              { isOpen: false },
+                              item._id
+                            );
+                        }}
+                      >
                         <svg viewBox='0 0 240 75'>
                           <rect height='100%' width='100%' fill='white' />
                           <rect

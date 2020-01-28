@@ -11,18 +11,22 @@ export const initialState: OrderState = {
   order: null,
   error: null
 };
-export interface PostOrderReqDTO {
+export interface OrderReqDTO {
   order: Order;
 }
+export interface CompleteOrderReqDTO {
+  isOpen: boolean;
+}
+export interface CompleteOrderResDTO {
+  response: boolean;
+}
+
 export interface OrderResDTO {
   order: Order;
 }
 // export interface OrdersReqDTO {
 //   query: string;
 // }
-export interface CompleteOrderReqDTO {
-  isOpen: boolean;
-}
 export interface OrdersResDTO {
   orders: Order[];
 }
@@ -40,8 +44,16 @@ export enum OrderActionTypes {
 }
 interface CompleteOrderAction {
   type: typeof OrderActionTypes.COMPLETE_ORDER;
-  payload: CompleteOrderReqDTO;
 }
+interface CompleteOrderFailAction {
+  type: typeof OrderActionTypes.COMPLETE_ORDER_SUCCESS;
+  payload: string;
+}
+interface CompleteOrderSuccessAction {
+  type: typeof OrderActionTypes.COMPLETE_ORDER_SUCCESS;
+  payload: CompleteOrderResDTO;
+}
+
 interface GetOrdersAction {
   type: typeof OrderActionTypes.GET_ORDERS;
 }
@@ -60,7 +72,7 @@ interface SetOrderAction {
 }
 interface CreateOrderAction {
   type: typeof OrderActionTypes.CREATE_ORDER;
-  payload: PostOrderReqDTO;
+  payload: OrderReqDTO;
 }
 interface CreateOrderFailAction {
   type: typeof OrderActionTypes.CREATE_ORDER_FAIL;
@@ -77,19 +89,29 @@ export type OrderActions =
   | SetOrderAction
   | GetOrdersAction
   | GetOrdersFailAction
-  | GetOrdersSuccessAction;
+  | GetOrdersSuccessAction
+  | CompleteOrderAction
+  | CompleteOrderFailAction
+  | CompleteOrderSuccessAction;
 
 export const orderReducer = (
   state = initialState,
   action: OrderActions
 ): OrderState => {
   switch (action.type) {
+    case OrderActionTypes.COMPLETE_ORDER_SUCCESS: {
+      return {
+        ...state,
+        orders: []
+      };
+    }
     case OrderActionTypes.GET_ORDERS_SUCCESS: {
       return {
         ...state,
         orders: action.payload
       };
     }
+    case OrderActionTypes.COMPLETE_ORDER:
     case OrderActionTypes.GET_ORDERS:
     case OrderActionTypes.CREATE_ORDER: {
       return {
