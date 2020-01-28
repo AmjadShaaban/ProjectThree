@@ -226,20 +226,15 @@ export default function MainDashboard() {
               <AddEmployee/>
               </Paper>
             </Grid> */}
-          {/* Recent Deposits */}
-
-          {/* Recent Orders */}
           <Grid container spacing={1}>
             <Grid item xs={12} md={8} lg={8}>
               <Paper className={classes.test2}>
-                {/* <Orders /> */}
                 <Menu />
               </Paper>
             </Grid>
             <Grid item xs={12} md={4} lg={4}>
               <Paper className={classes.test2}>
                 <OrderInvoice />
-                {/* <EmployeeLogin/> */}
               </Paper>
             </Grid>
           </Grid>

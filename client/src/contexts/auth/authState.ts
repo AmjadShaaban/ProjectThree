@@ -146,7 +146,6 @@ export const authReducer = (
     case AuthActionTypes.LOGIN_FAIL:
     case AuthActionTypes.LOAD_USER_FAIL:
     case AuthActionTypes.REGISTER_FAIL: {
-      localStorage.removeItem('token');
       return {
         ...state,
         isLoading: false,

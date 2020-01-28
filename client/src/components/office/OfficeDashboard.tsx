@@ -23,6 +23,7 @@ import AddCategory from './AddCategory';
 import AddEmployee from './AddEmployee';
 import AddIngredient from './AddIngredient';
 import AddItem from './AddItem';
+
 function Copyright() {
   return (
     <Typography variant='body2' color='textSecondary' align='center'>
@@ -131,10 +132,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function BackOfficeDashboard() {
-  //   const dispatch = useMenuDispatch();
-  //   useEffect(() => {
-  //     loadMenu(dispatch);
-  //   }, [dispatch]);
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {

@@ -81,7 +81,8 @@ export const registerUser = async (
         type: AuthActionTypes.REGISTER_FAIL,
         payload: 'Unable to Register'
       });
-      return;
+      localStorage.removeItem('token');
+      return false;
     }
     localStorage.setItem('token', response.token);
     dispatch({ type: AuthActionTypes.REGISTER_SUCCESS, payload: response });
@@ -91,6 +92,7 @@ export const registerUser = async (
       type: AuthActionTypes.REGISTER_FAIL,
       payload: 'Unable to Register'
     });
+    localStorage.removeItem('token');
     return false;
   }
 };

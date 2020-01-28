@@ -32,7 +32,7 @@ const injectSVGText = (arr: Order['orderItems']) => {
   let x = 11;
   let y = 12;
   return arr.map((item: CategoryItem, i: number) => (
-    <text x={`${x}%`} y={`${y + i * 5}%`} fill={`darkgray`} key={item.name}>
+    <text x={`${x}%`} y={`${y + i * 5}%`} fill={`darkgray`} key={uuidv1()}>
       {`${item.name}`}
     </text>
   ));
@@ -158,6 +158,7 @@ export default function Dashboard() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   useEffect(() => {
+    console.log('something');
     getOrders(orderDispatch, '?isOpen=t');
   }, [orderDispatch]);
 

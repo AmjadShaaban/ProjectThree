@@ -1,4 +1,4 @@
-import { Order, OrderTypes } from '../../interfaces';
+import { Order } from '../../interfaces';
 
 export interface OrderState {
   orders: Order[] | null;
@@ -20,6 +20,9 @@ export interface OrderResDTO {
 // export interface OrdersReqDTO {
 //   query: string;
 // }
+export interface CompleteOrderReqDTO {
+  isOpen: boolean;
+}
 export interface OrdersResDTO {
   orders: Order[];
 }
@@ -30,9 +33,15 @@ export enum OrderActionTypes {
   SET_ORDER = 'SET_ORDER',
   GET_ORDERS = 'GET_ORDERS',
   GET_ORDERS_SUCCESS = 'GET_ORDERS_SUCCESS',
-  GET_ORDERS_FAIL = 'GET_ORDERS_FAIL'
+  GET_ORDERS_FAIL = 'GET_ORDERS_FAIL',
+  COMPLETE_ORDER = 'CREATE_ORDER',
+  COMPLETE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS',
+  COMPLETE_ORDER_FAIL = 'CREATE_ORDER_FAIL'
 }
-
+interface CompleteOrderAction {
+  type: typeof OrderActionTypes.COMPLETE_ORDER;
+  payload: CompleteOrderReqDTO;
+}
 interface GetOrdersAction {
   type: typeof OrderActionTypes.GET_ORDERS;
 }
