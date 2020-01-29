@@ -61,7 +61,6 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2)
   }
 }));
-console.log(useStyles);
 export default function SignInSide() {
   const history = useHistory();
   const location = useLocation<{ from: Location }>();

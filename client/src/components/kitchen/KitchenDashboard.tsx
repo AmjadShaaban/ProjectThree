@@ -165,11 +165,9 @@ export default function Dashboard() {
   useEffect(() => {
     getOrders(orderDispatch, '?isOpen=t');
     const socket = socketIOClient(endPoint);
-    socket.on('Orders changed', (data: boolean) => {
-      console.log(data);
+    socket.on('Orders changed', () => {
       getOrders(orderDispatch, '?isOpen=t');
     });
-
     return () => {
       socket.disconnect();
     };
