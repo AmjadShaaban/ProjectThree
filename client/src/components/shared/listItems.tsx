@@ -10,13 +10,13 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { Roles } from '../../interfaces';
-import { Link } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
 import { PrivateLink } from '../routing/PrivateLink';
 
 export const MainListItems: FC = () => {
   return (
     <>
-      <Link to='/'>
+      <Link color='textPrimary' href='/'>
         <ListItem button>
           <ListItemIcon>
             <DashboardIcon />
@@ -24,7 +24,7 @@ export const MainListItems: FC = () => {
           <ListItemText primary='Food Menu' />
         </ListItem>
       </Link>
-      <Link to='/kitchen'>
+      <Link href='/kitchen'>
         <ListItem button>
           <ListItemIcon>
             <ShoppingCartIcon />
@@ -44,7 +44,7 @@ export const MainListItems: FC = () => {
         </ListItemIcon>
         <ListItemText primary='Reports' />
       </ListItem>
-      <PrivateLink to='/office' roles={[Roles.MANAGER]}>
+      <PrivateLink href='/office' roles={[Roles.MANAGER]}>
         <ListItem button>
           <ListItemIcon>
             <LayersIcon />

@@ -20,8 +20,8 @@ import { StylesProvider, ThemeProvider } from '@material-ui/styles';
 const App: FC<{}> = () => {
   const theme = createMuiTheme({
     palette: {
-      primary: colors.brown,
-      secondary: colors.deepOrange,
+      primary: colors.grey,
+      secondary: colors.blueGrey,
       success: colors.lime,
       error: colors.red,
       info: colors.grey,
