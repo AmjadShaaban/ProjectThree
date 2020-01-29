@@ -1,7 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import SocketIO from 'socket.io';
-import { createServer } from 'https';
+import { createServer } from 'http';
 import logger from 'morgan';
 import { Message } from './api/interfaces';
 import { authAPI } from './api/routes/auth';
@@ -14,8 +14,8 @@ import path from 'path';
 
 const PORT: string = process.env.PORT || '3333';
 const app = express();
-const https = createServer(app);
-const io = SocketIO(https);
+const http = createServer(app);
+const io = SocketIO(http);
 app.use(logger('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -24,9 +24,9 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(
     cors({
       origin: [
-        'https://localhost:3333',
-        'https://ps-pos.herokuapp.com',
-        'https://localhost:3000'
+        'http://localhost:3333',
+        'http://ps-pos.herokuapp.com',
+        'http://localhost:3000'
       ],
       credentials: true
     })
@@ -44,7 +44,7 @@ usersAPI(app);
 menuAPI(app);
 orderAPI(app);
 
-const server = https.listen(PORT, () => {
-  console.log(`Listening at http://localhost:${PORT}`);
+const server = http.listen(PORT, () => {
+  console.log(`🌎🔗:${PORT}`);
 });
 server.on('error', console.error);
