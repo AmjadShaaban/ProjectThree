@@ -24,9 +24,9 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(
     cors({
       origin: [
-        'http://localhost:3333',
-        'http://ps-pos.herokuapp.com',
-        'http://localhost:3000'
+        'https://localhost:3333',
+        'https://ps-pos.herokuapp.com',
+        'https://localhost:3000'
       ],
       credentials: true
     })
