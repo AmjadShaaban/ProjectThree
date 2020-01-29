@@ -53,7 +53,7 @@ function Copyright() {
   );
 }
 const drawerWidth = 240;
-const endPoint = 'http://localhost:3333/';
+const endPoint = 'http://p3-pos.herokuapp.com/';
 
 const useStyles = makeStyles(theme => ({
   root: {

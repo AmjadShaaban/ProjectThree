@@ -21,7 +21,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 connectDB();
 if (process.env.NODE_ENV !== 'production') {
-  app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+  app.use(
+    cors({
+      origin: [
+        'http://localhost:3333',
+        'http://ps-pos.herokuapp.com',
+        'http://localhost:3000'
+      ],
+      credentials: true
+    })
+  );
 }
 
 io.on('connection', addSocket);
