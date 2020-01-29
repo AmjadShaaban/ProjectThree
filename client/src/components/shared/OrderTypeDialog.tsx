@@ -7,14 +7,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { TransitionProps } from '@material-ui/core/transitions';
-// import OrderTypeDialogTabs from './OrderTypeDialogTabs';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import TextField from '@material-ui/core/TextField';
 import { OrderTypes, CategoryItem, Order } from '../../interfaces';
-// import { useOrderDispatch } from '../../contexts/order';
 
 const useStyles = makeStyles(theme => ({
   depositContext: {
@@ -68,7 +66,6 @@ const OrderTypeDialog: FC<{
   const [customerAddress, setCustomerAddress] = useState('');
   const [type, setType] = useState(OrderTypes.DELIVERY);
   const classes = useStyles();
-  // const orderDispatch = useOrderDispatch();
 
   return (
     <Dialog

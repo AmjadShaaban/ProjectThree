@@ -1,7 +1,6 @@
 import React, { FC, useState, MouseEvent, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-// import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -53,25 +52,11 @@ const useStyles = makeStyles(theme => ({
   root: {
     height: '100vh'
   },
-  image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
-    backgroundRepeat: 'no-repeat',
-    backgroundColor:
-      theme.palette.type === 'dark'
-        ? theme.palette.grey[900]
-        : theme.palette.grey[50],
-    backgroundSize: 'cover',
-    backgroundPosition: 'center'
-  },
   paper: {
     margin: theme.spacing(8, 4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.dark
   },
   form: {
     width: '100%', // Fix IE 11 issue.

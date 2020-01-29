@@ -44,10 +44,6 @@ if (localStorage.token) {
   const decoded: any = jwtDecode(localStorage.token);
   initialState.user = decoded.user;
 }
-// interface LoginAction {
-//   type: typeof LOGIN;
-//   payload: LoginReqDTO;
-// }
 
 export enum AuthActionTypes {
   LOGIN = 'LOGIN',

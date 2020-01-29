@@ -7,7 +7,6 @@ import {
   OrdersResDTO,
   CompleteOrderReqDTO,
   CompleteOrderResDTO
-  // OrdersReqDTO
 } from './orderState';
 import { Order } from '../../interfaces';
 

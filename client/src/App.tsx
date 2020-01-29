@@ -24,7 +24,8 @@ const App: FC<{}> = () => {
       secondary: colors.blueGrey,
       success: colors.lime,
       error: colors.red,
-      info: colors.grey,
+      warning: colors.deepOrange,
+      info: colors.pink,
       type: 'dark'
     }
   });

@@ -45,13 +45,3 @@ export const useAuthDispatch = () => {
   }
   return dispatch;
 };
-
-// show full name
-// export function useFullname() {
-//   const authState = useAuthState();
-//   if (!authState || !authState.user) {
-//     return 'no name';
-//   }
-
-//   return authState.user.fName + ' ' + authState.user.lName;
-// }

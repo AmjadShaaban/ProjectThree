@@ -11,11 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useHistory } from 'react-router-dom';
-import {
-  // useAuthState,
-  useAuthDispatch,
-  registerUser
-} from '../../contexts/auth';
+import { useAuthDispatch, registerUser } from '../../contexts/auth';
 import { Roles } from '../../interfaces';
 
 function Copyright() {
@@ -59,7 +55,6 @@ export default function SignUp() {
   const [firstName, setFname] = useState('');
   const [lastName, setLname] = useState('');
   const authDispatch = useAuthDispatch();
-  //   const n = useFullname();
 
   return (
     <Container component='main' maxWidth='xs'>

@@ -100,7 +100,6 @@ interface AddIngredientSuccessAction {
   type: typeof MenuActionTypes.ADD_INGREDIENT_SUCCESS;
   payload: Ingredient;
 }
-// interface AddCate
 interface AddCategoryItemAction {
   type: typeof MenuActionTypes.ADD_CATEGORY_ITEM;
   payload: CategoryItemReqDTO;

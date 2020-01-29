@@ -3,12 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Title from '../shared/Title';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import {
-  // useAuthState,
-  useAuthDispatch,
-  loginUser,
-  loadUser
-} from '../../contexts/auth';
+import { useAuthDispatch, loginUser, loadUser } from '../../contexts/auth';
 
 const useStyles = makeStyles(theme => ({
   loginContext: {
@@ -26,7 +21,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function EmployeeLogin() {
   const classes = useStyles();
-  // const authState = useAuthState();
   const [email, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
   const authDispatch = useAuthDispatch();
@@ -58,7 +52,7 @@ export default function EmployeeLogin() {
           onChange={e => setUserEmail(e.target.value)}
           label='Email Address'
           name='email'
-          autoComplete='email'
+          autoComplete='off'
           autoFocus
         />
         <TextField
@@ -72,7 +66,7 @@ export default function EmployeeLogin() {
           id='password'
           value={password}
           onChange={e => setPassword(e.target.value)}
-          autoComplete='current-password'
+          autoComplete='off'
         />
         <Button
           color='primary'

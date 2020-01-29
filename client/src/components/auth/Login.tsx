@@ -30,6 +30,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     height: '100vh'
   },
+  input: {
+    backgroundColor: theme.palette.common.white
+  },
   image: {
     backgroundImage: 'url(https://source.unsplash.com/random)',
     backgroundRepeat: 'no-repeat',
@@ -58,7 +61,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2)
   }
 }));
-
+console.log(useStyles);
 export default function SignInSide() {
   const history = useHistory();
   const location = useLocation<{ from: Location }>();
@@ -96,26 +99,28 @@ export default function SignInSide() {
               margin='normal'
               required
               fullWidth
+              autoFocus={true}
               id='email'
+              type='email'
               value={email}
               onChange={e => setUserEmail(e.target.value)}
               label='Email Address'
               name='email'
-              autoComplete='email'
-              autoFocus
+              autoComplete='off'
             />
             <TextField
               variant='outlined'
               margin='normal'
               required
               fullWidth
+              autoFocus={true}
               name='password'
               label='Password'
               type='password'
               id='password'
               value={password}
               onChange={e => setPassword(e.target.value)}
-              autoComplete='current-password'
+              autoComplete='off'
             />
             <Button
               color='primary'

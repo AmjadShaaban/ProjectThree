@@ -24,9 +24,6 @@ export interface CompleteOrderResDTO {
 export interface OrderResDTO {
   order: Order;
 }
-// export interface OrdersReqDTO {
-//   query: string;
-// }
 export interface OrdersResDTO {
   orders: Order[];
 }

@@ -16,7 +16,6 @@ import {
 import {
   useOrderState,
   useOrderDispatch,
-  // postOrder,
   OrderActionTypes
 } from '../../contexts/order';
 
@@ -53,15 +52,16 @@ const MenuItemTile: FC<{
   const classes = useStyles();
   return (
     <GridListTile cols={1} onClick={onSelect} className={classes.tile}>
-      <svg viewBox='0 0 200 150'>
-        <rect height='100%' width='100%' fill='lightgray' />
-        <text x='25%' y='25%' fill='red'>
+      <svg viewBox='0 0 125 125'>
+        <rect height='100%' width='100%' fill='9E9E9E' />
+        <rect height='117' width='117' x='3%' y='3%' fill='gray' />
+        <text x='10%' y='25%' fill='white'>
           {data.iconData.line1}
         </text>
-        <text x='35%' y='50%' fill='red'>
+        <text x='15%' y='50%' fill='red'>
           {data.iconData.line2}
         </text>
-        <text x='25%' y='75%' fill='red'>
+        <text x='10%' y='75%' fill='black'>
           {data.iconData.line3}
         </text>
         inline SVG Not Supported.
