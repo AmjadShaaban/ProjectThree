@@ -43,7 +43,9 @@ authAPI(app);
 usersAPI(app);
 menuAPI(app);
 orderAPI(app);
-
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build/index.html'));
+});
 const server = http.listen(PORT, () => {
   console.log(`🌎🔗:${PORT}`);
 });
