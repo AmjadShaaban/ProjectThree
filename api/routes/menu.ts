@@ -5,7 +5,7 @@ import Ingredient from '../models/menu/Ingredient';
 import SpecialItem from '../models/menu/SpecialItem';
 export function menuAPI(app) {
   //Full 'GET' menu route
-  app.get('/api/menu', async (req, res) => {
+  app.get('/api/menu', auth, async (req, res) => {
     try {
       let categories = await Category.find({}).populate({
         path: 'items',

@@ -62,9 +62,11 @@ export const getOrders = async (
 ) => {
   dispatch({ type: OrderActionTypes.GET_ORDERS });
   try {
-    const response: OrdersResDTO = await fetch(`/api/orders${query}`).then(r =>
-      r.json()
-    );
+    const response: OrdersResDTO = await fetch(`/api/orders${query}`, {
+      headers: new Headers({
+        'x-auth-token': localStorage.token.toString()
+      })
+    }).then(r => r.json());
     if (!response || !response.orders) {
       return dispatch({
         type: OrderActionTypes.GET_ORDERS_FAIL,

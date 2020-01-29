@@ -22,9 +22,11 @@ export const setSelectedCategory = (
 export const loadIngredients = async (dispatch: Dispatch<MenuActions>) => {
   dispatch({ type: MenuActionTypes.GET_INGREDIENTS });
   try {
-    const response: IngredientsResDTO = await fetch(
-      '/api/menu/ingredients'
-    ).then(r => r.json());
+    const response: IngredientsResDTO = await fetch('/api/menu/ingredients', {
+      headers: new Headers({
+        'x-auth-token': localStorage.token.toString()
+      })
+    }).then(r => r.json());
     if (!response || !response.ingredients) {
       return dispatch({
         type: MenuActionTypes.GET_INGREDIENTS_FAIL,
@@ -45,7 +47,11 @@ export const loadIngredients = async (dispatch: Dispatch<MenuActions>) => {
 export const loadMenu = async (dispatch: Dispatch<MenuActions>) => {
   dispatch({ type: MenuActionTypes.GET_CATEGORIES });
   try {
-    const response: MenuResDTO = await fetch('/api/menu').then(r => r.json());
+    const response: MenuResDTO = await fetch('/api/menu', {
+      headers: new Headers({
+        'x-auth-token': localStorage.token.toString()
+      })
+    }).then(r => r.json());
     if (!response || !response.categories) {
       return dispatch({
         type: MenuActionTypes.GET_CATEGORIES_FAIL,
@@ -185,7 +191,6 @@ export const loadItems = async (
     const response: CategoryItemResDTO = await fetch(
       `/api/menu/${selectedCategory._id}`,
       {
-        method: 'GET',
         headers: new Headers({
           'x-auth-token': localStorage.token.toString()
         })
