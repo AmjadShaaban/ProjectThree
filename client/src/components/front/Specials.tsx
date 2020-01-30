@@ -2,14 +2,17 @@ import React, { FC, useEffect, useState } from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import { useMenuState } from '../../contexts/menu';
+import {
+  useMenuState,
+  useMenuDispatch,
+  loadSpecials
+} from '../../contexts/menu';
 import { Category, CategoryItem, Order } from '../../interfaces';
 import Title from '../shared/Title';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: 'flex',
       flexWrap: 'wrap',
       justifyContent: 'space-around',
       overflow: 'hidden',
@@ -60,7 +63,12 @@ const MenuItemTile: FC<{
 };
 
 export default function SingleLineGridList() {
-  const { menu } = useMenuState();
+  const { specials, isMenuLoading } = useMenuState();
+  const menuDispatch = useMenuDispatch();
+
+  useEffect(() => {
+    loadSpecials(menuDispatch);
+  }, [menuDispatch]);
 
   const classes = useStyles();
   return (
@@ -68,9 +76,16 @@ export default function SingleLineGridList() {
       <Title>Specials</Title>
       <div className={classes.root}>
         <GridList cellHeight={'auto'} className={classes.gridList} cols={6}>
-          {menu.map(category => (
+          {specials.map(category => (
             <div key={category._id}>
-              <MenuItemTile data={category} onSelect={() => {}} />
+              <MenuItemTile
+                data={category}
+                onSelect={() => {
+                  console.log('object');
+
+                  // setSelectedCategory(menuDispatch, category);
+                }}
+              />
             </div>
           ))}
         </GridList>
