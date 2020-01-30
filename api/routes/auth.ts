@@ -15,8 +15,7 @@ export function authAPI(app) {
       const user = await User.findById(req.user._id).select('-password');
       res.json({ user });
     } catch (error) {
-      let err: Message = { message: error };
-      res.status(500).json(err);
+      res.status(500).json(error);
     }
   });
   // @route  POST api/auth

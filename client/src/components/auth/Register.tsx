@@ -13,19 +13,7 @@ import Container from '@material-ui/core/Container';
 import { useHistory } from 'react-router-dom';
 import { useAuthDispatch, registerUser } from '../../contexts/auth';
 import { Roles } from '../../interfaces';
-
-function Copyright() {
-  return (
-    <Typography variant='body2' color='textSecondary' align='center'>
-      {'Copyright © '}
-      <Link color='inherit' href='https://material-ui.com/'>
-        Project PoS
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import Copyright from '../shared/Copyright';
 
 const useStyles = makeStyles(theme => ({
   paper: {

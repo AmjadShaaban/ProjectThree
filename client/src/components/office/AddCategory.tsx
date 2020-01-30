@@ -81,6 +81,8 @@ export default function AddCategory() {
         <TextField
           id='category-disc'
           label='Category Discription'
+          variant='outlined'
+          fullWidth
           multiline
           rows='4'
           value={disc}

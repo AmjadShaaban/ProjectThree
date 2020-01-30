@@ -61,6 +61,7 @@ export default function NewOrder() {
           setOpenDialog(false);
         }}
         isOpen={openDialog}
+        idPrefix='status-'
       />
     </div>
   );

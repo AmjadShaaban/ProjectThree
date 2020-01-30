@@ -14,7 +14,6 @@ import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
 import Title from '../shared/Title';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -29,6 +28,7 @@ import {
   completeOrder
 } from '../../contexts/order';
 import uuidv1 from 'uuid/v1';
+import Copyright from '../shared/Copyright';
 
 const injectSVGText = (arr: Order['orderItems']) => {
   let x = 11;
@@ -40,18 +40,6 @@ const injectSVGText = (arr: Order['orderItems']) => {
   ));
 };
 
-function Copyright() {
-  return (
-    <Typography variant='body2' color='textSecondary' align='center'>
-      {'Copyright © '}
-      <Link color='secondary' href='https://material-ui.com/'>
-        PROJECT POS
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 const drawerWidth = 240;
 const endPoint = 'https://p3-pos.herokuapp.com/';
 

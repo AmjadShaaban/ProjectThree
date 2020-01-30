@@ -12,19 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useAuthDispatch, loginUser } from '../../contexts/auth';
 import { useHistory, useLocation } from 'react-router-dom';
-
-function Copyright() {
-  return (
-    <Typography variant='body2' color='textSecondary' align='center'>
-      {'Copyright © '}
-      <Link color='inherit' href='https://material-ui.com/'>
-        Project PoS
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import Copyright from '../shared/Copyright';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -68,7 +56,6 @@ export default function SignInSide() {
   const [email, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
   const authDispatch = useAuthDispatch();
-
   const { from } = location.state;
 
   return (

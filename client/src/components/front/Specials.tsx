@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import { useMenuState } from '../../contexts/menu';
+import { Category, CategoryItem, Order } from '../../interfaces';
 import Title from '../shared/Title';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -14,6 +15,11 @@ const useStyles = makeStyles((theme: Theme) =>
       overflow: 'hidden',
       backgroundColor: theme.palette.background.paper
     },
+    tile: {
+      width: '100%',
+      height: '100%'
+    },
+
     gridList: {
       flexWrap: 'nowrap',
       // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
@@ -28,6 +34,30 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   })
 );
+const MenuItemTile: FC<{
+  data: Category | CategoryItem;
+  onSelect: () => void;
+}> = ({ onSelect, data }) => {
+  const classes = useStyles();
+  return (
+    <GridListTile cols={2} onClick={onSelect} className={classes.tile}>
+      <svg viewBox='0 0 125 125'>
+        <rect height='100%' width='100%' fill='yellow' />
+        <rect height='117' width='117' x='3%' y='3%' fill='gray' />
+        <text x='10%' y='25%' fill='white'>
+          {data.iconData.line1}
+        </text>
+        <text x='15%' y='50%' fill='black'>
+          {data.iconData.line2}
+        </text>
+        <text x='10%' y='75%' fill='white'>
+          {data.iconData.line3}
+        </text>
+        inline SVG Not Supported.
+      </svg>
+    </GridListTile>
+  );
+};
 
 export default function SingleLineGridList() {
   const { menu } = useMenuState();
@@ -37,23 +67,11 @@ export default function SingleLineGridList() {
     <>
       <Title>Specials</Title>
       <div className={classes.root}>
-        <GridList className={classes.gridList} cols={6}>
+        <GridList cellHeight={'auto'} className={classes.gridList} cols={6}>
           {menu.map(category => (
-            <GridListTile key={category._id}>
-              <svg viewBox='0 0 150 150'>
-                <rect height='100%' width='100%' fill='lightgray' />
-                <text x='25%' y='25%' fill='red'>
-                  {category.iconData.line1}
-                </text>
-                <text x='75%' y='50%' fill='red'>
-                  {category.iconData.line2}
-                </text>
-                <text x='25%' y='75%' fill='red'>
-                  {category.iconData.line3}
-                </text>
-                inline SVG Not Supported.
-              </svg>
-            </GridListTile>
+            <div key={category._id}>
+              <MenuItemTile data={category} onSelect={() => {}} />
+            </div>
           ))}
         </GridList>
       </div>

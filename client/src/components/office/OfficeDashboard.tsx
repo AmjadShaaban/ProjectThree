@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,28 +14,22 @@ import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { MainListItems, SecondaryListItems } from '../shared/listItems';
-import AddCategory from './AddCategory';
-import AddEmployee from './AddEmployee';
-import AddIngredient from './AddIngredient';
+import { MainListItems } from '../shared/listItems';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import AddItem from './AddItem';
+import Copyright from '../shared/Copyright';
+import AddCategory from './AddCategory';
+import AddIngredient from './AddIngredient';
+import AddEmployee from './AddEmployee';
+import AddSpecial from './AddSpecial';
 
-function Copyright() {
-  return (
-    <Typography variant='body2' color='textSecondary' align='center'>
-      {'Copyright © '}
-      <Link color='inherit' href='https://material-ui.com/'>
-        PROJECT POS
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -133,7 +127,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function BackOfficeDashboard() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [activeComponent, setActiveComponent] = useState('');
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -195,7 +191,42 @@ export default function BackOfficeDashboard() {
         </List>
         <Divider />
         <List>
-          <SecondaryListItems />
+          <>
+            <ListSubheader inset>Stuff</ListSubheader>
+            <ListItem button onClick={() => setActiveComponent('Add Category')}>
+              <ListItemIcon>
+                <AssignmentIcon />
+              </ListItemIcon>
+              <ListItemText primary='Add Category' />
+            </ListItem>
+            <ListItem button onClick={() => setActiveComponent('Add Item')}>
+              <ListItemIcon>
+                <AssignmentIcon />
+              </ListItemIcon>
+              <ListItemText primary='Add Item' />
+            </ListItem>
+            <ListItem
+              button
+              onClick={() => setActiveComponent('Add Ingredient')}
+            >
+              <ListItemIcon>
+                <AssignmentIcon />
+              </ListItemIcon>
+              <ListItemText primary='Add Ingredient' />
+            </ListItem>
+            <ListItem button onClick={() => setActiveComponent('Add Special')}>
+              <ListItemIcon>
+                <AssignmentIcon />
+              </ListItemIcon>
+              <ListItemText primary='Add Special' />
+            </ListItem>
+            <ListItem button onClick={() => setActiveComponent('Add Employee')}>
+              <ListItemIcon>
+                <AssignmentIcon />
+              </ListItemIcon>
+              <ListItemText primary='Add Employee' />
+            </ListItem>
+          </>
         </List>
       </Drawer>
       <main className={classes.content}>
@@ -204,29 +235,35 @@ export default function BackOfficeDashboard() {
           <Grid container spacing={1}>
             <Grid item xs={8}>
               <Paper className={classes.test}>
-                <AddItem />
+                {activeComponent === 'Add Category' && <AddCategory />}
+                {activeComponent === 'Add Item' && <AddItem />}
+                {activeComponent === 'Add Ingredient' && <AddIngredient />}
+                {activeComponent === 'Add Employee' && <AddEmployee />}
+                {activeComponent === 'Add Special' && <AddSpecial />}
               </Paper>
             </Grid>
-            <Grid item xs={4}>
+            {/* <Grid item xs={4}>
               <Paper className={classes.test}>
                 <AddIngredient />
               </Paper>
             </Grid>
-          </Grid>
-          <Grid container spacing={1}>
+          </Grid> */}
+            {/* <Grid container spacing={1}>
             <Grid item xs={4}>
               <Paper className={classes.test}>
                 <AddCategory />
               </Paper>
-            </Grid>
-            <Grid item xs={4}>
-              <Paper className={classes.test}></Paper>
-            </Grid>
-            <Grid item xs={4}>
+            </Grid> */}
+            {/* <Grid item xs={4}>
+              <Paper className={classes.test}>
+                <AddSpecial />
+              </Paper>
+            </Grid> */}
+            {/* <Grid item xs={4}>
               <Paper className={classes.test}>
                 <AddEmployee />
               </Paper>
-            </Grid>
+          </Grid>*/}
           </Grid>
           <Box pt={4}>
             <Copyright />

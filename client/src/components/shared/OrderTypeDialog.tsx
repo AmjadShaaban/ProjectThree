@@ -55,12 +55,14 @@ const Transition = React.forwardRef<unknown, TransitionProps>(
     return <Slide direction='left' ref={ref} {...props} />;
   }
 );
+
 const OrderTypeDialog: FC<{
   item?: CategoryItem;
   onCancel: () => void;
   onSubmit: (order: Order) => void;
   isOpen: boolean;
-}> = ({ onCancel, onSubmit, isOpen }) => {
+  idPrefix?: string;
+}> = ({ onCancel, onSubmit, isOpen, idPrefix }) => {
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerAddress, setCustomerAddress] = useState('');
@@ -123,7 +125,7 @@ const OrderTypeDialog: FC<{
             margin='normal'
             required
             fullWidth
-            id='name'
+            id={idPrefix + 'name'}
             value={customerName}
             onChange={e => setCustomerName(e.target.value)}
             label='Customer Name'
@@ -136,7 +138,7 @@ const OrderTypeDialog: FC<{
             required
             fullWidth
             disabled={type === OrderTypes.ORDER_IN}
-            id='phone'
+            id={idPrefix + 'phone'}
             value={customerPhone}
             onChange={e => setCustomerPhone(e.target.value)}
             label='Phone'
@@ -151,7 +153,7 @@ const OrderTypeDialog: FC<{
             disabled={
               type === OrderTypes.PICKUP || type === OrderTypes.ORDER_IN
             }
-            id='address'
+            id={idPrefix + 'address'}
             value={customerAddress}
             onChange={e => setCustomerAddress(e.target.value)}
             label='Delivery Address'

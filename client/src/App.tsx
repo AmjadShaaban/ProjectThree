@@ -16,6 +16,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import * as colors from '@material-ui/core/colors/index';
 import { SnackbarProvider } from 'notistack';
 import { StylesProvider, ThemeProvider } from '@material-ui/styles';
+import AuthErrorCatcher from './components/shared/AuthErrorCatcher';
 
 const App: FC<{}> = () => {
   const theme = createMuiTheme({
@@ -36,6 +37,8 @@ const App: FC<{}> = () => {
           <AuthProvider>
             <MenuProvider>
               <OrderProvider>
+                <AuthErrorCatcher />
+
                 <Router>
                   <Switch>
                     <Route exact path='/login' component={Login} />

@@ -24,7 +24,7 @@ export const MainListItems: FC = () => {
           <ListItemText primary='Food Menu' />
         </ListItem>
       </Link>
-      <Link href='/kitchen'>
+      <Link color='textPrimary' href='/kitchen'>
         <ListItem button>
           <ListItemIcon>
             <ShoppingCartIcon />
@@ -44,7 +44,7 @@ export const MainListItems: FC = () => {
         </ListItemIcon>
         <ListItemText primary='Reports' />
       </ListItem>
-      <PrivateLink href='/office' roles={[Roles.MANAGER]}>
+      <PrivateLink color='textPrimary' href='/office' roles={[Roles.MANAGER]}>
         <ListItem button>
           <ListItemIcon>
             <LayersIcon />

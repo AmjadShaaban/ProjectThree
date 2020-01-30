@@ -44,7 +44,15 @@ export const loginUser = async (
       method: 'POST',
       body: JSON.stringify(userForm),
       headers: new Headers({ 'Content-Type': 'application/json' })
-    }).then(r => r.json());
+    })
+      .then(r => r.json())
+      .then(res => {
+        if (res.message && res.message.errors) {
+          throw new Error(res.message.errors[0].msg);
+        }
+        return res;
+      });
+
     if (!response || !response.token) {
       dispatch({
         type: AuthActionTypes.LOGIN_FAIL,
@@ -56,9 +64,10 @@ export const loginUser = async (
     dispatch({ type: AuthActionTypes.LOGIN_SUCCESS, payload: response });
     return true;
   } catch (error) {
+    console.log('we caught this error', { error });
     dispatch({
       type: AuthActionTypes.LOGIN_FAIL,
-      payload: 'Unable to Login'
+      payload: error.message
     });
     return false;
   }

@@ -3,14 +3,17 @@ import { Dispatch } from 'react';
 import {
   MenuActionTypes,
   MenuActions,
-  CategoryItemResDTO,
+  ItemResDTO,
   IngredientResDTO,
   AddIngredientReqDTO,
   AddCategoryReqDTO,
+  AddSpecialItemReqDTO,
   MenuResDTO,
   IngredientsResDTO,
   CategoryItemReqDTO,
-  CategoryResDTO
+  CategoryResDTO,
+  ItemsResDTO,
+  SpecialsResDTO
 } from './menuState';
 export const setSelectedCategory = (
   dispatch: Dispatch<MenuActions>,
@@ -42,6 +45,28 @@ export const loadIngredients = async (dispatch: Dispatch<MenuActions>) => {
       type: MenuActionTypes.GET_INGREDIENTS_FAIL,
       payload: error
     });
+  }
+};
+export const loadSpecials = async (dispatch: Dispatch<MenuActions>) => {
+  dispatch({ type: MenuActionTypes.GET_SPECIALS });
+  try {
+    const response: SpecialsResDTO = await fetch('/api/menu/specials', {
+      headers: new Headers({
+        'x-auth-token': localStorage.token.toString()
+      })
+    }).then(r => r.json());
+    if (!response || !response.specials) {
+      return dispatch({
+        type: MenuActionTypes.GET_SPECIALS_FAIL,
+        payload: 'Unable to fetch Specials'
+      });
+    }
+    dispatch({
+      type: MenuActionTypes.GET_SPECIALS_SUCCESS,
+      payload: response
+    });
+  } catch (error) {
+    dispatch({ type: MenuActionTypes.GET_SPECIALS_FAIL, payload: error });
   }
 };
 export const loadMenu = async (dispatch: Dispatch<MenuActions>) => {
@@ -139,6 +164,41 @@ export const addCategory = async (
     return false;
   }
 };
+export const addSpecialItem = async (
+  dispatch: Dispatch<MenuActions>,
+  specialItem: AddSpecialItemReqDTO
+) => {
+  dispatch({
+    type: MenuActionTypes.ADD_SPECIAL,
+    payload: specialItem
+  });
+  try {
+    const response: ItemResDTO = await fetch(`/api/menu/specials/`, {
+      method: 'POST',
+      body: JSON.stringify(specialItem),
+      headers: new Headers({
+        'content-type': 'application/json',
+        'x-auth-token': localStorage.token.toString()
+      })
+    }).then(r => r.json());
+    if (!response || !response.items) {
+      dispatch({
+        type: MenuActionTypes.ADD_SPECIAL_FAIL,
+        payload: 'Failed'
+      });
+      return;
+    }
+    dispatch({
+      type: MenuActionTypes.ADD_SPECIAL_SUCCESS,
+      payload: response
+    });
+  } catch (error) {
+    dispatch({
+      type: MenuActionTypes.ADD_SPECIAL_FAIL,
+      payload: 'Failed'
+    });
+  }
+};
 
 export const addCategoryItem = async (
   dispatch: Dispatch<MenuActions>,
@@ -149,17 +209,14 @@ export const addCategoryItem = async (
     payload: categoryItem
   });
   try {
-    const response: CategoryItemResDTO = await fetch(
-      `/api/menu/category/items`,
-      {
-        method: 'POST',
-        body: JSON.stringify(categoryItem),
-        headers: new Headers({
-          'content-type': 'application/json',
-          'x-auth-token': localStorage.token.toString()
-        })
-      }
-    ).then(r => r.json());
+    const response: ItemResDTO = await fetch(`/api/menu/category/items`, {
+      method: 'POST',
+      body: JSON.stringify(categoryItem),
+      headers: new Headers({
+        'content-type': 'application/json',
+        'x-auth-token': localStorage.token.toString()
+      })
+    }).then(r => r.json());
     if (!response || !response.items) {
       dispatch({
         type: MenuActionTypes.ADD_CATEGORY_ITEM_FAIL,
@@ -179,7 +236,7 @@ export const addCategoryItem = async (
   }
 };
 
-export const loadItems = async (
+export const loadCategoryItems = async (
   dispatch: Dispatch<MenuActions>,
   selectedCategory: Category
 ) => {
@@ -188,7 +245,7 @@ export const loadItems = async (
     payload: selectedCategory
   });
   try {
-    const response: CategoryItemResDTO = await fetch(
+    const response: ItemResDTO = await fetch(
       `/api/menu/${selectedCategory._id}`,
       {
         headers: new Headers({
@@ -212,6 +269,36 @@ export const loadItems = async (
   } catch (error) {
     dispatch({
       type: MenuActionTypes.GET_CATEGORY_ITEMS_FAIL,
+      payload: 'Unable to retrieve items'
+    });
+  }
+};
+export const loadItems = async (dispatch: Dispatch<MenuActions>) => {
+  dispatch({
+    type: MenuActionTypes.GET_ALL_ITEMS
+  });
+  try {
+    const response: ItemsResDTO = await fetch(`/api/menu/items`, {
+      headers: new Headers({
+        'x-auth-token': localStorage.token.toString()
+      })
+    }).then(r => r.json());
+
+    if (!response || !response.items) {
+      dispatch({
+        type: MenuActionTypes.GET_ALL_ITEMS_FAIL,
+        payload: 'Unable to retrieve items'
+      });
+      return;
+    }
+
+    dispatch({
+      type: MenuActionTypes.GET_ALL_ITEMS_SUCCESS,
+      payload: response.items
+    });
+  } catch (error) {
+    dispatch({
+      type: MenuActionTypes.GET_ALL_ITEMS_FAIL,
       payload: 'Unable to retrieve items'
     });
   }

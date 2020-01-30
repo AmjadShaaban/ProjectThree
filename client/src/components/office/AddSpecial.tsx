@@ -1,4 +1,4 @@
-import React, { FC, useState, MouseEvent, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -10,26 +10,19 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Title from '../shared/Title';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import IconButton from '@material-ui/core/IconButton';
 import {
   useMenuState,
   useMenuDispatch,
-  addCategoryItem,
-  loadMenu,
-  loadIngredients
+  addSpecialItem,
+  loadItems
 } from '../../contexts/menu';
-import { Ingredient } from '../../interfaces';
+import { CategoryItem } from '../../interfaces';
 
-const ITEM_HEIGHT = 48;
-
-function not(a: Ingredient[], b: Ingredient[]) {
+function not(a: CategoryItem[], b: CategoryItem[]) {
   return a.filter(aIng => b.findIndex(bIngr => bIngr._id === aIng._id) === -1);
 }
 
-function intersection(a: Ingredient[], b: Ingredient[]) {
+function intersection(a: CategoryItem[], b: CategoryItem[]) {
   return a.filter(aIng => b.findIndex(bIngr => bIngr._id === aIng._id) !== -1);
 }
 
@@ -38,10 +31,10 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto'
   },
   paper1: {
-    width: 250,
-    height: 300,
+    padding: theme.spacing(2),
+    display: 'flex',
     overflow: 'auto',
-    padding: 10
+    flexDirection: 'column'
   },
   button1: {
     margin: theme.spacing(0.5, 0)
@@ -68,14 +61,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const IngredientList: FC<{
-  ingredients: Ingredient[];
-  onListChange: (newList: Ingredient[]) => void;
-}> = ({ ingredients, onListChange }) => {
+const ItemList: FC<{
+  allItems: CategoryItem[];
+  onListChange: (newList: CategoryItem[]) => void;
+}> = ({ allItems: ingredients, onListChange }) => {
   const classes = useStyles();
-  const [checked, setChecked] = React.useState<Ingredient[]>([]);
-  const [left, setLeft] = React.useState<Ingredient[]>(ingredients);
-  const [right, setRight] = React.useState<Ingredient[]>([]);
+  const [checked, setChecked] = React.useState<CategoryItem[]>([]);
+  const [left, setLeft] = React.useState<CategoryItem[]>(ingredients);
+  const [right, setRight] = React.useState<CategoryItem[]>([]);
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
 
@@ -87,7 +80,7 @@ const IngredientList: FC<{
     onListChange(right);
   }, [onListChange, right]);
 
-  const handleToggle = (value: Ingredient) => () => {
+  const handleToggle = (value: CategoryItem) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
 
@@ -122,11 +115,11 @@ const IngredientList: FC<{
     setRight([]);
   };
 
-  const customList = (items: Ingredient[]) => {
+  const customList = (items: CategoryItem[]) => {
     return (
       <Paper className={classes.paper1}>
         <List dense component='div' role='list'>
-          {items.map((value: Ingredient, index) => {
+          {items.map((value: CategoryItem, index) => {
             const labelId = `transfer-list-item-${index}-label`;
 
             return (
@@ -161,9 +154,9 @@ const IngredientList: FC<{
   return (
     <Grid
       container
-      spacing={2}
+      spacing={3}
       justify='center'
-      alignItems='center'
+      alignItems='flex-start'
       className={classes.root1}
     >
       <Grid item>{customList(left)}</Grid>
@@ -220,11 +213,10 @@ const IngredientList: FC<{
   );
 };
 
-export default function AddItem() {
-  const { menu, ingredients } = useMenuState();
+export default function AddSpecial() {
+  const { items } = useMenuState();
   const menuDispatch = useMenuDispatch();
-  const [itemIngredients, setItemIngredients] = useState<Ingredient[]>([]);
-  const [catId, setCatId] = useState('');
+  const [itemIngredients, setItemIngredients] = useState<CategoryItem[]>([]);
   const [name, setName] = useState('');
   const [iconLine1, setIconLine1] = useState('');
   const [iconLine2, setIconLine2] = useState('');
@@ -232,71 +224,31 @@ export default function AddItem() {
   const [price, setPrice] = useState(0);
   const [disc, setDisc] = useState('');
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  const open = Boolean(anchorEl);
 
   useEffect(() => {
-    loadMenu(menuDispatch);
-    loadIngredients(menuDispatch);
+    loadItems(menuDispatch);
   }, [menuDispatch]);
 
-  const handleClick = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = (event: MouseEvent<HTMLElement>) => {
-    setCatId(event.currentTarget.id);
-    setAnchorEl(null);
-  };
   return (
     <>
-      <Title>Add Item</Title>
+      <Title>Add Special</Title>
       <form
         className={classes.form}
         noValidate
         onSubmit={e => {
           e.preventDefault();
-          const categoryItem = {
-            catId,
+          const specialItem = {
             name,
             disc,
             iconLine1,
             iconLine2,
             iconLine3,
-            ingredients: itemIngredients,
+            items: itemIngredients,
             price
           };
-          addCategoryItem(menuDispatch, categoryItem);
+          addSpecialItem(menuDispatch, specialItem);
         }}
       >
-        <IconButton
-          aria-label='more'
-          aria-controls='menu-categories'
-          aria-haspopup='true'
-          onClick={handleClick}
-        >
-          <MoreVertIcon />
-          Select Category
-        </IconButton>
-        <Menu
-          id='menu-categories'
-          anchorEl={anchorEl}
-          keepMounted
-          open={open}
-          onClose={handleClose}
-          PaperProps={{
-            style: {
-              maxHeight: ITEM_HEIGHT * 4.5,
-              width: 200
-            }
-          }}
-        >
-          {menu.map(option => (
-            <MenuItem key={option._id} id={option._id} onClick={handleClose}>
-              {option.name}
-            </MenuItem>
-          ))}
-        </Menu>
         <TextField
           variant='outlined'
           margin='normal'
@@ -313,8 +265,6 @@ export default function AddItem() {
           variant='outlined'
           id='standard-multiline-static'
           label='Item Discription'
-          required
-          fullWidth
           multiline
           rows='4'
           value={disc}
@@ -355,8 +305,8 @@ export default function AddItem() {
           label='line 3:'
           name='line 3'
         />
-        <IngredientList
-          ingredients={ingredients}
+        <ItemList
+          allItems={items}
           onListChange={pickedIngredients => {
             setItemIngredients(pickedIngredients);
           }}
@@ -369,7 +319,7 @@ export default function AddItem() {
           type='number'
           id='price'
           value={price}
-          onChange={e => setPrice(parseInt(e.target.value))}
+          onChange={e => setPrice(parseFloat(e.target.value))}
           label='Price'
           name='price'
           autoFocus

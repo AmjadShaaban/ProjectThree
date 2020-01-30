@@ -3,7 +3,7 @@ import { ISpecialItem } from '../../interfaces';
 
 const SpecialItemSchema = new Schema({
   name: { type: String, required: true, unique: true },
-  disc: { type: String },
+  disc: { type: String, required: true },
   img: { type: String, default: 'https://via.placeholder.com/150' },
   iconData: {
     line1: { type: String, required: true },
