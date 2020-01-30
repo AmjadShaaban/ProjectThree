@@ -132,7 +132,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column'
   },
   fixedHeight: {
-    height: 600
+    height: 900
   }
 }));
 
@@ -220,7 +220,7 @@ export default function Dashboard() {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth='lg' className={classes.container}>
+        <Container maxWidth='xl' className={classes.container}>
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <Paper className={fixedHeightPaper}>

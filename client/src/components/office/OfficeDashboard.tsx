@@ -242,28 +242,6 @@ export default function BackOfficeDashboard() {
                 {activeComponent === 'Add Special' && <AddSpecial />}
               </Paper>
             </Grid>
-            {/* <Grid item xs={4}>
-              <Paper className={classes.test}>
-                <AddIngredient />
-              </Paper>
-            </Grid>
-          </Grid> */}
-            {/* <Grid container spacing={1}>
-            <Grid item xs={4}>
-              <Paper className={classes.test}>
-                <AddCategory />
-              </Paper>
-            </Grid> */}
-            {/* <Grid item xs={4}>
-              <Paper className={classes.test}>
-                <AddSpecial />
-              </Paper>
-            </Grid> */}
-            {/* <Grid item xs={4}>
-              <Paper className={classes.test}>
-                <AddEmployee />
-              </Paper>
-          </Grid>*/}
           </Grid>
           <Box pt={4}>
             <Copyright />

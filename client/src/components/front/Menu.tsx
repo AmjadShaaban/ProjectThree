@@ -154,8 +154,9 @@ export default function Menu() {
                     addToOrder(item);
                   }}
                 >
-                  <svg viewBox='0 0 150 150'>
-                    <rect height='100%' width='100%' fill='lightgray' />
+                  <svg viewBox='0 0 125 125'>
+                    <rect height='100%' width='100%' fill='yellow' />
+                    <rect height='117' width='117' x='3%' y='3%' fill='gray' />
                     <text x='10%' y='25%' fill='white'>
                       {item.iconData.line1}
                     </text>

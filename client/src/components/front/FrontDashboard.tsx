@@ -166,7 +166,7 @@ export default function MainDashboard() {
             Project POS
           </Typography>
           <IconButton color='inherit'>
-            <Badge badgeContent={9} color='error'>
+            <Badge color='error'>
               <NotificationsIcon />
             </Badge>
           </IconButton>
