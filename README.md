@@ -7,9 +7,6 @@ This MVP was built from scratch in little less than 4 weeks for my bootcamps fin
 
 ### [TypeScript](https://www.typescriptlang.org/)
 
-- _**It's my 1st typescript project.**_
-- _**It was a fun learning experiance and let's be honest with each other! [TypeScript](https://www.typescriptlang.org/) is AWESOME!!!**_
-
 ## Built With
 
 #### [ReactJS](https://reactjs.org/)
