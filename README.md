@@ -32,15 +32,19 @@ This MVP was built from scratch in little less than 4 weeks for my bootcamps fin
 
 #### [JWT](https://jwt.io/) - JSON Web Token
 
--
+- to achieve truly RESTful services, no sessions or cookies.
+- to handle authentication and protect api routes.
 
 #### [MongoDB](https://www.mongodb.com/) - MongoDB
 
+- **final project requierment**
+- Using the MongoDB was the best option for representing hierarchical relationships, data arrays, and other complex structures in the database.
+  _**(menu categories, category items, item ingredients, orders, etc... )**_
 -
 
 #### [MongooseJS](https://mongoosejs.com/) - MongoDB ODM
 
--
+- [Mongoose](https://mongoosejs.com/) provides a straight-forward, schema-based solution to model the application data.
 
 ## Demo
 
