@@ -48,7 +48,7 @@ This MVP was built from scratch in little less than 4 weeks for my bootcamps fin
 
 ## Demo
 
-- Hosted on [Heroku](https://p3.pos.herokuapp.com)
+- Hosted on [Heroku](https://p3-pos.herokuapp.com)
 - Demo Account:
   - Email: test@test.test
   - Password: test123
