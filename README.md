@@ -55,7 +55,7 @@ This MVP was built from scratch in little less than 4 weeks for my bootcamps fin
 
 Or
 
-- [Register](https://p3.pos.herokuapp.com/register) a dummy account
+- [Register](https://p3-pos.herokuapp.com/register) a dummy account
 
 ## Authors
 
